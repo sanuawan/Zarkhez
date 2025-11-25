@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461858404718",
+    "project_id": "zarkhez-6a6a7",
+    "storage_bucket": "zarkhez-6a6a7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461858404718:android:96255749851a8dbdd9697f",
+        "android_client_info": {
+          "package_name": "com.zarkheez"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUdtudvVNy1KLCpVebv20_KIxGqhk3ZLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
