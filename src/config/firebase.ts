@@ -1,5 +1,14 @@
-// src/config/firebase.ts
-// This file can be empty for now, or just export an empty function
-export const configureFirebaseAuth = () => {
-  // This will be implemented later
+// ... existing imports
+import { initializeApp } from "firebase/app";
+// 1. ADD THIS IMPORT
+import { getFirestore } from "firebase/firestore"; 
+
+const firebaseConfig = {
+  // ... your existing config keys
 };
+
+// ... existing app initialization
+const app = initializeApp(firebaseConfig);
+
+// 2. INITIALIZE AND EXPORT FIRESTORE
+export const db = getFirestore(app);
