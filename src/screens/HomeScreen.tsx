@@ -1,5 +1,5 @@
 // src/screens/HomeScreen.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useEffect } from 'react'; 
 import {
   View,
   Text,
@@ -8,22 +8,28 @@ import {
   Switch,
   StatusBar,
   Alert,
+  BackHandler,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 // 1. CHANGE IMPORT
 import firestore from '@react-native-firebase/firestore'; 
 import LinearGradient from 'react-native-linear-gradient';
-import { useLanguage } from '../hooks/useLanguage';
+import { useLanguage } from '../contexts/LanguageContext';
 import BottomNavBar from '../components/BottomNavBar';
-import { styles } from './HomeScreen.styles';
+import { styles } from './styles/HomeScreen.styles';
+import { useTheme } from '../contexts/ThemeContext'; 
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 const HomeScreen: React.FC = () => {
   const user = auth().currentUser;
   const { language, toggleLanguage, t } = useLanguage();
+  const { isDark, toggleTheme } = useTheme(); 
+  const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState('home');
   const [motorOn, setMotorOn] = useState(false);
   const [autoMode, setAutoMode] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  
 
   // Mock data
   const voltage = 220;
@@ -31,13 +37,65 @@ const HomeScreen: React.FC = () => {
   const temperature = 28;
   const humidity = 65;
 
-  const onSignOut = async () => {
-    try {
-      await auth().signOut();
-    } catch (error) {
-      Alert.alert('Error', 'Failed to sign out');
-    }
-  };
+  // Back handler
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        Alert.alert(
+          t('common.exitApp'),
+          t('common.exitConfirm'),
+          [
+            {
+              text: t('common.cancel'),
+              onPress: () => null,
+              style: 'cancel',
+            },
+            {
+              text: t('common.exit'),
+              onPress: () => BackHandler.exitApp(),
+            },
+          ],
+          { cancelable: false }
+        );
+        return true;
+      }
+    );
+
+    return () => backHandler.remove();
+  }, [t]);
+
+const onSignOut = () => {
+  Alert.alert(
+    t('common.logout'),
+    t('common.logoutConfirm'),
+    [
+      {
+        text: t('common.cancel'),
+        style: 'cancel',
+      },
+      {
+        text: t('common.logout'),
+        onPress: async () => {
+          try {
+            console.log('Logging out...');
+            await auth().signOut();
+            console.log('Logout successful');
+            
+            // Navigation to Login
+            navigation.navigate('Login' as never);
+            
+          } catch (error) {
+            console.error('Logout error:', error);
+            Alert.alert('Error', 'Failed to sign out');
+          }
+        },
+        style: 'destructive',
+      },
+    ],
+    { cancelable: true }
+  );
+};
 
   const handleTabPress = (tab: string) => {
     setActiveTab(tab);
@@ -69,34 +127,58 @@ const HomeScreen: React.FC = () => {
   }, []);
 
   return (
-    <View style={[styles.container, darkMode && styles.containerDark]}>
-      {/* ... (Header and other UI remain exactly the same) ... */}
-      <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
+    <View style={[styles.container, isDark && styles.containerDark]}> 
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} /> 
+      
+      {/* Header */}
+      <View style={[styles.header, isDark && styles.headerDark]}> 
+        <View style={styles.headerLeft}>
+          <Text style={[styles.title, isDark && styles.titleDark]}> 
+            {t('header.title')}
+          </Text>
+          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}> 
+            {t('header.subtitle')}
+          </Text>
+        </View>
+        
+        <View style={styles.headerRight}>
+          {/* Language Toggle */}
+          <TouchableOpacity
+            style={[styles.headerButton, isDark && styles.headerButtonDark]} 
+            onPress={toggleLanguage}
+          >
+            <Text style={[styles.headerButtonText, isDark && styles.headerButtonTextDark]}> 
+              {language === 'en' ? 'اردو' : 'English'}
+            </Text>
+          </TouchableOpacity>
 
-      <View style={[styles.header, darkMode && styles.headerDark]}>
-         {/* ... Header Content ... */}
-         <View style={styles.headerLeft}>
-             <Text style={[styles.title, darkMode && styles.titleDark]}>{t('header.title')}</Text>
-             <Text style={[styles.subtitle, darkMode && styles.subtitleDark]}>{t('header.subtitle')}</Text>
-         </View>
-         <View style={styles.headerRight}>
-             <TouchableOpacity style={[styles.headerButton, darkMode && styles.headerButtonDark]} onPress={toggleLanguage}>
-                <Text style={[styles.headerButtonText, darkMode && styles.headerButtonTextDark]}>{language === 'en' ? 'اردو' : 'English'}</Text>
-             </TouchableOpacity>
-             <TouchableOpacity style={[styles.headerButton, darkMode && styles.headerButtonDark]} onPress={() => setDarkMode(!darkMode)}>
-                <Text style={styles.headerButtonText}>{darkMode ? '🌙' : '☀️'}</Text>
-             </TouchableOpacity>
-             <TouchableOpacity style={[styles.logoutButton, darkMode && styles.logoutButtonDark]} onPress={onSignOut}>
-                <Text style={styles.logoutButtonText}>🚪</Text>
-             </TouchableOpacity>
-         </View>
+          {/* Dark Mode Toggle */}
+          <TouchableOpacity
+            style={[styles.headerButton, isDark && styles.headerButtonDark]} 
+            onPress={toggleTheme}
+          >
+            <Text style={styles.headerButtonText}>
+              {isDark ? '🌙' : '☀️'} 
+            </Text>
+          </TouchableOpacity>
+
+          {/* Logout Button */}
+          <TouchableOpacity
+            style={[styles.logoutButton, isDark && styles.logoutButtonDark]} 
+            onPress={onSignOut}
+          >
+            <Text style={styles.logoutButtonText}>🚪</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         
         {/* Motor Control Card */}
-        <View style={[styles.card, darkMode && styles.cardDark]}>
-          <Text style={[styles.cardTitle, darkMode && styles.cardTitleDark]}>{t('motor.status')}</Text>
+        <View style={[styles.card, isDark && styles.cardDark]}> 
+          <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}> 
+            {t('motor.status')}
+          </Text>
 
           {/* Auto/Manual Toggle */}
           <View style={styles.modeToggleContainer}>
@@ -114,7 +196,7 @@ const HomeScreen: React.FC = () => {
               style={[
                 styles.powerButton,
                 motorOn && styles.powerButtonOn,
-                darkMode && styles.powerButtonDark,
+                isDark && styles.powerButtonDark, 
                 autoMode && styles.powerButtonDisabled
               ]}
               onPress={() => {

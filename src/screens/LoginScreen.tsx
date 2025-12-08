@@ -1,12 +1,12 @@
-// src/screens/LoginScreen.tsx
-import React, {useState} from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
-  Alert, 
+// LoginScreen.tsx 
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
   ImageBackground,
   ScrollView,
   KeyboardAvoidingView,
@@ -16,17 +16,51 @@ import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  // LOAD SAVED CREDENTIALS
+  useEffect(() => {
+    const loadCredentials = async () => {
+      try {
+        const savedEmail = await AsyncStorage.getItem('savedEmail');
+        const savedPassword = await AsyncStorage.getItem('savedPassword');
+        const savedRememberMe = await AsyncStorage.getItem('rememberMe');
+
+        if (savedEmail) setEmail(savedEmail);
+        if (savedPassword) setPassword(savedPassword);
+        if (savedRememberMe === 'true') setRememberMe(true);
+      } catch (error) {
+        console.error('Error loading credentials:', error);
+      }
+    };
+
+    loadCredentials();
+  }, []);
 
   const onLogin = async () => {
     if (!email || !password) return Alert.alert('Error', 'Email aur password dono darj karo');
     try {
       await auth().signInWithEmailAndPassword(email.trim(), password);
+
+      // SAVE CREDENTIALS IF REMEMBER ME CHECKED
+      if (rememberMe) {
+        await AsyncStorage.setItem('savedEmail', email);
+        await AsyncStorage.setItem('savedPassword', password);
+        await AsyncStorage.setItem('rememberMe', 'true');
+      } else {
+        await AsyncStorage.removeItem('savedEmail');
+        await AsyncStorage.removeItem('savedPassword');
+        await AsyncStorage.removeItem('rememberMe');
+      }
+
       navigation.replace('Home');
     } catch (err: any) {
       Alert.alert('Login failed', err.message || String(err));
@@ -46,8 +80,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       >
         {/* Overlay */}
         <View style={styles.overlay} />
-        
-        <ScrollView 
+
+        <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
@@ -61,7 +95,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
               >
                 <Text style={styles.logoEmoji}>🌾</Text>
               </LinearGradient>
-              
+
               {/* Gradient Text for FarmTech */}
               <View style={styles.titleContainer}>
                 <LinearGradient
@@ -73,7 +107,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                   <Text style={styles.title}>Zarkhez</Text>
                 </LinearGradient>
               </View>
-              
+
               <Text style={styles.subtitle}>Welcome</Text>
             </View>
 
@@ -89,39 +123,83 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                   onChangeText={setEmail}
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  selectionColor="#10b981" 
+                  cursorColor="#10b981" 
                 />
               </View>
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Password</Text>
-                <TextInput
-                  placeholder="••••••••"
-                  placeholderTextColor="#6b7280"
-                  style={styles.input}
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry
-                />
+                <View style={styles.passwordContainer}>
+                  <TextInput
+                    placeholder="••••••••"
+                    placeholderTextColor="#6b7280"
+                    style={[styles.input, { paddingRight: 50 }]} 
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={!showPassword} 
+                    selectionColor="#10b981" 
+                    cursorColor="#10b981" 
+                  />
+                  {/* Eye button */}
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      right: 16,
+                      top: 16,
+                      padding: 4,
+                    }}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Text style={{ fontSize: 20, color: '#6b7280' }}>
+                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
 
+              <TouchableOpacity
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginBottom: 16,
+                }}
+                onPress={() => setRememberMe(!rememberMe)}
+              >
+                <View style={{
+                  width: 20,
+                  height: 20,
+                  borderWidth: 2,
+                  borderColor: rememberMe ? '#10b981' : '#d1d5db',
+                  borderRadius: 4,
+                  marginRight: 8,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: rememberMe ? '#10b981' : 'transparent',
+                }}>
+                  {rememberMe && <Text style={{ color: 'white', fontSize: 12 }}>✓</Text>}
+                </View>
+                <Text style={{ color: '#374151', fontSize: 14 }}>Remember me</Text>
+              </TouchableOpacity>
+
               <View style={styles.buttonsContainer}>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={[
                     styles.loginButton,
                     (!email || !password) && styles.disabledButton
-                  ]} 
+                  ]}
                   onPress={onLogin}
                   disabled={!email || !password}
                 >
                   <LinearGradient
-                    colors={['#0d9488', '#047857']} // Darker green colors
+                    colors={['#0d9488', '#047857']}
                     style={styles.gradientButton}
                   >
                     <Text style={styles.loginButtonText}>Login</Text>
                   </LinearGradient>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.registerButton}
                   onPress={() => navigation.navigate('Signup')}
                 >
@@ -139,6 +217,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f0fdf4',
   },
   background: {
     flex: 1,
@@ -149,10 +228,10 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center', // Center horizontally
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 16,
-    minHeight: '100%', // Ensure it takes full height
+    minHeight: '100%',
   },
   card: {
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
@@ -166,9 +245,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 25,
     elevation: 10,
-    width: '100%', // Take full width on small screens
-    maxWidth: 400, // But don't exceed 400px on larger screens
-    marginVertical: 20, // Add some vertical margin
+    width: '100%',
+    maxWidth: 400,
+    marginVertical: 20,
   },
   header: {
     alignItems: 'center',
@@ -231,6 +310,54 @@ const styles = StyleSheet.create({
     fontSize: 18,
     backgroundColor: 'rgba(240, 253, 244, 0.5)',
     height: 56,
+    color: '#1f2937', 
+  },
+
+  passwordContainer: {
+    position: 'relative',
+  },
+  passwordInput: {
+    paddingRight: 50, 
+  },
+  eyeButton: {
+    position: 'absolute',
+    right: 16,
+    top: 16,
+    padding: 4,
+  },
+  eyeIcon: {
+    fontSize: 20,
+    color: '#6b7280',
+  },
+  
+  rememberContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: -8,
+    marginBottom: 8,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 2,
+    borderColor: '#d1d5db',
+    borderRadius: 4,
+    marginRight: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxChecked: {
+    backgroundColor: '#10b981',
+    borderColor: '#10b981',
+  },
+  checkmark: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  rememberText: {
+    fontSize: 14,
+    color: '#374151',
   },
   buttonsContainer: {
     gap: 16,
@@ -254,7 +381,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginButtonText: {
-    color: 'rgba(8, 1, 1, 0.5)', // White text
+    color: 'white', 
     fontSize: 20,
     fontWeight: '600',
   },

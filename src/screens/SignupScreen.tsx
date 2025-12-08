@@ -71,7 +71,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
             {/* Logo/Header */}
             <View style={styles.header}>
               <LinearGradient
-                colors={['#3b82f6', '#10b981']} // Blue to Green gradient
+                colors={['#3b82f6', '#10b981']} 
                 style={styles.logoContainer}
               >
                 <Text style={styles.logoEmoji}>🌾</Text>
@@ -80,7 +80,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
               {/* Gradient Text for Zarkhez */}
               <View style={styles.titleContainer}>
                 <LinearGradient
-                  colors={['#2563eb', '#16a34a']} // Blue to Green gradient
+                  colors={['#2563eb', '#16a34a']} 
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                   style={styles.gradientBackground}
@@ -151,7 +151,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
                   disabled={!isFormValid}
                 >
                   <LinearGradient
-                    colors={['#2563eb', '#0d9488']} // Blue to teal gradient
+                    colors={['#2563eb', '#0d9488']} 
                     style={styles.gradientButton}
                   >
                     <Text style={styles.signupButtonText}>Register</Text>
@@ -178,6 +178,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f0fdf4',
   },
   background: {
     flex: 1,
@@ -256,17 +257,17 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1e40af', // Dark blue color
+    color: '#1e40af', 
   },
   input: {
     borderWidth: 1,
-    borderColor: '#93c5fd', // Light blue border
+    borderColor: '#93c5fd', 
     borderRadius: 16,
     padding: 16,
     fontSize: 16,
-    backgroundColor: 'rgba(219, 234, 254, 0.3)', // Light blue background
+    backgroundColor: 'rgba(219, 234, 254, 0.3)', 
     height: 56,
-    color: '#000000', // Black text color when typing
+    color: '#000000', 
   },
   buttonsContainer: {
     gap: 16,

@@ -1,0 +1,1001 @@
+id,district,latitude,longitude,crop_type,soil_type,field_area_ha,season,avg_temp_c,total_rainfall_mm,soil_water_retention_mm,fertilizer_type,fertilizer_amount_kg_ha,yield_ton_per_ha,water_requirement_liters_day
+1,Sargodha,32.0836,72.6711,gram,sandy loam,7.46,Rabi,19.9,127.7,100,NPK,202,1.7,142195
+2,Swabi,34.1202,72.4697,gram,loamy sand,6.58,Rabi,18.9,136.1,85,FYM,230,1.8,113955
+3,Rahim Yar Khan,28.4209,70.2952,date palm,desert sand,7.43,Perennial,33.6,92.0,70,DAP,178,8.4,85816
+4,Mianwali,32.5833,71.5375,cotton,sandy loam,2.86,Kharif,27.1,243.6,130,None,0,2.5,46520
+5,Swat,35.2217,72.4252,maize,sandy loam,1.81,Kharif,27.5,313.8,108,Urea,182,4.0,20851
+6,Abbottabad,34.1463,73.2117,cotton,loam,3.24,Kharif,28.8,321.9,156,None,0,2.8,50544
+7,Multan,30.1575,71.5249,rice,clay,4.5,Kharif,33.6,594.2,252,None,0,4.3,119340
+8,Gujranwala,32.1877,74.1945,apple orchard,loam,8.11,Perennial,12.6,512.7,183,DAP,170,9.0,92454
+9,Haripur,33.9962,72.9338,wheat,loam,7.21,Rabi,16.4,249.4,172,FYM,311,3.1,122155
+10,Sheikhupura,31.7131,73.9783,cotton,sandy loam,1.55,Kharif,29.4,318.6,120,None,0,1.6,19344
+11,Khuzdar,27.8,66.6167,tobacco,silty loam,9.78,Kharif,24.8,321.3,162,None,0,2.4,135551
+12,Mansehra,34.3332,73.1992,rice,clay,2.82,Kharif,30.2,593.4,296,DAP,123,4.4,74786
+13,Chitral,35.8512,71.7864,apple orchard,rocky loam,2.16,Perennial,10.6,595.0,133,FYM,306,7.2,22162
+14,Larkana,27.5609,68.2066,rice,clay,9.9,Kharif,34.5,648.6,289,None,0,3.5,262548
+15,Bannu,32.9886,70.6055,maize,sandy loam,2.78,Kharif,27.1,293.3,114,NPK,219,4.4,32026
+16,Kasur,31.1155,74.4466,rice,clay loam,6.1,Kharif,34.8,711.1,245,Urea,154,3.9,149328
+17,Attock,33.7731,72.3744,rice,clay loam,8.26,Kharif,34.4,682.8,235,None,0,3.8,202205
+18,Haripur,33.9962,72.9338,tobacco,loam,9.29,Kharif,27.6,273.4,196,NPK,180,2.2,123492
+19,Hyderabad,25.396,68.3578,potato,sandy loam,8.39,Rabi,22.1,230.9,113,FYM,341,3.0,113500
+20,Chiniot,31.716,72.9814,apple orchard,rocky loam,5.42,Perennial,11.8,577.9,127,None,0,8.7,55609
+21,Khuzdar,27.8,66.6167,tobacco,silty loam,9.99,Kharif,29.8,346.7,165,Urea,150,2.2,138461
+22,Turbat,26.0012,63.0515,date palm,desert sand,3.09,Perennial,32.3,97.0,71,Urea,137,9.1,35110
+23,Peshawar,34.0151,71.5249,wheat,silty loam,2.77,Rabi,22.7,265.5,198,None,0,4.4,46105
+24,Mingora,35.0266,72.276,maize,loam,4.6,Kharif,27.9,279.4,174,FYM,216,3.6,66571
+25,Gujrat,32.5742,74.0754,wheat,loam,5.89,Rabi,19.1,332.9,187,Urea,184,4.0,79515
+26,Haripur,33.9962,72.9338,tobacco,loam,1.52,Kharif,25.4,343.5,194,NPK,166,1.9,19152
+27,Thatta,24.747,67.9192,sugarcane,loam,1.71,Kharif,33.0,596.5,190,FYM,341,67.2,38475
+28,Islamabad,33.6844,73.0479,sugarcane,loam,8.9,Kharif,30.4,580.5,172,None,0,52.7,200250
+29,Mirpur,33.1497,73.7515,rice,clay loam,7.51,Kharif,30.0,587.4,226,Urea,153,3.5,183845
+30,Nawabshah,26.2483,68.4035,sugarcane,loam,5.76,Kharif,33.2,457.8,193,Urea,183,51.4,129600
+31,Khuzdar,27.8,66.6167,apple orchard,loam,4.72,Perennial,10.7,345.9,186,NPK,166,9.1,53808
+32,Zhob,31.3487,69.4484,sugarcane,loam,2.18,Kharif,33.6,575.6,163,NPK,202,67.2,49050
+33,Gujrat,32.5742,74.0754,sugarcane,loam,5.07,Kharif,32.5,597.4,197,DAP,122,65.5,114075
+34,Abbottabad,34.1463,73.2117,cotton,sandy loam,9.38,Kharif,32.5,318.7,101,Urea,190,2.6,117062
+35,Quetta,30.1798,66.975,sugarcane,loam,7.47,Kharif,32.0,505.5,160,DAP,139,69.6,168075
+36,Mardan,34.1983,72.0452,tobacco,loam,6.59,Kharif,22.9,274.9,158,DAP,159,1.6,86563
+37,Charsadda,34.1453,71.7436,date palm,sandy,6.95,Perennial,31.4,65.5,86,Urea,109,9.9,122051
+38,Jhelum,32.9416,73.7251,cotton,sandy loam,9.55,Kharif,31.1,267.9,129,NPK,165,2.4,131202
+39,Bannu,32.9886,70.6055,apple orchard,rocky loam,2.69,Perennial,18.5,561.2,126,None,0,8.1,27599
+40,Khuzdar,27.8,66.6167,sugarcane,loam,3.98,Kharif,29.5,453.1,162,FYM,290,64.4,89550
+41,Swabi,34.1202,72.4697,cotton,sandy loam,1.43,Kharif,34.5,200.0,122,DAP,141,1.7,29744
+42,Mirpur,33.1497,73.7515,gram,sandy loam,1.48,Rabi,20.8,115.2,105,Urea,183,2.4,29505
+43,Dera Ismail Khan,31.8322,70.9024,date palm,sandy,6.6,Perennial,34.6,143.6,81,FYM,285,9.2,88843
+44,Bannu,32.9886,70.6055,sugarcane,clay loam,6.54,Kharif,29.7,434.7,180,DAP,135,69.0,176580
+45,Kotli,33.5186,73.9022,potato,sandy loam,5.37,Rabi,24.3,288.2,122,Urea,136,2.3,51552
+46,Rahim Yar Khan,28.4209,70.2952,rice,clay,6.87,Kharif,30.6,525.1,216,DAP,175,5.0,182192
+47,Hafizabad,32.0709,73.688,tobacco,silty loam,4.5,Kharif,22.7,323.8,215,DAP,126,1.7,62370
+48,Bahawalpur,29.3956,71.6836,date palm,sandy,8.36,Perennial,29.7,68.8,63,Urea,154,10.7,145364
+49,Lahore,31.5204,74.3587,apple orchard,rocky loam,6.22,Perennial,10.3,491.7,153,NPK,204,7.4,63817
+50,Haripur,33.9962,72.9338,sugarcane,clay loam,6.72,Kharif,34.5,485.5,239,DAP,150,57.6,181440
+51,Baghsar,33.8667,74.7667,cotton,loam,4.47,Kharif,30.2,323.2,169,DAP,135,1.7,69732
+52,Dera Ismail Khan,31.8322,70.9024,date palm,desert sand,4.51,Perennial,26.8,103.9,62,Urea,109,10.5,50078
+53,Thatta,24.747,67.9192,potato,sandy loam,3.32,Rabi,24.4,204.4,129,NPK,184,3.5,51951
+54,Bhimber,32.979,74.0792,gram,sandy loam,1.36,Rabi,22.0,119.0,125,FYM,257,2.0,26751
+55,Bannu,32.9886,70.6055,tobacco,silty loam,2.63,Kharif,28.0,328.9,193,None,0,2.4,36452
+56,Turbat,26.0012,63.0515,potato,sandy loam,1.99,Rabi,24.0,288.1,110,FYM,228,3.4,19104
+57,Gwadar,25.1263,62.3225,tobacco,loam,9.23,Kharif,26.5,349.1,152,DAP,120,2.0,116298
+58,Lahore,31.5204,74.3587,maize,sandy loam,2.52,Kharif,20.6,472.8,122,NPK,196,3.7,29030
+59,Rahim Yar Khan,28.4209,70.2952,rice,clay,6.65,Kharif,29.0,687.7,289,None,0,4.6,176358
+60,Hafizabad,32.0709,73.688,wheat,clay loam,7.13,Rabi,17.8,329.6,239,FYM,304,4.5,115506
+61,Dera Ismail Khan,31.8322,70.9024,gram,sandy loam,6.49,Rabi,23.0,210.0,100,DAP,125,2.4,86317
+62,Peshawar,34.0151,71.5249,date palm,desert sand,1.88,Perennial,38.4,55.8,78,Urea,178,9.9,24266
+63,Gujrat,32.5742,74.0754,potato,loam,9.05,Rabi,24.0,206.0,188,DAP,177,3.5,175570
+64,Faisalabad,31.4504,73.135,cotton,sandy loam,8.02,Kharif,34.5,329.4,150,DAP,133,3.0,100090
+65,Kotli,33.5186,73.9022,sugarcane,clay loam,3.17,Kharif,34.1,544.7,247,DAP,133,56.3,85590
+66,Kohat,33.5861,71.4414,apple orchard,rocky loam,0.58,Perennial,11.6,300.3,124,FYM,202,9.0,5951
+67,Mirpur Khas,25.5255,69.0159,rice,clay,2.58,Kharif,29.0,683.7,262,NPK,178,4.2,68422
+68,Gujrat,32.5742,74.0754,gram,sandy loam,4.14,Rabi,20.8,218.3,131,DAP,148,1.9,52657
+69,Swat,35.2217,72.4252,rice,clay loam,3.9,Kharif,30.2,534.8,194,FYM,312,4.5,95472
+70,Kohat,33.5861,71.4414,apple orchard,rocky loam,2.35,Perennial,18.9,583.1,150,Urea,123,7.6,24111
+71,Burewala,30.15,72.65,apple orchard,rocky loam,9.24,Perennial,18.3,455.0,128,DAP,135,8.0,94802
+72,Chitral,35.8512,71.7864,maize,sandy loam,2.35,Kharif,20.5,352.9,124,None,0,3.7,27072
+73,Faisalabad,31.4504,73.135,potato,sandy loam,5.57,Rabi,23.2,234.4,150,DAP,171,3.4,73791
+74,Sialkot,32.4922,74.5311,sugarcane,loam,5.17,Kharif,27.6,587.0,153,None,0,56.3,116325
+75,Attock,33.7731,72.3744,date palm,desert sand,7.64,Perennial,38.6,139.5,65,DAP,176,9.0,74633
+76,Sheikhupura,31.7131,73.9783,gram,sandy loam,8.99,Rabi,16.7,137.5,146,NPK,180,2.2,165191
+77,Sargodha,32.0836,72.6711,sugarcane,clay loam,7.83,Kharif,33.1,568.5,237,None,0,51.7,211410
+78,Kotli,33.5186,73.9022,potato,loam,1.51,Rabi,24.8,268.7,180,NPK,217,2.7,19826
+79,Abbottabad,34.1463,73.2117,sugarcane,clay loam,7.3,Kharif,29.9,596.3,198,FYM,280,64.0,197100
+80,Attock,33.7731,72.3744,apple orchard,loam,4.59,Perennial,12.6,483.0,158,NPK,160,7.5,52326
+81,Jhang,31.2682,72.3184,cotton,sandy loam,8.08,Kharif,34.5,247.5,111,Urea,116,1.9,128149
+82,Zhob,31.3487,69.4484,tobacco,loam,4.49,Kharif,22.9,393.9,198,DAP,180,1.9,56574
+83,Lodhran,29.5383,71.6315,tobacco,silty loam,1.95,Kharif,26.7,376.4,200,DAP,144,1.7,27027
+84,Islamabad,33.6844,73.0479,gram,sandy loam,7.03,Rabi,18.6,101.7,124,FYM,218,2.4,146793
+85,Bannu,32.9886,70.6055,wheat,clay loam,6.54,Rabi,16.0,284.9,193,Urea,195,4.0,105948
+86,Sahiwal,30.6705,73.1063,apple orchard,rocky loam,4.0,Perennial,19.6,544.8,127,Urea,184,9.8,41040
+87,Sargodha,32.0836,72.6711,wheat,silty loam,2.72,Rabi,15.6,343.8,186,NPK,201,3.6,40392
+88,Sahiwal,30.6705,73.1063,potato,sandy loam,4.37,Rabi,22.7,233.3,140,Urea,133,3.2,58278
+89,Islamabad,33.6844,73.0479,cotton,loam,4.62,Kharif,25.9,287.6,161,FYM,290,2.1,72072
+90,Rahim Yar Khan,28.4209,70.2952,maize,loam,7.42,Kharif,30.0,334.6,166,FYM,289,3.4,106848
+91,Swat,35.2217,72.4252,wheat,silty loam,3.22,Rabi,24.1,374.2,163,FYM,278,4.2,47817
+92,Bannu,32.9886,70.6055,maize,sandy loam,7.25,Kharif,27.7,438.5,146,None,0,3.2,83520
+93,Bannu,32.9886,70.6055,apple orchard,loam,5.44,Perennial,17.2,426.6,172,Urea,187,7.6,62016
+94,Lahore,31.5204,74.3587,rice,clay loam,3.07,Kharif,31.1,611.9,195,NPK,196,3.5,75154
+95,Thatta,24.747,67.9192,sugarcane,loam,7.02,Kharif,32.5,511.8,194,NPK,183,52.2,157950
+96,Nawabshah,26.2483,68.4035,potato,sandy loam,1.12,Rabi,24.7,248.5,142,DAP,164,3.4,13574
+97,Thatta,24.747,67.9192,maize,sandy loam,9.92,Kharif,27.9,482.8,105,None,0,3.6,114278
+98,Islamabad,33.6844,73.0479,sugarcane,loam,6.8,Kharif,29.7,499.9,150,DAP,131,68.5,153000
+99,Hafizabad,32.0709,73.688,potato,sandy loam,3.1,Rabi,24.7,211.0,135,Urea,120,2.9,46872
+100,Mianwali,32.5833,71.5375,cotton,sandy loam,2.2,Kharif,29.8,169.4,115,None,0,2.9,52761
+101,Sargodha,32.0836,72.6711,sugarcane,loam,2.89,Kharif,32.0,564.1,169,None,0,69.0,65025
+102,Islamabad,33.6844,73.0479,tobacco,silty loam,8.84,Kharif,20.5,342.5,177,None,0,2.3,122522
+103,Karachi,24.8607,67.0011,sugarcane,clay loam,3.38,Kharif,30.9,564.9,187,NPK,169,63.8,91260
+104,Charsadda,34.1453,71.7436,rice,clay loam,5.09,Kharif,27.8,608.1,232,DAP,147,4.0,124603
+105,Bahawalpur,29.3956,71.6836,sugarcane,clay loam,8.54,Kharif,27.4,580.4,241,DAP,156,53.3,230580
+106,Peshawar,34.0151,71.5249,maize,sandy loam,7.88,Kharif,20.5,465.2,116,DAP,121,3.5,90778
+107,Larkana,27.5609,68.2066,date palm,desert sand,4.0,Perennial,35.5,59.6,60,DAP,125,11.9,51060
+108,Lasbela,25.8694,66.7097,wheat,clay loam,8.03,Rabi,19.5,385.6,248,DAP,124,4.2,130086
+109,Mansehra,34.3332,73.1992,tobacco,silty loam,0.84,Kharif,21.8,323.8,160,Urea,168,1.6,11642
+110,Mianwali,32.5833,71.5375,wheat,silty loam,7.26,Rabi,24.1,239.7,197,NPK,197,4.4,144018
+111,Swat,35.2217,72.4252,gram,loamy sand,5.91,Rabi,22.9,212.9,96,NPK,206,1.9,72566
+112,Karachi,24.8607,67.0011,cotton,sandy loam,5.05,Kharif,28.9,314.0,104,Urea,153,2.0,63024
+113,Okara,30.8103,73.4513,apple orchard,loam,2.29,Perennial,18.2,509.1,174,Urea,154,8.5,26106
+114,Charsadda,34.1453,71.7436,wheat,silty loam,4.03,Rabi,19.8,223.0,213,FYM,204,3.5,88272
+115,Multan,30.1575,71.5249,apple orchard,rocky loam,6.71,Perennial,16.0,541.8,133,None,0,9.7,68845
+116,Jhang,31.2682,72.3184,sugarcane,clay loam,5.91,Kharif,33.4,473.3,194,DAP,154,66.5,159570
+117,Multan,30.1575,71.5249,wheat,clay loam,8.54,Rabi,24.4,262.7,231,NPK,192,3.9,158293
+118,Jhang,31.2682,72.3184,gram,loamy sand,1.74,Rabi,22.6,201.9,104,Urea,125,2.5,22621
+119,Lahore,31.5204,74.3587,date palm,sandy,3.29,Perennial,28.5,86.8,91,None,0,10.8,54097
+120,Bahawalpur,29.3956,71.6836,wheat,clay loam,2.38,Rabi,22.8,324.2,198,FYM,271,4.4,38556
+121,Quetta,30.1798,66.975,cotton,loam,7.64,Kharif,34.7,266.5,172,FYM,210,2.4,132592
+122,Swat,35.2217,72.4252,apple orchard,rocky loam,0.6,Perennial,14.6,508.9,162,None,0,9.5,6156
+123,Mirpur,33.1497,73.7515,cotton,loam,6.78,Kharif,29.5,311.9,154,DAP,128,2.4,105768
+124,Charsadda,34.1453,71.7436,wheat,clay loam,6.14,Rabi,23.4,221.5,231,FYM,303,3.7,147959
+125,Gujranwala,32.1877,74.1945,date palm,desert sand,6.35,Perennial,34.2,123.8,41,Urea,141,10.3,65770
+126,Dera Ismail Khan,31.8322,70.9024,date palm,sandy,9.48,Perennial,25.2,112.0,70,Urea,145,10.4,143338
+127,Nawabshah,26.2483,68.4035,gram,loamy sand,8.88,Rabi,22.3,185.8,82,DAP,159,1.8,124825
+128,Kasur,31.1155,74.4466,wheat,clay loam,5.32,Rabi,17.3,261.7,184,NPK,217,3.5,99327
+129,Zhob,31.3487,69.4484,apple orchard,rocky loam,8.51,Perennial,15.7,348.2,164,Urea,163,9.1,87313
+130,Jhang,31.2682,72.3184,sugarcane,loam,6.94,Kharif,25.8,577.0,177,Urea,184,67.6,156150
+131,Lodhran,29.5383,71.6315,maize,loam,9.72,Kharif,27.0,445.4,174,DAP,126,4.3,139968
+132,Chitral,35.8512,71.7864,potato,sandy loam,4.73,Rabi,16.2,266.4,107,NPK,212,2.5,50554
+133,Thatta,24.747,67.9192,maize,loam,2.19,Kharif,27.2,342.9,169,Urea,128,3.6,31536
+134,Mardan,34.1983,72.0452,cotton,sandy loam,8.73,Kharif,30.0,299.1,136,FYM,277,1.8,108950
+135,Mianwali,32.5833,71.5375,tobacco,loam,8.81,Kharif,26.3,372.9,176,None,0,1.8,111006
+136,Baghsar,33.8667,74.7667,gram,sandy loam,1.06,Rabi,16.6,141.1,115,DAP,170,2.3,19210
+137,Sukkur,27.7132,68.8482,wheat,clay loam,5.22,Rabi,19.2,394.3,222,None,0,4.4,84564
+138,Zhob,31.3487,69.4484,date palm,desert sand,6.8,Perennial,25.4,111.2,41,Urea,144,11.8,73644
+139,Sukkur,27.7132,68.8482,rice,clay,6.05,Kharif,34.5,614.3,204,NPK,202,4.7,160446
+140,Charsadda,34.1453,71.7436,cotton,loam,2.84,Kharif,34.0,177.4,171,None,0,2.7,82184
+141,Kohat,33.5861,71.4414,gram,sandy loam,1.07,Rabi,16.5,117.2,141,None,0,2.2,21182
+142,Karachi,24.8607,67.0011,cotton,loam,5.15,Kharif,29.7,246.0,194,NPK,172,2.9,103103
+143,Rahim Yar Khan,28.4209,70.2952,date palm,sandy,7.42,Perennial,39.9,67.0,100,Urea,147,11.5,129720
+144,Gujrat,32.5742,74.0754,apple orchard,rocky loam,7.7,Perennial,12.5,439.1,132,NPK,188,7.2,79002
+145,Lasbela,25.8694,66.7097,apple orchard,loam,2.14,Perennial,11.9,458.0,162,NPK,219,10.0,24396
+146,Turbat,26.0012,63.0515,tobacco,loam,7.85,Kharif,23.4,380.5,174,None,0,2.1,98910
+147,Kotli,33.5186,73.9022,potato,sandy loam,4.52,Rabi,19.1,204.2,121,Urea,105,2.9,70801
+148,Gwadar,25.1263,62.3225,wheat,loam,2.97,Rabi,19.5,249.7,199,Urea,117,3.6,50219
+149,Sukkur,27.7132,68.8482,rice,clay loam,3.59,Kharif,26.8,704.0,182,NPK,184,4.6,87883
+150,Burewala,30.15,72.65,apple orchard,rocky loam,7.02,Perennial,15.7,307.7,125,Urea,157,9.0,72025
+151,Rahim Yar Khan,28.4209,70.2952,wheat,loam,8.69,Rabi,19.4,301.8,199,FYM,249,3.2,117315
+152,Larkana,27.5609,68.2066,sugarcane,clay loam,9.47,Kharif,27.0,599.6,240,FYM,253,68.5,255690
+153,Gujranwala,32.1877,74.1945,potato,loam,5.62,Rabi,22.6,285.4,166,DAP,171,3.2,67440
+154,Mirpur,33.1497,73.7515,sugarcane,loam,5.62,Kharif,33.2,452.5,189,FYM,291,68.5,126450
+155,Nawabshah,26.2483,68.4035,wheat,clay loam,1.16,Rabi,20.1,203.4,237,NPK,166,3.2,30788
+156,Kasur,31.1155,74.4466,potato,sandy loam,8.47,Rabi,20.7,246.5,109,DAP,179,2.1,104012
+157,Gujranwala,32.1877,74.1945,cotton,loam,6.78,Kharif,34.3,183.9,158,Urea,113,2.0,190471
+158,Haripur,33.9962,72.9338,potato,loam,4.55,Rabi,22.9,240.1,189,DAP,156,3.1,72754
+159,Chitral,35.8512,71.7864,wheat,silty loam,8.08,Rabi,24.5,300.5,184,NPK,195,3.7,119988
+160,Bannu,32.9886,70.6055,maize,sandy loam,5.08,Kharif,24.7,467.6,132,FYM,201,3.9,58522
+161,Baghsar,33.8667,74.7667,cotton,loam,1.76,Kharif,34.4,301.7,167,None,0,2.0,27456
+162,Bhimber,32.979,74.0792,potato,loam,0.9,Rabi,18.4,326.9,189,NPK,181,2.3,10800
+163,Sukkur,27.7132,68.8482,sugarcane,clay loam,6.32,Kharif,30.9,556.8,244,DAP,176,64.3,170640
+164,Haripur,33.9962,72.9338,tobacco,silty loam,6.86,Kharif,29.4,398.3,205,DAP,144,2.1,95080
+165,Mardan,34.1983,72.0452,gram,loamy sand,1.22,Rabi,15.8,135.9,113,DAP,163,2.3,21145
+166,Multan,30.1575,71.5249,sugarcane,loam,5.01,Kharif,32.5,543.0,199,Urea,101,60.6,112725
+167,Sheikhupura,31.7131,73.9783,potato,loam,9.05,Rabi,16.6,256.0,182,DAP,127,2.3,130320
+168,Jhelum,32.9416,73.7251,potato,loam,2.55,Rabi,16.4,209.1,190,FYM,266,2.5,48680
+169,Khanewal,30.3016,71.9351,sugarcane,loam,9.19,Kharif,34.6,513.2,159,None,0,54.7,206775
+170,Chitral,35.8512,71.7864,rice,clay,8.86,Kharif,34.2,717.3,252,FYM,277,4.9,234967
+171,Charsadda,34.1453,71.7436,apple orchard,loam,9.86,Perennial,14.4,314.6,193,NPK,161,8.6,112404
+172,Abbottabad,34.1463,73.2117,gram,sandy loam,4.63,Rabi,20.0,226.6,126,Urea,175,1.8,56199
+173,Bhimber,32.979,74.0792,maize,sandy loam,2.95,Kharif,26.7,488.0,103,FYM,286,4.3,33984
+174,Muzaffarabad,34.3702,73.4711,maize,sandy loam,10.0,Kharif,24.3,469.3,113,NPK,212,3.0,115200
+175,Charsadda,34.1453,71.7436,date palm,sandy,8.72,Perennial,28.3,113.9,89,Urea,197,9.3,130977
+176,Muzaffarabad,34.3702,73.4711,date palm,sandy,8.52,Perennial,37.7,118.0,58,DAP,144,11.6,126139
+177,Thatta,24.747,67.9192,wheat,loam,1.26,Rabi,16.0,245.1,179,None,0,3.8,21957
+178,Mansehra,34.3332,73.1992,rice,clay loam,6.53,Kharif,31.8,583.2,201,FYM,344,4.7,159854
+179,Mianwali,32.5833,71.5375,date palm,desert sand,4.48,Perennial,31.5,87.4,65,FYM,349,11.7,52517
+180,Multan,30.1575,71.5249,sugarcane,clay loam,5.29,Kharif,34.2,494.0,217,Urea,179,66.9,142830
+181,Quetta,30.1798,66.975,maize,loam,2.72,Kharif,27.2,496.7,162,FYM,294,3.1,39168
+182,Karachi,24.8607,67.0011,date palm,sandy,5.57,Perennial,33.3,104.1,62,FYM,336,12.0,86529
+183,Gujrat,32.5742,74.0754,date palm,desert sand,4.24,Perennial,33.5,149.8,43,FYM,350,10.9,39782
+184,Burewala,30.15,72.65,date palm,sandy,9.99,Perennial,39.1,125.4,52,None,0,10.8,144021
+185,Hafizabad,32.0709,73.688,potato,loam,0.75,Rabi,18.1,216.8,171,None,0,3.2,13740
+186,Swat,35.2217,72.4252,sugarcane,clay loam,3.41,Kharif,27.5,442.7,232,NPK,159,57.9,92070
+187,Mirpur,33.1497,73.7515,sugarcane,clay loam,0.7,Kharif,26.9,474.9,235,NPK,203,63.8,18900
+188,Rahim Yar Khan,28.4209,70.2952,potato,sandy loam,3.55,Rabi,21.2,287.3,116,None,0,2.7,34080
+189,Multan,30.1575,71.5249,wheat,silty loam,4.06,Rabi,18.7,284.4,196,Urea,148,3.2,60291
+190,Mansehra,34.3332,73.1992,sugarcane,clay loam,6.84,Kharif,27.4,541.7,224,DAP,148,69.6,184680
+191,Hafizabad,32.0709,73.688,maize,loam,5.32,Kharif,21.9,466.6,158,FYM,289,3.8,76608
+192,Rawalpindi,33.5651,73.0169,apple orchard,loam,0.59,Perennial,18.1,456.9,185,NPK,182,9.3,6726
+193,Khuzdar,27.8,66.6167,apple orchard,rocky loam,2.72,Perennial,11.5,496.3,129,Urea,123,8.0,27907
+194,Faisalabad,31.4504,73.135,tobacco,silty loam,3.13,Kharif,23.2,304.5,164,Urea,163,1.8,43382
+195,Sialkot,32.4922,74.5311,apple orchard,loam,2.07,Perennial,17.9,496.4,200,FYM,245,7.5,23598
+196,Gujranwala,32.1877,74.1945,wheat,clay loam,8.38,Rabi,21.8,247.2,204,NPK,159,3.0,172863
+197,Mardan,34.1983,72.0452,apple orchard,rocky loam,0.99,Perennial,15.7,472.7,180,DAP,169,8.6,10157
+198,Bhimber,32.979,74.0792,rice,clay,9.02,Kharif,26.6,788.8,268,NPK,201,4.6,239210
+199,Hyderabad,25.396,68.3578,maize,loam,1.44,Kharif,27.5,361.4,190,DAP,135,4.5,20736
+200,Khanewal,30.3016,71.9351,rice,clay,4.63,Kharif,34.4,602.9,257,NPK,203,4.0,122788
+201,Sialkot,32.4922,74.5311,tobacco,loam,5.64,Kharif,21.1,284.0,175,None,0,2.0,71064
+202,Karachi,24.8607,67.0011,rice,clay,3.17,Kharif,25.5,631.6,296,Urea,104,4.0,84068
+203,Gujrat,32.5742,74.0754,apple orchard,rocky loam,2.63,Perennial,18.4,410.7,158,FYM,315,7.7,26984
+204,Islamabad,33.6844,73.0479,gram,loamy sand,8.12,Rabi,16.5,133.6,107,DAP,125,1.5,141958
+205,Multan,30.1575,71.5249,apple orchard,loam,9.62,Perennial,15.1,573.9,162,FYM,282,7.1,109668
+206,Mirpur,33.1497,73.7515,wheat,silty loam,0.93,Rabi,24.5,269.7,207,NPK,195,4.0,14996
+207,Kotli,33.5186,73.9022,gram,sandy loam,3.95,Rabi,21.9,164.9,119,None,0,1.6,65005
+208,Mingora,35.0266,72.276,apple orchard,loam,8.4,Perennial,14.3,322.0,154,NPK,153,7.8,95760
+209,Khuzdar,27.8,66.6167,gram,loamy sand,8.61,Rabi,16.0,139.6,107,FYM,277,2.2,147134
+210,Kohat,33.5861,71.4414,wheat,loam,2.22,Rabi,18.8,314.8,180,NPK,212,3.4,29970
+211,Hafizabad,32.0709,73.688,date palm,sandy,6.95,Perennial,25.2,75.6,92,None,0,10.2,118365
+212,Karachi,24.8607,67.0011,date palm,sandy,5.22,Perennial,25.8,68.0,76,None,0,9.7,90985
+213,Lodhran,29.5383,71.6315,date palm,desert sand,2.91,Perennial,32.2,59.3,77,DAP,156,10.4,37179
+214,Mingora,35.0266,72.276,date palm,desert sand,3.6,Perennial,31.4,59.7,53,NPK,166,9.4,45940
+215,Hafizabad,32.0709,73.688,gram,loamy sand,7.26,Rabi,22.9,212.1,122,DAP,175,2.2,89523
+216,Muzaffarabad,34.3702,73.4711,cotton,loam,1.19,Kharif,28.2,158.8,167,DAP,122,2.6,37314
+217,Rawalpindi,33.5651,73.0169,potato,loam,1.03,Rabi,17.9,214.5,151,FYM,259,2.5,19106
+218,Mirpur,33.1497,73.7515,apple orchard,rocky loam,4.13,Perennial,18.6,455.3,121,None,0,7.9,42374
+219,Gwadar,25.1263,62.3225,cotton,loam,6.08,Kharif,26.6,310.9,176,None,0,1.8,94848
+220,Mardan,34.1983,72.0452,sugarcane,clay loam,8.27,Kharif,34.6,525.1,245,Urea,173,52.6,223290
+221,Chiniot,31.716,72.9814,rice,clay loam,6.54,Kharif,27.0,758.9,242,None,0,4.5,160099
+222,Quetta,30.1798,66.975,rice,clay loam,8.07,Kharif,33.7,708.4,188,NPK,180,3.6,197554
+223,Jhang,31.2682,72.3184,wheat,loam,5.9,Rabi,18.8,376.9,195,Urea,110,3.6,79650
+224,Rawalpindi,33.5651,73.0169,sugarcane,loam,7.71,Kharif,34.2,434.1,198,Urea,120,55.8,173475
+225,Swat,35.2217,72.4252,maize,loam,2.16,Kharif,24.2,431.7,192,FYM,203,3.9,31104
+226,Lasbela,25.8694,66.7097,sugarcane,clay loam,1.4,Kharif,32.7,571.6,215,DAP,178,61.9,37800
+227,Dera Ismail Khan,31.8322,70.9024,cotton,loam,6.62,Kharif,27.0,314.4,189,FYM,260,2.7,103272
+228,Lodhran,29.5383,71.6315,wheat,clay loam,3.41,Rabi,18.8,280.1,236,Urea,188,3.9,55242
+229,Sargodha,32.0836,72.6711,wheat,loam,5.93,Rabi,16.3,269.2,167,DAP,180,4.4,87260
+230,Khanewal,30.3016,71.9351,apple orchard,loam,8.14,Perennial,13.2,418.7,175,NPK,209,7.3,92796
+231,Lodhran,29.5383,71.6315,cotton,sandy loam,9.49,Kharif,27.2,228.0,111,FYM,302,3.0,169757
+232,Bahawalpur,29.3956,71.6836,sugarcane,clay loam,9.31,Kharif,31.6,449.3,205,None,0,63.6,251370
+233,Charsadda,34.1453,71.7436,cotton,sandy loam,9.67,Kharif,33.2,298.1,118,FYM,305,2.2,120682
+234,Nawabshah,26.2483,68.4035,tobacco,loam,9.25,Kharif,27.4,360.2,178,Urea,132,2.4,116550
+235,Swabi,34.1202,72.4697,wheat,clay loam,3.48,Rabi,17.6,245.5,246,FYM,332,3.3,72584
+236,Baghsar,33.8667,74.7667,wheat,silty loam,4.76,Rabi,22.4,244.9,211,NPK,216,4.1,91362
+237,Sargodha,32.0836,72.6711,tobacco,silty loam,4.98,Kharif,23.6,383.2,210,DAP,158,2.5,69023
+238,Sargodha,32.0836,72.6711,maize,loam,1.7,Kharif,27.5,414.4,174,FYM,251,3.2,24480
+239,Hyderabad,25.396,68.3578,tobacco,silty loam,1.9,Kharif,21.2,329.2,179,Urea,184,2.3,26334
+240,Mardan,34.1983,72.0452,wheat,silty loam,5.26,Rabi,21.3,381.4,220,None,0,4.0,78111
+241,Baghsar,33.8667,74.7667,potato,loam,4.42,Rabi,16.1,339.0,168,FYM,248,2.9,53040
+242,Turbat,26.0012,63.0515,cotton,loam,2.5,Kharif,33.4,241.0,176,DAP,140,2.7,51675
+243,Sargodha,32.0836,72.6711,gram,loamy sand,4.88,Rabi,18.4,153.8,105,FYM,216,2.2,78846
+244,Sargodha,32.0836,72.6711,tobacco,silty loam,5.78,Kharif,27.6,367.6,166,FYM,312,1.8,80111
+245,Abbottabad,34.1463,73.2117,sugarcane,loam,2.18,Kharif,34.7,490.7,193,FYM,322,64.6,49050
+246,Okara,30.8103,73.4513,date palm,desert sand,3.4,Perennial,36.5,66.6,43,DAP,124,10.3,42508
+247,Mianwali,32.5833,71.5375,tobacco,loam,9.31,Kharif,25.4,365.3,183,NPK,152,1.6,117306
+248,Sahiwal,30.6705,73.1063,gram,sandy loam,5.72,Rabi,24.9,200.2,148,NPK,207,1.9,80000
+249,Lahore,31.5204,74.3587,rice,clay loam,3.74,Kharif,34.5,796.5,247,Urea,195,4.9,91555
+250,Nawabshah,26.2483,68.4035,wheat,loam,7.95,Rabi,20.9,384.6,171,FYM,220,4.3,107325
+251,Mansehra,34.3332,73.1992,potato,loam,9.3,Rabi,15.3,228.9,186,NPK,165,2.4,159123
+252,Chitral,35.8512,71.7864,date palm,sandy,5.8,Perennial,36.4,148.5,76,DAP,132,11.5,76582
+253,Karachi,24.8607,67.0011,potato,sandy loam,7.14,Rabi,21.5,333.1,141,FYM,204,3.3,68544
+254,Jhelum,32.9416,73.7251,wheat,silty loam,5.83,Rabi,23.8,216.5,167,FYM,260,4.0,132388
+255,Abbottabad,34.1463,73.2117,gram,sandy loam,3.51,Rabi,22.1,183.4,148,NPK,195,1.7,53219
+256,Quetta,30.1798,66.975,cotton,sandy loam,2.11,Kharif,29.7,245.5,113,FYM,200,2.3,33903
+257,Chitral,35.8512,71.7864,tobacco,loam,7.13,Kharif,23.1,340.6,162,DAP,134,2.1,89838
+258,Okara,30.8103,73.4513,wheat,silty loam,3.33,Rabi,18.6,296.5,191,Urea,170,3.9,49451
+259,Mirpur,33.1497,73.7515,apple orchard,rocky loam,6.57,Perennial,19.6,563.1,145,FYM,221,9.5,67408
+260,Mansehra,34.3332,73.1992,potato,loam,4.57,Rabi,24.0,271.4,189,None,0,2.1,58770
+261,Jhang,31.2682,72.3184,sugarcane,loam,5.85,Kharif,30.0,416.1,165,FYM,221,53.9,131625
+262,Mirpur,33.1497,73.7515,tobacco,loam,1.17,Kharif,22.6,318.5,151,FYM,337,1.6,14742
+263,Burewala,30.15,72.65,tobacco,silty loam,9.33,Kharif,29.3,395.2,165,Urea,157,1.8,129314
+264,Gujranwala,32.1877,74.1945,date palm,desert sand,1.55,Perennial,38.1,71.3,69,None,0,9.1,19106
+265,Sargodha,32.0836,72.6711,potato,sandy loam,9.86,Rabi,21.6,219.3,144,NPK,164,3.4,142536
+266,Mardan,34.1983,72.0452,wheat,silty loam,4.74,Rabi,22.5,312.7,194,FYM,318,3.6,70389
+267,Islamabad,33.6844,73.0479,date palm,sandy,1.54,Perennial,31.2,84.7,63,FYM,206,8.7,25492
+268,Dera Ismail Khan,31.8322,70.9024,tobacco,loam,9.36,Kharif,28.6,393.7,188,Urea,154,2.2,117936
+269,Islamabad,33.6844,73.0479,potato,loam,9.82,Rabi,18.5,348.7,193,FYM,317,2.4,117840
+270,Gujrat,32.5742,74.0754,gram,sandy loam,4.97,Rabi,23.6,231.2,120,FYM,270,2.5,58726
+271,Larkana,27.5609,68.2066,rice,clay loam,3.55,Kharif,26.5,572.4,224,FYM,327,4.6,86904
+272,Hafizabad,32.0709,73.688,rice,clay loam,6.57,Kharif,35.0,582.9,198,Urea,132,4.4,160834
+273,Dera Ismail Khan,31.8322,70.9024,rice,clay loam,7.8,Kharif,32.2,540.3,192,Urea,106,4.0,190944
+274,Sahiwal,30.6705,73.1063,maize,sandy loam,5.36,Kharif,29.3,310.6,108,FYM,211,3.4,61747
+275,Zhob,31.3487,69.4484,gram,loamy sand,6.17,Rabi,24.0,102.9,89,None,0,1.7,120298
+276,Gujranwala,32.1877,74.1945,gram,sandy loam,8.18,Rabi,21.7,157.9,148,NPK,166,1.7,138626
+277,Chitral,35.8512,71.7864,cotton,loam,3.17,Kharif,27.3,325.3,167,None,0,2.5,49452
+278,Sialkot,32.4922,74.5311,rice,clay,7.67,Kharif,29.9,509.1,208,DAP,173,4.9,203408
+279,Dera Ismail Khan,31.8322,70.9024,cotton,sandy loam,3.77,Kharif,33.7,268.9,117,None,0,2.4,51402
+280,Sahiwal,30.6705,73.1063,tobacco,silty loam,8.19,Kharif,29.8,383.7,185,NPK,195,2.5,113513
+281,Chitral,35.8512,71.7864,sugarcane,clay loam,2.51,Kharif,29.8,484.1,196,FYM,269,54.3,67770
+282,Mingora,35.0266,72.276,apple orchard,loam,7.38,Perennial,19.0,552.6,193,None,0,8.8,84132
+283,Peshawar,34.0151,71.5249,sugarcane,loam,8.23,Kharif,27.5,481.0,185,NPK,211,58.0,185175
+284,Dera Ismail Khan,31.8322,70.9024,date palm,sandy,0.59,Perennial,25.4,110.9,75,None,0,10.4,8955
+285,Rawalpindi,33.5651,73.0169,tobacco,loam,1.44,Kharif,26.3,375.0,191,NPK,166,2.1,18144
+286,Jhelum,32.9416,73.7251,maize,loam,3.63,Kharif,25.8,400.7,181,Urea,116,4.0,52272
+287,Mirpur,33.1497,73.7515,rice,clay loam,9.57,Kharif,31.2,507.4,214,None,0,3.9,234274
+288,Khanewal,30.3016,71.9351,gram,sandy loam,8.03,Rabi,22.5,170.1,137,Urea,155,1.8,129227
+289,Zhob,31.3487,69.4484,rice,clay loam,3.8,Kharif,31.0,627.4,246,FYM,302,4.8,93024
+290,Hafizabad,32.0709,73.688,potato,loam,5.69,Rabi,24.2,262.4,185,FYM,254,2.5,78294
+291,Zhob,31.3487,69.4484,sugarcane,loam,8.38,Kharif,33.5,436.2,191,DAP,178,61.9,188550
+292,Mirpur,33.1497,73.7515,rice,clay,1.96,Kharif,27.6,513.9,224,FYM,237,3.8,51979
+293,Quetta,30.1798,66.975,cotton,sandy loam,2.02,Kharif,34.4,338.9,104,FYM,274,2.1,25210
+294,Chiniot,31.716,72.9814,tobacco,loam,7.19,Kharif,25.5,358.9,197,NPK,151,2.2,90594
+295,Kotli,33.5186,73.9022,rice,clay loam,9.54,Kharif,25.2,631.7,205,None,0,3.9,233539
+296,Muzaffarabad,34.3702,73.4711,maize,loam,1.08,Kharif,24.7,334.9,191,None,0,3.8,15552
+297,Charsadda,34.1453,71.7436,potato,sandy loam,8.93,Rabi,23.4,316.6,146,FYM,302,3.1,85728
+298,Swabi,34.1202,72.4697,potato,loam,4.83,Rabi,19.1,293.9,178,None,0,3.0,57960
+299,Larkana,27.5609,68.2066,sugarcane,clay loam,2.34,Kharif,27.9,512.5,242,FYM,271,54.9,63180
+300,Lodhran,29.5383,71.6315,tobacco,loam,5.72,Kharif,22.2,365.5,177,Urea,110,1.6,72072
+301,Mingora,35.0266,72.276,apple orchard,rocky loam,3.0,Perennial,18.0,411.6,156,Urea,172,8.8,30780
+302,Rawalpindi,33.5651,73.0169,maize,sandy loam,9.05,Kharif,25.1,489.4,117,FYM,315,3.2,104256
+303,Bahawalpur,29.3956,71.6836,maize,loam,9.41,Kharif,20.1,473.9,184,DAP,179,3.7,135504
+304,Burewala,30.15,72.65,gram,loamy sand,0.57,Rabi,19.7,145.9,83,NPK,150,2.0,9505
+305,Haripur,33.9962,72.9338,potato,sandy loam,2.75,Rabi,19.6,278.2,146,DAP,167,2.7,26796
+306,Larkana,27.5609,68.2066,apple orchard,rocky loam,4.46,Perennial,14.7,337.0,131,Urea,114,9.4,45760
+307,Thatta,24.747,67.9192,cotton,sandy loam,2.33,Kharif,33.0,208.0,143,DAP,157,2.2,46525
+308,Sargodha,32.0836,72.6711,cotton,sandy loam,9.65,Kharif,28.5,225.7,143,FYM,269,2.8,174927
+309,Turbat,26.0012,63.0515,gram,sandy loam,2.23,Rabi,20.2,245.3,105,Urea,148,2.2,24149
+310,Chiniot,31.716,72.9814,rice,clay loam,6.49,Kharif,31.5,666.4,237,FYM,319,4.0,158875
+311,Mardan,34.1983,72.0452,sugarcane,clay loam,9.8,Kharif,25.7,474.9,196,Urea,135,59.7,264600
+312,Swabi,34.1202,72.4697,maize,loam,2.97,Kharif,22.3,491.7,179,None,0,3.7,42768
+313,Gujranwala,32.1877,74.1945,maize,sandy loam,1.69,Kharif,23.3,449.1,115,DAP,143,3.0,19469
+314,Abbottabad,34.1463,73.2117,cotton,sandy loam,3.71,Kharif,34.3,200.6,111,None,0,2.6,76936
+315,Hafizabad,32.0709,73.688,maize,loam,6.61,Kharif,22.4,307.1,176,Urea,101,4.2,95184
+316,Bahawalpur,29.3956,71.6836,maize,sandy loam,5.79,Kharif,25.6,259.4,120,None,0,4.2,78151
+317,Burewala,30.15,72.65,potato,sandy loam,1.65,Rabi,20.9,308.7,107,NPK,199,2.8,15840
+318,Bannu,32.9886,70.6055,tobacco,loam,2.3,Kharif,22.9,348.9,156,NPK,151,2.3,28980
+319,Hyderabad,25.396,68.3578,potato,loam,4.51,Rabi,23.2,275.9,153,DAP,124,2.5,55969
+320,Hafizabad,32.0709,73.688,date palm,sandy,0.88,Perennial,39.2,91.0,65,Urea,179,11.9,14276
+321,Okara,30.8103,73.4513,apple orchard,rocky loam,5.77,Perennial,11.5,534.2,140,NPK,218,8.7,59200
+322,Dera Ismail Khan,31.8322,70.9024,date palm,sandy,3.55,Perennial,32.8,134.6,87,NPK,202,8.6,49464
+323,Baghsar,33.8667,74.7667,date palm,desert sand,4.12,Perennial,35.2,139.9,73,None,0,10.5,40185
+324,Nawabshah,26.2483,68.4035,potato,loam,9.52,Rabi,19.0,348.2,160,DAP,135,2.6,114240
+325,Attock,33.7731,72.3744,rice,clay loam,6.62,Kharif,28.4,625.0,247,Urea,120,4.7,162058
+326,Kotli,33.5186,73.9022,maize,sandy loam,9.95,Kharif,24.7,300.1,114,None,0,4.4,114624
+327,Chiniot,31.716,72.9814,sugarcane,loam,9.85,Kharif,34.1,454.8,179,FYM,205,56.3,221625
+328,Sialkot,32.4922,74.5311,date palm,sandy,0.6,Perennial,36.8,57.5,89,Urea,145,11.7,10789
+329,Nawabshah,26.2483,68.4035,sugarcane,loam,1.39,Kharif,33.1,522.3,189,None,0,50.2,31275
+330,Khanewal,30.3016,71.9351,gram,sandy loam,9.06,Rabi,24.9,227.0,140,NPK,175,2.2,109717
+331,Peshawar,34.0151,71.5249,tobacco,silty loam,8.32,Kharif,25.0,348.6,206,FYM,301,2.3,115315
+332,Chitral,35.8512,71.7864,gram,sandy loam,2.65,Rabi,15.9,242.0,112,None,0,2.2,29309
+333,Swabi,34.1202,72.4697,gram,sandy loam,8.14,Rabi,24.4,143.2,136,NPK,150,2.2,146325
+334,Mianwali,32.5833,71.5375,sugarcane,loam,1.66,Kharif,28.4,446.0,161,Urea,147,69.7,37350
+335,Lodhran,29.5383,71.6315,maize,sandy loam,8.58,Kharif,29.3,416.8,133,None,0,4.3,98842
+336,Kotli,33.5186,73.9022,wheat,loam,7.37,Rabi,19.1,297.5,200,Urea,146,3.7,99495
+337,Lodhran,29.5383,71.6315,potato,sandy loam,0.86,Rabi,24.5,231.8,131,DAP,153,3.2,11572
+338,Mansehra,34.3332,73.1992,potato,sandy loam,9.51,Rabi,22.9,248.8,119,None,0,3.0,115033
+339,Sukkur,27.7132,68.8482,tobacco,silty loam,1.3,Kharif,20.8,275.3,189,NPK,164,2.2,18724
+340,Mirpur Khas,25.5255,69.0159,wheat,loam,2.07,Rabi,22.3,316.3,164,NPK,172,3.1,27945
+341,Lahore,31.5204,74.3587,gram,sandy loam,9.08,Rabi,23.0,203.6,146,None,0,2.4,124832
+342,Multan,30.1575,71.5249,rice,clay,2.68,Kharif,26.3,723.5,271,None,0,4.5,71074
+343,Lodhran,29.5383,71.6315,potato,loam,3.53,Rabi,22.5,326.0,160,NPK,186,3.3,42360
+344,Bhimber,32.979,74.0792,apple orchard,loam,2.49,Perennial,12.0,344.9,182,None,0,7.5,28386
+345,Islamabad,33.6844,73.0479,tobacco,loam,6.23,Kharif,25.9,257.9,166,None,0,1.6,92955
+346,Kotli,33.5186,73.9022,rice,clay loam,1.94,Kharif,25.3,730.5,206,NPK,216,3.5,47491
+347,Swat,35.2217,72.4252,gram,loamy sand,3.27,Rabi,19.0,232.4,97,NPK,183,2.2,35966
+348,Khuzdar,27.8,66.6167,gram,loamy sand,4.72,Rabi,17.4,127.9,112,Urea,193,2.3,84283
+349,Dera Ismail Khan,31.8322,70.9024,sugarcane,clay loam,5.16,Kharif,27.0,504.5,196,Urea,172,68.6,139320
+350,Hyderabad,25.396,68.3578,gram,sandy loam,8.67,Rabi,16.8,250.0,100,Urea,140,2.3,91035
+351,Peshawar,34.0151,71.5249,wheat,loam,1.83,Rabi,21.4,243.1,177,FYM,307,3.3,32302
+352,Sargodha,32.0836,72.6711,maize,sandy loam,6.23,Kharif,22.0,302.5,100,DAP,126,4.4,71770
+353,Rawalpindi,33.5651,73.0169,maize,sandy loam,8.93,Kharif,21.5,488.8,120,DAP,176,3.2,102874
+354,Sukkur,27.7132,68.8482,cotton,loam,3.45,Kharif,26.1,285.0,188,FYM,313,2.9,53820
+355,Sukkur,27.7132,68.8482,sugarcane,clay loam,8.3,Kharif,26.7,462.1,196,None,0,68.9,224100
+356,Khanewal,30.3016,71.9351,potato,sandy loam,3.11,Rabi,24.3,228.2,109,None,0,3.3,42744
+357,Mirpur Khas,25.5255,69.0159,gram,loamy sand,3.48,Rabi,21.4,248.0,91,Urea,130,1.7,34713
+358,Jhelum,32.9416,73.7251,sugarcane,loam,2.45,Kharif,33.0,491.9,177,NPK,216,67.5,55125
+359,Sahiwal,30.6705,73.1063,sugarcane,loam,3.38,Kharif,27.2,533.0,185,NPK,189,66.6,76050
+360,Sheikhupura,31.7131,73.9783,cotton,loam,6.67,Kharif,26.6,270.0,161,DAP,129,2.3,112723
+361,Dera Ismail Khan,31.8322,70.9024,apple orchard,loam,1.37,Perennial,13.1,430.8,161,NPK,157,9.3,15618
+362,Charsadda,34.1453,71.7436,tobacco,silty loam,9.11,Kharif,20.2,325.5,177,FYM,329,1.8,126265
+363,Mirpur,33.1497,73.7515,rice,clay,2.39,Kharif,34.8,616.8,263,DAP,174,4.2,63383
+364,Peshawar,34.0151,71.5249,maize,sandy loam,5.84,Kharif,23.2,279.7,108,Urea,158,3.9,67445
+365,Kohat,33.5861,71.4414,maize,sandy loam,7.4,Kharif,28.7,489.6,119,DAP,169,4.0,85248
+366,Thatta,24.747,67.9192,gram,loamy sand,1.39,Rabi,21.5,144.4,113,DAP,139,2.1,23316
+367,Chitral,35.8512,71.7864,cotton,sandy loam,5.45,Kharif,26.6,331.4,120,NPK,211,1.6,68016
+368,Rawalpindi,33.5651,73.0169,tobacco,loam,5.08,Kharif,23.4,335.9,197,None,0,2.4,64008
+369,Rahim Yar Khan,28.4209,70.2952,wheat,loam,6.41,Rabi,17.1,274.0,154,NPK,186,4.2,90862
+370,Chiniot,31.716,72.9814,maize,loam,9.42,Kharif,27.7,491.1,161,Urea,194,3.5,135648
+371,Abbottabad,34.1463,73.2117,rice,clay loam,1.47,Kharif,34.5,683.5,235,None,0,3.7,35986
+372,Attock,33.7731,72.3744,wheat,silty loam,3.06,Rabi,24.6,243.9,182,DAP,172,3.2,59111
+373,Gujranwala,32.1877,74.1945,gram,sandy loam,9.9,Rabi,15.9,231.5,112,Urea,137,1.8,116771
+374,Rawalpindi,33.5651,73.0169,gram,loamy sand,8.07,Rabi,17.1,243.4,127,None,0,2.3,82934
+375,Khuzdar,27.8,66.6167,tobacco,loam,7.39,Kharif,24.6,314.9,160,FYM,273,1.9,93114
+376,Turbat,26.0012,63.0515,potato,sandy loam,8.57,Rabi,17.0,214.4,111,DAP,138,2.8,127247
+377,Kasur,31.1155,74.4466,rice,clay loam,7.57,Kharif,32.7,754.6,204,None,0,4.2,185314
+378,Burewala,30.15,72.65,potato,sandy loam,3.51,Rabi,17.4,247.4,117,DAP,129,2.9,42850
+379,Larkana,27.5609,68.2066,sugarcane,loam,2.09,Kharif,33.5,589.9,160,NPK,160,69.5,47025
+380,Lodhran,29.5383,71.6315,sugarcane,clay loam,2.67,Kharif,33.6,542.3,233,DAP,168,51.8,72090
+381,Muzaffarabad,34.3702,73.4711,tobacco,loam,1.69,Kharif,28.9,333.3,191,DAP,124,1.7,21294
+382,Khanewal,30.3016,71.9351,cotton,sandy loam,9.23,Kharif,32.3,305.7,124,Urea,148,2.2,115190
+383,Mianwali,32.5833,71.5375,date palm,desert sand,5.09,Perennial,35.6,53.2,56,None,0,10.4,66195
+384,Zhob,31.3487,69.4484,rice,clay,2.63,Kharif,27.9,721.9,229,NPK,187,4.9,69748
+385,Rawalpindi,33.5651,73.0169,tobacco,silty loam,9.31,Kharif,28.5,381.0,168,None,0,2.0,129037
+386,Jhang,31.2682,72.3184,potato,sandy loam,1.82,Rabi,19.2,254.4,149,Urea,109,2.3,21199
+387,Haripur,33.9962,72.9338,tobacco,loam,8.47,Kharif,20.9,283.2,151,FYM,324,2.5,106722
+388,Peshawar,34.0151,71.5249,wheat,clay loam,7.09,Rabi,24.9,385.8,184,DAP,160,3.9,114858
+389,Mardan,34.1983,72.0452,gram,loamy sand,4.06,Rabi,22.8,221.2,120,Urea,142,2.4,47639
+390,Khuzdar,27.8,66.6167,apple orchard,rocky loam,8.08,Perennial,16.9,443.0,130,FYM,348,9.9,82901
+391,Kasur,31.1155,74.4466,wheat,clay loam,8.38,Rabi,20.3,258.9,189,DAP,138,3.9,159626
+392,Attock,33.7731,72.3744,maize,sandy loam,3.4,Kharif,23.9,301.6,148,NPK,203,3.6,39168
+393,Kotli,33.5186,73.9022,tobacco,silty loam,5.13,Kharif,26.6,349.2,192,FYM,323,2.1,71102
+394,Mingora,35.0266,72.276,maize,sandy loam,4.92,Kharif,22.2,445.9,144,FYM,265,4.4,56678
+395,Mianwali,32.5833,71.5375,apple orchard,loam,7.02,Perennial,14.2,503.1,187,NPK,156,8.4,80028
+396,Swabi,34.1202,72.4697,cotton,sandy loam,9.88,Kharif,33.1,299.5,101,DAP,138,2.3,123302
+397,Faisalabad,31.4504,73.135,date palm,desert sand,9.28,Perennial,38.3,120.5,50,NPK,201,11.5,97266
+398,Burewala,30.15,72.65,gram,sandy loam,5.72,Rabi,19.6,102.1,101,DAP,132,1.6,119279
+399,Gujranwala,32.1877,74.1945,potato,loam,7.07,Rabi,20.1,202.0,185,DAP,159,3.0,139986
+400,Larkana,27.5609,68.2066,date palm,desert sand,1.66,Perennial,34.7,86.9,42,Urea,151,9.8,19490
+401,Rahim Yar Khan,28.4209,70.2952,tobacco,silty loam,1.79,Kharif,27.9,328.0,206,NPK,218,1.6,24809
+402,Quetta,30.1798,66.975,rice,clay loam,6.21,Kharif,26.4,780.7,215,Urea,200,4.9,152021
+403,Sheikhupura,31.7131,73.9783,maize,sandy loam,7.48,Kharif,22.8,486.7,131,FYM,307,3.2,86170
+404,Gujranwala,32.1877,74.1945,date palm,sandy,5.08,Perennial,33.2,111.7,50,NPK,186,9.4,76890
+405,Mingora,35.0266,72.276,potato,loam,4.73,Rabi,18.5,304.7,164,None,0,3.0,56760
+406,Kohat,33.5861,71.4414,rice,clay loam,2.78,Kharif,35.0,582.3,241,Urea,174,4.1,68054
+407,Burewala,30.15,72.65,date palm,desert sand,2.38,Perennial,31.6,147.6,44,NPK,200,11.4,22527
+408,Jhang,31.2682,72.3184,gram,loamy sand,6.81,Rabi,22.3,244.0,125,Urea,156,1.9,69717
+409,Abbottabad,34.1463,73.2117,sugarcane,loam,3.41,Kharif,33.9,421.3,173,NPK,151,53.9,76725
+410,Bahawalpur,29.3956,71.6836,wheat,silty loam,3.49,Rabi,17.0,294.7,160,NPK,220,3.4,51827
+411,Lasbela,25.8694,66.7097,apple orchard,rocky loam,6.94,Perennial,16.4,392.5,160,DAP,158,8.7,71204
+412,Gujranwala,32.1877,74.1945,cotton,loam,3.22,Kharif,33.0,236.0,158,None,0,1.6,68650
+413,Jhelum,32.9416,73.7251,wheat,clay loam,6.06,Rabi,17.4,269.0,242,None,0,4.0,107171
+414,Khuzdar,27.8,66.6167,tobacco,silty loam,6.57,Kharif,29.6,383.2,210,DAP,128,1.9,91060
+415,Kohat,33.5861,71.4414,wheat,loam,3.24,Rabi,15.3,205.9,184,DAP,177,3.4,70749
+416,Karachi,24.8607,67.0011,cotton,sandy loam,9.81,Kharif,32.5,311.1,132,DAP,165,2.7,122429
+417,Kotli,33.5186,73.9022,sugarcane,clay loam,7.99,Kharif,28.8,528.4,203,FYM,237,67.0,215730
+418,Mardan,34.1983,72.0452,maize,loam,6.17,Kharif,28.6,346.6,184,NPK,183,3.7,88848
+419,Bannu,32.9886,70.6055,rice,clay loam,7.06,Kharif,32.0,650.5,224,NPK,153,4.3,172829
+420,Mansehra,34.3332,73.1992,cotton,loam,2.4,Kharif,30.1,273.3,154,None,0,3.0,39530
+421,Kohat,33.5861,71.4414,gram,loamy sand,0.94,Rabi,22.9,199.8,101,None,0,1.8,12350
+422,Muzaffarabad,34.3702,73.4711,cotton,loam,2.97,Kharif,26.8,325.9,174,FYM,262,2.7,46332
+423,Peshawar,34.0151,71.5249,cotton,sandy loam,8.1,Kharif,34.7,153.8,101,DAP,120,1.9,207399
+424,Gujrat,32.5742,74.0754,date palm,sandy,1.94,Perennial,31.0,68.8,81,Urea,134,8.5,33733
+425,Haripur,33.9962,72.9338,rice,clay loam,4.81,Kharif,25.9,705.6,230,NPK,212,4.9,117749
+426,Sukkur,27.7132,68.8482,apple orchard,rocky loam,6.46,Perennial,13.3,515.6,128,DAP,120,7.6,66280
+427,Lodhran,29.5383,71.6315,sugarcane,loam,6.77,Kharif,29.7,439.7,191,NPK,157,54.5,152325
+428,Abbottabad,34.1463,73.2117,potato,loam,4.2,Rabi,19.5,252.5,182,Urea,124,3.3,61950
+429,Faisalabad,31.4504,73.135,gram,loamy sand,7.85,Rabi,24.7,138.4,85,Urea,115,1.9,134765
+430,Thatta,24.747,67.9192,sugarcane,clay loam,7.03,Kharif,28.4,498.2,198,FYM,312,50.5,189810
+431,Baghsar,33.8667,74.7667,sugarcane,loam,7.99,Kharif,34.2,588.1,173,None,0,58.2,179775
+432,Bhimber,32.979,74.0792,sugarcane,loam,2.47,Kharif,28.4,459.6,183,FYM,244,54.1,55575
+433,Quetta,30.1798,66.975,tobacco,loam,3.02,Kharif,22.4,333.9,155,NPK,207,2.3,38052
+434,Abbottabad,34.1463,73.2117,cotton,loam,7.87,Kharif,25.9,248.1,190,DAP,169,1.8,155409
+435,Mardan,34.1983,72.0452,potato,sandy loam,3.44,Rabi,15.6,345.3,148,Urea,103,2.4,33024
+436,Faisalabad,31.4504,73.135,rice,clay,5.0,Kharif,26.7,558.0,235,FYM,260,3.5,132600
+437,Bahawalpur,29.3956,71.6836,maize,sandy loam,6.0,Kharif,27.5,414.2,136,DAP,154,3.5,69120
+438,Rawalpindi,33.5651,73.0169,rice,clay,3.87,Kharif,30.9,584.2,265,FYM,303,4.9,102632
+439,Attock,33.7731,72.3744,tobacco,loam,3.19,Kharif,25.3,285.9,150,DAP,168,1.7,40194
+440,Swat,35.2217,72.4252,tobacco,loam,1.04,Kharif,21.2,307.1,180,NPK,167,1.6,13104
+441,Mansehra,34.3332,73.1992,tobacco,loam,7.24,Kharif,25.7,325.1,151,NPK,185,1.7,91224
+442,Nawabshah,26.2483,68.4035,sugarcane,loam,6.71,Kharif,25.4,569.6,189,NPK,197,52.7,150975
+443,Baghsar,33.8667,74.7667,apple orchard,loam,6.23,Perennial,13.0,583.9,158,Urea,165,7.1,71022
+444,Mingora,35.0266,72.276,maize,sandy loam,8.46,Kharif,25.8,363.7,133,None,0,4.3,97459
+445,Swabi,34.1202,72.4697,rice,clay loam,5.31,Kharif,32.5,518.2,243,NPK,171,4.2,129989
+446,Chiniot,31.716,72.9814,tobacco,loam,2.23,Kharif,22.0,258.1,197,Urea,175,1.9,33226
+447,Quetta,30.1798,66.975,rice,clay loam,0.54,Kharif,28.1,690.4,196,NPK,213,3.8,13219
+448,Muzaffarabad,34.3702,73.4711,potato,sandy loam,2.91,Rabi,17.1,296.5,105,None,0,3.4,27936
+449,Larkana,27.5609,68.2066,apple orchard,rocky loam,0.8,Perennial,15.7,431.3,177,Urea,148,8.2,8208
+450,Dera Ismail Khan,31.8322,70.9024,tobacco,silty loam,5.79,Kharif,20.4,252.4,178,None,0,1.5,98707
+451,Karachi,24.8607,67.0011,sugarcane,loam,0.81,Kharif,31.7,581.7,161,FYM,214,51.3,18225
+452,Sahiwal,30.6705,73.1063,gram,sandy loam,8.74,Rabi,21.9,209.9,103,NPK,171,2.2,116303
+453,Mansehra,34.3332,73.1992,wheat,silty loam,2.76,Rabi,18.9,256.1,205,None,0,3.3,49149
+454,Charsadda,34.1453,71.7436,gram,loamy sand,9.38,Rabi,23.6,240.9,101,NPK,191,2.0,97936
+455,Faisalabad,31.4504,73.135,wheat,silty loam,5.33,Rabi,21.4,378.3,163,FYM,328,3.5,79151
+456,Mansehra,34.3332,73.1992,apple orchard,rocky loam,3.3,Perennial,12.7,421.9,143,None,0,8.1,33858
+457,Hyderabad,25.396,68.3578,date palm,sandy,3.9,Perennial,35.0,120.7,98,FYM,280,11.5,57187
+458,Thatta,24.747,67.9192,date palm,desert sand,0.71,Perennial,27.8,104.9,76,Urea,103,10.8,7857
+459,Rahim Yar Khan,28.4209,70.2952,gram,loamy sand,1.58,Rabi,20.9,104.2,113,DAP,132,2.3,30671
+460,Gujrat,32.5742,74.0754,rice,clay loam,4.76,Kharif,34.0,621.7,240,Urea,194,4.4,116525
+461,Mardan,34.1983,72.0452,maize,sandy loam,1.66,Kharif,26.9,476.5,109,FYM,343,3.5,19123
+462,Kohat,33.5861,71.4414,date palm,sandy,7.57,Perennial,39.1,98.2,78,None,0,9.3,119943
+463,Peshawar,34.0151,71.5249,wheat,silty loam,2.05,Rabi,20.8,215.8,201,FYM,283,3.9,46729
+464,Gujrat,32.5742,74.0754,wheat,silty loam,0.81,Rabi,21.3,375.2,190,None,0,3.4,12029
+465,Baghsar,33.8667,74.7667,gram,loamy sand,6.56,Rabi,23.3,102.0,117,None,0,1.9,128289
+466,Islamabad,33.6844,73.0479,potato,loam,9.12,Rabi,18.3,284.7,198,None,0,2.9,109440
+467,Kohat,33.5861,71.4414,sugarcane,clay loam,2.35,Kharif,27.3,541.4,232,FYM,296,63.9,63450
+468,Lodhran,29.5383,71.6315,gram,loamy sand,4.91,Rabi,15.0,111.7,92,FYM,254,1.9,92896
+469,Dera Ismail Khan,31.8322,70.9024,potato,loam,7.82,Rabi,15.5,208.3,171,Urea,199,2.7,149909
+470,Zhob,31.3487,69.4484,date palm,sandy,7.89,Perennial,31.9,142.8,51,FYM,261,10.0,106539
+471,Bhimber,32.979,74.0792,sugarcane,clay loam,4.74,Kharif,31.5,571.0,181,FYM,263,56.5,127980
+472,Jhang,31.2682,72.3184,sugarcane,loam,8.73,Kharif,33.7,513.5,163,None,0,55.0,196425
+473,Dera Ismail Khan,31.8322,70.9024,rice,clay loam,1.89,Kharif,27.8,554.1,207,NPK,157,4.0,46267
+474,Muzaffarabad,34.3702,73.4711,maize,sandy loam,1.49,Kharif,22.3,358.5,112,NPK,165,4.4,17165
+475,Muzaffarabad,34.3702,73.4711,date palm,desert sand,3.79,Perennial,25.5,116.2,79,Urea,101,10.6,40335
+476,Abbottabad,34.1463,73.2117,tobacco,silty loam,0.55,Kharif,29.4,386.3,163,None,0,2.3,7623
+477,Karachi,24.8607,67.0011,potato,sandy loam,7.71,Rabi,15.4,307.6,128,None,0,2.4,74016
+478,Attock,33.7731,72.3744,gram,sandy loam,9.74,Rabi,20.5,137.7,145,Urea,136,1.8,178836
+479,Sukkur,27.7132,68.8482,date palm,sandy,7.95,Perennial,33.4,118.7,58,Urea,182,11.5,117408
+480,Burewala,30.15,72.65,gram,loamy sand,3.48,Rabi,23.1,247.1,116,DAP,133,2.0,34919
+481,Kohat,33.5861,71.4414,maize,sandy loam,1.7,Kharif,29.3,272.8,100,DAP,165,3.6,20759
+482,Zhob,31.3487,69.4484,tobacco,silty loam,1.2,Kharif,22.0,333.5,168,FYM,281,1.6,16632
+483,Gujranwala,32.1877,74.1945,cotton,loam,7.86,Kharif,28.0,184.3,172,None,0,2.7,220402
+484,Jhelum,32.9416,73.7251,date palm,desert sand,3.67,Perennial,27.6,53.9,59,Urea,167,10.5,47632
+485,Khuzdar,27.8,66.6167,rice,clay,9.46,Kharif,31.2,704.6,228,None,0,3.7,250879
+486,Kotli,33.5186,73.9022,rice,clay,2.16,Kharif,26.0,568.1,224,FYM,245,4.0,57283
+487,Bannu,32.9886,70.6055,apple orchard,rocky loam,5.91,Perennial,14.3,332.7,161,DAP,155,8.0,60637
+488,Bahawalpur,29.3956,71.6836,rice,clay,6.83,Kharif,27.3,535.1,223,Urea,123,4.7,181132
+489,Baghsar,33.8667,74.7667,tobacco,loam,4.47,Kharif,25.1,373.9,173,None,0,1.9,56322
+490,Gwadar,25.1263,62.3225,rice,clay loam,9.14,Kharif,32.1,747.6,228,Urea,136,3.7,223747
+491,Khuzdar,27.8,66.6167,cotton,loam,8.28,Kharif,27.8,297.1,167,FYM,255,2.9,129168
+492,Mianwali,32.5833,71.5375,apple orchard,rocky loam,4.13,Perennial,19.8,562.9,134,NPK,211,7.5,42374
+493,Turbat,26.0012,63.0515,tobacco,loam,1.21,Kharif,28.8,351.5,178,Urea,134,1.9,15246
+494,Burewala,30.15,72.65,potato,sandy loam,4.97,Rabi,18.0,246.9,117,Urea,155,2.9,60873
+495,Baghsar,33.8667,74.7667,tobacco,silty loam,0.5,Kharif,23.1,306.4,170,Urea,155,1.7,6930
+496,Burewala,30.15,72.65,tobacco,loam,7.71,Kharif,21.6,321.5,163,Urea,117,2.4,97146
+497,Thatta,24.747,67.9192,date palm,desert sand,2.54,Perennial,29.6,84.1,57,Urea,158,10.5,30089
+498,Kotli,33.5186,73.9022,wheat,loam,2.86,Rabi,19.0,224.6,178,None,0,3.2,56435
+499,Sukkur,27.7132,68.8482,potato,loam,7.34,Rabi,20.5,312.8,153,None,0,2.8,88080
+500,Kohat,33.5861,71.4414,tobacco,loam,2.41,Kharif,24.2,256.1,153,NPK,180,1.7,36414
+501,Jhelum,32.9416,73.7251,tobacco,silty loam,3.39,Kharif,27.8,366.5,185,NPK,196,2.1,46985
+502,Bannu,32.9886,70.6055,rice,clay,7.39,Kharif,34.3,705.0,250,NPK,198,4.0,195983
+503,Swabi,34.1202,72.4697,rice,clay loam,2.72,Kharif,28.1,507.0,248,DAP,161,4.7,66586
+504,Baghsar,33.8667,74.7667,gram,sandy loam,9.73,Rabi,15.3,207.8,128,DAP,139,2.5,130907
+505,Rahim Yar Khan,28.4209,70.2952,wheat,clay loam,9.45,Rabi,24.7,226.6,241,Urea,132,4.1,221215
+506,Hyderabad,25.396,68.3578,apple orchard,loam,8.84,Perennial,18.0,393.6,190,FYM,315,9.9,100776
+507,Mirpur Khas,25.5255,69.0159,tobacco,loam,2.1,Kharif,24.0,349.0,192,FYM,301,2.0,26460
+508,Mirpur Khas,25.5255,69.0159,apple orchard,rocky loam,5.62,Perennial,18.4,486.6,172,None,0,8.2,57661
+509,Haripur,33.9962,72.9338,gram,sandy loam,2.14,Rabi,19.3,169.5,141,Urea,184,1.7,34529
+510,Bannu,32.9886,70.6055,apple orchard,rocky loam,8.91,Perennial,19.9,375.6,174,NPK,191,9.7,91417
+511,Karachi,24.8607,67.0011,date palm,desert sand,4.1,Perennial,28.0,110.2,56,None,0,11.3,44557
+512,Okara,30.8103,73.4513,cotton,loam,5.6,Kharif,31.7,291.3,175,NPK,198,1.8,87360
+513,Kotli,33.5186,73.9022,maize,sandy loam,2.31,Kharif,27.2,462.6,149,FYM,250,3.1,26611
+514,Bahawalpur,29.3956,71.6836,gram,loamy sand,8.67,Rabi,15.8,100.2,80,FYM,341,2.2,170577
+515,Swat,35.2217,72.4252,rice,clay,3.69,Kharif,28.0,597.3,251,Urea,129,3.8,97859
+516,Mardan,34.1983,72.0452,potato,loam,3.25,Rabi,24.4,338.6,194,NPK,164,2.4,39000
+517,Nawabshah,26.2483,68.4035,potato,sandy loam,8.62,Rabi,20.4,243.3,113,Urea,171,2.3,108060
+518,Lodhran,29.5383,71.6315,maize,loam,3.31,Kharif,21.8,481.6,151,None,0,3.7,47664
+519,Baghsar,33.8667,74.7667,tobacco,loam,7.94,Kharif,20.7,352.8,164,DAP,133,2.2,100044
+520,Quetta,30.1798,66.975,apple orchard,loam,5.82,Perennial,11.1,568.0,174,NPK,187,8.5,66348
+521,Mansehra,34.3332,73.1992,wheat,silty loam,9.94,Rabi,17.0,209.9,185,NPK,215,3.7,233837
+522,Charsadda,34.1453,71.7436,sugarcane,clay loam,6.86,Kharif,29.3,470.1,187,DAP,180,58.8,185220
+523,Chitral,35.8512,71.7864,apple orchard,rocky loam,9.97,Perennial,12.5,394.1,148,DAP,164,7.1,102292
+524,Multan,30.1575,71.5249,date palm,desert sand,6.92,Perennial,29.2,86.9,63,None,0,10.6,81249
+525,Mirpur,33.1497,73.7515,apple orchard,rocky loam,6.66,Perennial,15.6,470.5,129,None,0,9.1,68332
+526,Okara,30.8103,73.4513,potato,loam,6.45,Rabi,24.1,222.3,195,FYM,293,2.9,114616
+527,Turbat,26.0012,63.0515,wheat,silty loam,2.6,Rabi,17.7,379.0,184,DAP,166,3.6,38610
+528,Swabi,34.1202,72.4697,rice,clay,9.8,Kharif,33.4,700.7,282,NPK,208,4.0,259896
+529,Quetta,30.1798,66.975,potato,sandy loam,2.81,Rabi,20.1,220.5,121,Urea,160,2.0,40352
+530,Bahawalpur,29.3956,71.6836,wheat,loam,7.63,Rabi,17.8,377.5,195,Urea,198,3.6,103005
+531,Sargodha,32.0836,72.6711,potato,sandy loam,0.88,Rabi,23.4,252.9,138,None,0,2.7,10356
+532,Faisalabad,31.4504,73.135,rice,clay,6.38,Kharif,30.1,758.6,268,NPK,215,3.9,169198
+533,Jhang,31.2682,72.3184,maize,loam,4.48,Kharif,21.2,327.2,168,None,0,4.2,64512
+534,Jhelum,32.9416,73.7251,apple orchard,loam,7.98,Perennial,12.1,420.0,193,NPK,202,7.8,90972
+535,Gwadar,25.1263,62.3225,apple orchard,loam,7.8,Perennial,10.4,417.5,165,None,0,7.7,88920
+536,Chitral,35.8512,71.7864,date palm,desert sand,1.97,Perennial,34.7,89.6,67,DAP,171,9.5,22931
+537,Turbat,26.0012,63.0515,wheat,clay loam,0.54,Rabi,23.0,208.2,235,NPK,180,3.3,13982
+538,Mirpur,33.1497,73.7515,apple orchard,rocky loam,9.44,Perennial,13.1,545.5,177,DAP,120,9.7,96854
+539,Lasbela,25.8694,66.7097,sugarcane,loam,2.17,Kharif,32.9,430.4,178,DAP,140,59.6,48825
+540,Sargodha,32.0836,72.6711,apple orchard,loam,1.84,Perennial,15.5,363.3,191,DAP,133,8.7,20976
+541,Khanewal,30.3016,71.9351,maize,loam,4.88,Kharif,24.6,269.4,162,None,0,4.1,76479
+542,Lasbela,25.8694,66.7097,rice,clay,1.34,Kharif,26.9,564.2,205,NPK,186,4.1,35537
+543,Mardan,34.1983,72.0452,tobacco,silty loam,8.6,Kharif,20.8,252.2,206,FYM,303,1.5,146810
+544,Faisalabad,31.4504,73.135,potato,sandy loam,2.69,Rabi,20.9,278.4,111,FYM,324,3.0,26168
+545,Lahore,31.5204,74.3587,date palm,sandy,2.2,Perennial,35.9,73.5,80,DAP,168,10.6,37711
+546,Khuzdar,27.8,66.6167,tobacco,silty loam,8.18,Kharif,23.8,295.2,213,None,0,2.0,113375
+547,Peshawar,34.0151,71.5249,tobacco,silty loam,2.39,Kharif,23.8,338.2,164,FYM,325,2.2,33125
+548,Chitral,35.8512,71.7864,maize,sandy loam,3.27,Kharif,24.7,465.6,145,NPK,201,3.5,37670
+549,Larkana,27.5609,68.2066,maize,loam,3.26,Kharif,27.4,342.7,181,DAP,160,4.1,46944
+550,Attock,33.7731,72.3744,tobacco,loam,7.39,Kharif,24.8,275.8,179,Urea,146,1.6,96373
+551,Baghsar,33.8667,74.7667,cotton,sandy loam,5.65,Kharif,25.8,333.7,142,NPK,155,2.6,70512
+552,Swabi,34.1202,72.4697,cotton,loam,9.09,Kharif,31.6,151.8,183,NPK,163,2.4,293298
+553,Multan,30.1575,71.5249,cotton,sandy loam,0.63,Kharif,26.6,289.5,109,FYM,311,1.6,7862
+554,Peshawar,34.0151,71.5249,maize,sandy loam,1.39,Kharif,25.9,497.4,107,DAP,162,3.2,16013
+555,Sheikhupura,31.7131,73.9783,apple orchard,rocky loam,2.49,Perennial,13.9,396.7,133,Urea,167,8.8,25547
+556,Kohat,33.5861,71.4414,wheat,silty loam,9.42,Rabi,20.9,313.5,204,FYM,234,4.3,139887
+557,Nawabshah,26.2483,68.4035,sugarcane,loam,9.11,Kharif,27.6,407.0,199,None,0,51.2,204975
+558,Charsadda,34.1453,71.7436,apple orchard,loam,5.96,Perennial,19.8,533.6,187,DAP,173,7.8,67944
+559,Baghsar,33.8667,74.7667,rice,clay loam,7.97,Kharif,33.7,614.9,235,DAP,128,4.0,195106
+560,Turbat,26.0012,63.0515,tobacco,silty loam,2.13,Kharif,22.6,338.2,212,Urea,195,2.1,29522
+561,Attock,33.7731,72.3744,wheat,silty loam,8.14,Rabi,20.8,248.4,170,NPK,165,4.0,152710
+562,Haripur,33.9962,72.9338,date palm,sandy,8.29,Perennial,37.7,84.4,72,None,0,9.7,137357
+563,Bahawalpur,29.3956,71.6836,wheat,clay loam,2.62,Rabi,20.4,234.9,190,FYM,281,4.0,58396
+564,Chiniot,31.716,72.9814,cotton,sandy loam,1.69,Kharif,32.7,271.6,136,NPK,211,2.9,22568
+565,Mianwali,32.5833,71.5375,potato,loam,0.8,Rabi,17.1,226.8,152,FYM,223,2.3,13856
+566,Burewala,30.15,72.65,sugarcane,clay loam,2.23,Kharif,28.1,471.0,206,FYM,295,52.8,60210
+567,Haripur,33.9962,72.9338,sugarcane,loam,1.94,Kharif,27.6,539.2,195,FYM,334,50.8,43650
+568,Multan,30.1575,71.5249,date palm,desert sand,8.54,Perennial,25.8,145.2,66,FYM,216,9.6,81600
+569,Bhimber,32.979,74.0792,sugarcane,clay loam,9.7,Kharif,27.1,547.7,235,Urea,112,68.5,261900
+570,Muzaffarabad,34.3702,73.4711,date palm,desert sand,9.83,Perennial,35.2,52.8,72,FYM,286,10.2,127987
+571,Islamabad,33.6844,73.0479,gram,loamy sand,4.96,Rabi,20.0,183.8,120,None,0,1.8,70373
+572,Gujranwala,32.1877,74.1945,wheat,silty loam,7.43,Rabi,15.6,398.8,198,None,0,3.1,110336
+573,Lasbela,25.8694,66.7097,tobacco,loam,3.99,Kharif,20.7,351.4,187,DAP,139,2.0,50274
+574,Kasur,31.1155,74.4466,cotton,loam,4.24,Kharif,29.3,258.8,184,DAP,155,1.6,77829
+575,Hyderabad,25.396,68.3578,gram,loamy sand,7.7,Rabi,19.2,121.2,86,DAP,178,1.8,140881
+576,Mardan,34.1983,72.0452,gram,loamy sand,5.9,Rabi,24.0,119.6,96,None,0,1.6,108567
+577,Baghsar,33.8667,74.7667,date palm,sandy,4.11,Perennial,28.9,89.9,61,Urea,102,8.3,66912
+578,Swat,35.2217,72.4252,rice,clay loam,2.81,Kharif,26.5,755.0,181,DAP,173,3.5,68789
+579,Thatta,24.747,67.9192,gram,loamy sand,7.62,Rabi,17.1,223.9,99,DAP,167,2.5,88061
+580,Okara,30.8103,73.4513,apple orchard,loam,5.93,Perennial,12.3,445.1,199,DAP,136,8.4,67602
+581,Bhimber,32.979,74.0792,maize,sandy loam,9.58,Kharif,20.4,250.1,104,None,0,3.9,137860
+582,Sahiwal,30.6705,73.1063,date palm,sandy,9.8,Perennial,29.1,54.4,61,FYM,334,10.3,177811
+583,Jhelum,32.9416,73.7251,gram,loamy sand,3.96,Rabi,15.7,232.5,115,DAP,158,2.2,43529
+584,Muzaffarabad,34.3702,73.4711,apple orchard,rocky loam,0.78,Perennial,19.3,309.5,129,NPK,200,9.9,8003
+585,Bannu,32.9886,70.6055,maize,loam,7.44,Kharif,22.8,476.6,163,DAP,173,4.4,107136
+586,Mirpur Khas,25.5255,69.0159,apple orchard,loam,2.36,Perennial,11.0,431.5,178,Urea,153,8.9,26904
+587,Sukkur,27.7132,68.8482,cotton,sandy loam,3.95,Kharif,30.4,208.3,139,NPK,168,1.6,78750
+588,Zhob,31.3487,69.4484,date palm,sandy,5.74,Perennial,28.9,106.0,69,FYM,267,11.3,88597
+589,Turbat,26.0012,63.0515,maize,loam,7.2,Kharif,28.8,364.6,180,DAP,166,3.2,103680
+590,Faisalabad,31.4504,73.135,potato,loam,1.11,Rabi,17.7,286.8,161,NPK,202,2.3,13320
+591,Faisalabad,31.4504,73.135,apple orchard,loam,4.91,Perennial,13.6,436.6,175,FYM,345,7.4,55974
+592,Sialkot,32.4922,74.5311,maize,sandy loam,4.27,Kharif,20.3,319.1,138,None,0,4.1,49190
+593,Bhimber,32.979,74.0792,date palm,desert sand,3.57,Perennial,36.4,85.4,46,None,0,9.9,42117
+594,Gwadar,25.1263,62.3225,wheat,silty loam,3.87,Rabi,21.7,238.3,170,NPK,205,3.1,77440
+595,Karachi,24.8607,67.0011,date palm,desert sand,6.98,Perennial,37.9,136.8,42,DAP,176,10.3,68893
+596,Kasur,31.1155,74.4466,apple orchard,rocky loam,9.89,Perennial,16.4,598.3,165,FYM,329,9.5,101471
+597,Kotli,33.5186,73.9022,sugarcane,clay loam,6.96,Kharif,33.8,414.9,188,DAP,145,55.3,187920
+598,Larkana,27.5609,68.2066,maize,loam,9.15,Kharif,29.0,348.5,164,Urea,187,4.1,131760
+599,Faisalabad,31.4504,73.135,wheat,clay loam,8.4,Rabi,15.5,380.0,233,DAP,140,4.4,136080
+600,Mardan,34.1983,72.0452,potato,sandy loam,5.22,Rabi,22.2,279.3,106,None,0,3.0,50404
+601,Lasbela,25.8694,66.7097,rice,clay loam,2.39,Kharif,26.3,754.6,189,DAP,178,5.0,58507
+602,Sahiwal,30.6705,73.1063,sugarcane,clay loam,3.5,Kharif,29.3,466.0,208,NPK,177,63.6,94500
+603,Muzaffarabad,34.3702,73.4711,date palm,desert sand,1.86,Perennial,29.5,72.5,73,FYM,344,11.7,22843
+604,Lasbela,25.8694,66.7097,maize,loam,5.13,Kharif,27.4,351.4,184,None,0,3.1,73872
+605,Mansehra,34.3332,73.1992,sugarcane,clay loam,2.94,Kharif,32.3,436.3,238,None,0,67.5,79380
+606,Khuzdar,27.8,66.6167,gram,sandy loam,2.37,Rabi,23.5,147.6,101,FYM,234,2.2,41873
+607,Gujrat,32.5742,74.0754,maize,sandy loam,3.44,Kharif,27.0,398.7,100,NPK,183,3.0,39629
+608,Hafizabad,32.0709,73.688,maize,loam,1.88,Kharif,23.9,298.1,188,DAP,126,3.2,27072
+609,Peshawar,34.0151,71.5249,gram,sandy loam,9.26,Rabi,22.5,159.5,122,FYM,315,2.2,155892
+610,Islamabad,33.6844,73.0479,potato,sandy loam,0.6,Rabi,23.3,279.3,122,Urea,165,3.4,5794
+611,Larkana,27.5609,68.2066,apple orchard,loam,1.38,Perennial,18.9,549.8,163,Urea,102,8.1,15732
+612,Sahiwal,30.6705,73.1063,sugarcane,loam,7.81,Kharif,27.2,413.7,183,DAP,155,55.3,175725
+613,Sheikhupura,31.7131,73.9783,tobacco,silty loam,4.15,Kharif,24.9,320.8,191,None,0,2.1,57519
+614,Mirpur Khas,25.5255,69.0159,gram,loamy sand,4.43,Rabi,23.6,191.5,99,None,0,2.2,60615
+615,Dera Ismail Khan,31.8322,70.9024,sugarcane,loam,6.46,Kharif,31.2,576.9,183,NPK,187,56.4,145350
+616,Chiniot,31.716,72.9814,potato,loam,7.73,Rabi,18.2,279.8,178,FYM,328,3.2,92915
+617,Attock,33.7731,72.3744,wheat,silty loam,2.51,Rabi,24.5,227.1,203,NPK,155,3.5,53705
+618,Bahawalpur,29.3956,71.6836,sugarcane,clay loam,3.28,Kharif,25.7,453.4,218,Urea,107,62.5,88560
+619,Mirpur Khas,25.5255,69.0159,potato,loam,8.8,Rabi,22.4,280.5,166,DAP,169,2.1,105600
+620,Faisalabad,31.4504,73.135,sugarcane,clay loam,3.46,Kharif,25.0,576.0,242,FYM,307,51.9,93420
+621,Gwadar,25.1263,62.3225,potato,loam,3.82,Rabi,19.7,280.1,185,None,0,2.6,45840
+622,Mianwali,32.5833,71.5375,maize,sandy loam,7.01,Kharif,21.5,387.0,109,NPK,184,3.6,80755
+623,Mirpur,33.1497,73.7515,tobacco,loam,9.46,Kharif,20.3,353.1,182,None,0,2.4,119196
+624,Nawabshah,26.2483,68.4035,apple orchard,rocky loam,1.19,Perennial,15.6,356.0,134,DAP,145,9.3,12209
+625,Baghsar,33.8667,74.7667,gram,sandy loam,9.85,Rabi,18.3,207.7,115,None,0,1.5,132591
+626,Dera Ismail Khan,31.8322,70.9024,gram,loamy sand,6.28,Rabi,16.4,148.3,127,None,0,2.3,103732
+627,Multan,30.1575,71.5249,apple orchard,loam,9.68,Perennial,17.4,494.6,200,None,0,9.9,110352
+628,Quetta,30.1798,66.975,maize,loam,4.41,Kharif,20.7,291.7,194,NPK,184,4.0,63504
+629,Sialkot,32.4922,74.5311,tobacco,loam,5.19,Kharif,24.8,371.9,164,NPK,215,1.6,65394
+630,Bannu,32.9886,70.6055,tobacco,silty loam,0.87,Kharif,22.2,319.0,196,Urea,123,1.9,12058
+631,Abbottabad,34.1463,73.2117,potato,sandy loam,6.66,Rabi,21.5,294.3,105,None,0,2.5,63936
+632,Peshawar,34.0151,71.5249,rice,clay,1.34,Kharif,34.4,535.6,280,None,0,4.7,35537
+633,Haripur,33.9962,72.9338,maize,sandy loam,9.31,Kharif,20.4,481.6,122,FYM,248,4.0,107251
+634,Abbottabad,34.1463,73.2117,wheat,silty loam,8.88,Rabi,17.9,312.7,214,Urea,108,3.6,131868
+635,Zhob,31.3487,69.4484,maize,loam,4.99,Kharif,29.7,276.9,198,DAP,131,3.2,73712
+636,Lahore,31.5204,74.3587,potato,sandy loam,3.28,Rabi,18.2,329.9,116,Urea,123,2.2,31488
+637,Islamabad,33.6844,73.0479,rice,clay loam,0.92,Kharif,27.8,500.0,201,FYM,242,4.8,22522
+638,Hafizabad,32.0709,73.688,potato,sandy loam,6.84,Rabi,20.3,346.1,121,NPK,176,2.2,65664
+639,Quetta,30.1798,66.975,potato,sandy loam,7.82,Rabi,19.2,290.5,120,Urea,108,3.0,75072
+640,Charsadda,34.1453,71.7436,apple orchard,rocky loam,4.01,Perennial,15.5,492.2,176,None,0,7.8,41143
+641,Sheikhupura,31.7131,73.9783,sugarcane,loam,6.3,Kharif,28.8,579.3,193,NPK,167,52.7,141750
+642,Karachi,24.8607,67.0011,gram,loamy sand,4.0,Rabi,23.0,109.9,85,NPK,205,1.7,76151
+643,Islamabad,33.6844,73.0479,potato,sandy loam,0.85,Rabi,19.4,278.2,104,Urea,185,3.0,8282
+644,Sukkur,27.7132,68.8482,date palm,sandy,8.32,Perennial,35.7,113.1,65,NPK,199,11.9,125318
+645,Hafizabad,32.0709,73.688,sugarcane,loam,6.17,Kharif,34.7,433.5,173,Urea,110,69.2,138825
+646,Sialkot,32.4922,74.5311,cotton,sandy loam,1.58,Kharif,28.5,299.6,139,DAP,129,2.5,19718
+647,Rawalpindi,33.5651,73.0169,sugarcane,loam,5.24,Kharif,28.1,402.3,198,NPK,202,62.1,117900
+648,Rahim Yar Khan,28.4209,70.2952,wheat,loam,4.46,Rabi,15.6,316.6,192,FYM,243,3.3,60210
+649,Faisalabad,31.4504,73.135,gram,sandy loam,8.33,Rabi,15.4,121.2,100,Urea,161,2.3,162568
+650,Hafizabad,32.0709,73.688,maize,sandy loam,9.04,Kharif,21.3,371.1,136,Urea,108,3.0,104141
+651,Lasbela,25.8694,66.7097,rice,clay,8.16,Kharif,27.8,682.2,269,None,0,4.5,216403
+652,Sahiwal,30.6705,73.1063,potato,loam,2.45,Rabi,16.3,230.0,181,FYM,201,2.9,41650
+653,Gujranwala,32.1877,74.1945,wheat,silty loam,1.45,Rabi,16.8,220.6,214,DAP,174,3.3,32191
+654,Swat,35.2217,72.4252,maize,loam,3.15,Kharif,23.2,367.6,150,NPK,155,3.9,45360
+655,Faisalabad,31.4504,73.135,potato,sandy loam,3.84,Rabi,21.7,247.1,109,NPK,186,3.1,46971
+656,Faisalabad,31.4504,73.135,cotton,sandy loam,1.61,Kharif,29.9,245.6,149,NPK,192,2.9,25853
+657,Sheikhupura,31.7131,73.9783,sugarcane,loam,4.44,Kharif,30.5,414.7,154,None,0,63.1,99900
+658,Islamabad,33.6844,73.0479,potato,loam,8.48,Rabi,18.7,346.7,151,Urea,158,2.4,101760
+659,Dera Ismail Khan,31.8322,70.9024,rice,clay,2.81,Kharif,30.3,581.6,296,DAP,167,4.6,74521
+660,Sargodha,32.0836,72.6711,potato,loam,7.35,Rabi,21.7,348.2,160,FYM,291,3.2,88200
+661,Kasur,31.1155,74.4466,rice,clay loam,6.61,Kharif,34.8,765.6,189,None,0,3.9,161813
+662,Mirpur Khas,25.5255,69.0159,rice,clay,7.3,Kharif,28.9,781.0,247,DAP,154,5.0,193596
+663,Lasbela,25.8694,66.7097,wheat,silty loam,2.48,Rabi,16.2,215.6,193,FYM,202,4.1,56592
+664,Bannu,32.9886,70.6055,sugarcane,clay loam,4.55,Kharif,29.9,557.1,210,Urea,161,66.1,122850
+665,Kasur,31.1155,74.4466,tobacco,loam,9.31,Kharif,25.9,317.0,177,Urea,148,2.0,117306
+666,Karachi,24.8607,67.0011,gram,sandy loam,1.83,Rabi,21.1,155.9,136,NPK,189,1.6,31269
+667,Muzaffarabad,34.3702,73.4711,date palm,desert sand,2.84,Perennial,37.5,123.5,61,DAP,179,9.6,29447
+668,Kotli,33.5186,73.9022,rice,clay,7.83,Kharif,29.4,558.3,256,NPK,206,4.2,207652
+669,Islamabad,33.6844,73.0479,maize,sandy loam,4.97,Kharif,23.5,407.4,142,NPK,168,3.2,57254
+670,Gujranwala,32.1877,74.1945,cotton,sandy loam,5.22,Kharif,28.1,188.3,105,None,0,2.5,114928
+671,Quetta,30.1798,66.975,maize,loam,4.29,Kharif,25.9,289.6,160,DAP,135,3.6,61776
+672,Sahiwal,30.6705,73.1063,tobacco,loam,2.5,Kharif,24.2,364.4,187,NPK,182,2.0,31500
+673,Bhimber,32.979,74.0792,maize,sandy loam,4.72,Kharif,20.4,419.8,143,None,0,3.5,54374
+674,Bahawalpur,29.3956,71.6836,wheat,clay loam,8.13,Rabi,21.3,220.9,210,None,0,3.3,196571
+675,Lahore,31.5204,74.3587,wheat,clay loam,4.74,Rabi,22.1,234.3,224,NPK,185,3.7,106031
+676,Mirpur,33.1497,73.7515,cotton,sandy loam,9.13,Kharif,29.4,169.5,102,None,0,2.4,218864
+677,Gujrat,32.5742,74.0754,cotton,loam,4.2,Kharif,30.9,159.0,174,NPK,171,1.6,131586
+678,Hafizabad,32.0709,73.688,date palm,desert sand,4.34,Perennial,31.8,114.2,73,DAP,178,11.8,46514
+679,Swat,35.2217,72.4252,tobacco,loam,5.74,Kharif,29.5,315.5,184,FYM,217,1.9,72324
+680,Jhang,31.2682,72.3184,gram,loamy sand,5.97,Rabi,20.0,171.0,128,Urea,116,2.4,89718
+681,Rahim Yar Khan,28.4209,70.2952,gram,sandy loam,1.64,Rabi,19.7,213.9,120,FYM,250,2.4,21364
+682,Baghsar,33.8667,74.7667,rice,clay,7.75,Kharif,29.2,646.3,272,NPK,165,3.8,205530
+683,Baghsar,33.8667,74.7667,wheat,clay loam,8.97,Rabi,24.6,268.0,249,None,0,3.4,159845
+684,Faisalabad,31.4504,73.135,wheat,loam,0.63,Rabi,18.7,378.8,184,None,0,4.2,8505
+685,Multan,30.1575,71.5249,tobacco,loam,1.34,Kharif,29.3,279.5,154,NPK,188,1.6,16954
+686,Khuzdar,27.8,66.6167,rice,clay,0.96,Kharif,27.8,713.0,227,DAP,178,4.7,25459
+687,Islamabad,33.6844,73.0479,date palm,desert sand,5.06,Perennial,28.5,83.5,63,Urea,159,10.1,60056
+688,Multan,30.1575,71.5249,rice,clay loam,8.08,Kharif,32.2,742.9,240,NPK,166,4.9,197798
+689,Kotli,33.5186,73.9022,date palm,desert sand,3.23,Perennial,35.8,89.1,54,Urea,105,8.1,37658
+690,Islamabad,33.6844,73.0479,sugarcane,loam,8.18,Kharif,26.3,596.2,189,DAP,174,56.8,184050
+691,Quetta,30.1798,66.975,rice,clay,0.5,Kharif,34.0,705.3,231,Urea,146,4.3,13260
+692,Sahiwal,30.6705,73.1063,apple orchard,rocky loam,8.87,Perennial,19.0,588.4,177,Urea,119,7.2,91006
+693,Swat,35.2217,72.4252,potato,sandy loam,2.03,Rabi,18.5,213.2,109,DAP,168,2.3,30336
+694,Kohat,33.5861,71.4414,sugarcane,loam,7.54,Kharif,25.2,403.5,175,NPK,187,62.7,169650
+695,Sargodha,32.0836,72.6711,gram,loamy sand,4.6,Rabi,15.2,206.8,87,None,0,1.5,58322
+696,Chitral,35.8512,71.7864,maize,loam,8.01,Kharif,28.0,272.7,154,DAP,164,3.9,122361
+697,Kotli,33.5186,73.9022,rice,clay loam,4.03,Kharif,25.6,728.1,220,NPK,186,3.9,98654
+698,Islamabad,33.6844,73.0479,apple orchard,loam,5.76,Perennial,10.6,506.4,150,None,0,8.5,65664
+699,Kohat,33.5861,71.4414,sugarcane,clay loam,4.57,Kharif,27.6,555.8,228,DAP,133,67.5,123390
+700,Mianwali,32.5833,71.5375,potato,loam,3.01,Rabi,23.7,286.1,196,None,0,3.2,36120
+701,Haripur,33.9962,72.9338,apple orchard,rocky loam,8.62,Perennial,19.4,350.6,140,Urea,158,8.1,88441
+702,Bhimber,32.979,74.0792,apple orchard,loam,1.51,Perennial,14.6,334.9,185,FYM,333,9.0,17214
+703,Karachi,24.8607,67.0011,date palm,desert sand,5.59,Perennial,33.8,66.9,54,NPK,190,10.0,69826
+704,Jhang,31.2682,72.3184,tobacco,loam,9.92,Kharif,23.4,270.5,187,NPK,159,2.5,134887
+705,Gujrat,32.5742,74.0754,rice,clay loam,3.48,Kharif,34.2,662.0,243,None,0,3.8,85190
+706,Lahore,31.5204,74.3587,gram,sandy loam,3.89,Rabi,24.4,218.3,103,Urea,145,2.1,49477
+707,Bannu,32.9886,70.6055,gram,sandy loam,9.5,Rabi,15.2,162.4,128,DAP,132,2.3,158004
+708,Muzaffarabad,34.3702,73.4711,tobacco,loam,6.49,Kharif,29.1,283.6,200,FYM,236,1.6,81774
+709,Kotli,33.5186,73.9022,rice,clay,8.5,Kharif,32.7,743.9,268,FYM,275,4.8,225420
+710,Bhimber,32.979,74.0792,sugarcane,loam,3.62,Kharif,25.7,467.3,155,FYM,201,59.4,81450
+711,Attock,33.7731,72.3744,potato,loam,7.04,Rabi,24.6,303.8,150,FYM,256,2.4,84480
+712,Sargodha,32.0836,72.6711,potato,loam,9.31,Rabi,18.1,220.1,180,None,0,2.4,167487
+713,Jhang,31.2682,72.3184,potato,sandy loam,3.48,Rabi,20.1,220.6,135,NPK,175,2.6,49945
+714,Lahore,31.5204,74.3587,cotton,sandy loam,7.72,Kharif,33.2,177.9,103,None,0,2.2,178320
+715,Turbat,26.0012,63.0515,maize,loam,3.16,Kharif,28.3,462.5,157,NPK,156,3.7,45504
+716,Attock,33.7731,72.3744,gram,sandy loam,3.7,Rabi,17.7,160.6,144,NPK,152,2.0,62005
+717,Mardan,34.1983,72.0452,tobacco,silty loam,9.55,Kharif,23.3,259.5,172,Urea,185,1.9,154975
+718,Rahim Yar Khan,28.4209,70.2952,tobacco,loam,8.22,Kharif,26.2,273.6,195,NPK,187,1.9,109096
+719,Jhelum,32.9416,73.7251,maize,sandy loam,8.86,Kharif,20.8,380.4,124,None,0,3.9,102067
+720,Peshawar,34.0151,71.5249,tobacco,loam,8.25,Kharif,26.5,318.7,172,Urea,187,1.6,103950
+721,Sargodha,32.0836,72.6711,potato,sandy loam,4.37,Rabi,17.0,314.9,100,Urea,171,2.2,41952
+722,Gujrat,32.5742,74.0754,potato,loam,7.56,Rabi,16.5,327.3,196,DAP,125,2.4,90720
+723,Mirpur Khas,25.5255,69.0159,maize,sandy loam,0.59,Kharif,29.8,405.6,130,DAP,169,4.3,6797
+724,Chitral,35.8512,71.7864,sugarcane,clay loam,5.14,Kharif,28.9,444.6,193,None,0,67.6,138780
+725,Chitral,35.8512,71.7864,cotton,sandy loam,0.89,Kharif,34.9,285.9,130,NPK,183,1.8,11107
+726,Karachi,24.8607,67.0011,wheat,loam,6.73,Rabi,22.5,377.8,190,DAP,132,3.3,90855
+727,Sheikhupura,31.7131,73.9783,sugarcane,loam,8.78,Kharif,26.9,407.7,199,FYM,267,61.6,197550
+728,Karachi,24.8607,67.0011,tobacco,loam,4.88,Kharif,25.0,389.3,194,NPK,183,1.7,61488
+729,Islamabad,33.6844,73.0479,wheat,silty loam,7.67,Rabi,15.5,207.9,219,NPK,199,3.1,182334
+730,Hafizabad,32.0709,73.688,tobacco,silty loam,7.4,Kharif,20.6,325.3,183,NPK,211,1.6,102564
+731,Turbat,26.0012,63.0515,potato,loam,8.68,Rabi,18.1,213.8,151,FYM,304,3.4,161622
+732,Faisalabad,31.4504,73.135,rice,clay,5.57,Kharif,28.5,582.0,232,NPK,197,4.9,147716
+733,Nawabshah,26.2483,68.4035,apple orchard,loam,7.77,Perennial,19.3,366.3,180,None,0,7.4,88578
+734,Islamabad,33.6844,73.0479,wheat,loam,4.22,Rabi,18.3,279.8,169,NPK,163,4.1,57065
+735,Sukkur,27.7132,68.8482,gram,sandy loam,6.25,Rabi,18.3,238.2,119,DAP,130,1.9,70788
+736,Dera Ismail Khan,31.8322,70.9024,date palm,sandy,1.14,Perennial,34.9,54.6,81,DAP,145,11.8,20672
+737,Attock,33.7731,72.3744,sugarcane,loam,7.08,Kharif,33.4,439.0,169,None,0,63.0,159300
+738,Chiniot,31.716,72.9814,maize,loam,7.31,Kharif,24.4,268.5,177,FYM,232,3.8,115352
+739,Islamabad,33.6844,73.0479,tobacco,silty loam,8.46,Kharif,23.0,381.6,218,FYM,267,2.3,117256
+740,Muzaffarabad,34.3702,73.4711,sugarcane,clay loam,7.12,Kharif,30.2,554.2,244,None,0,58.9,192240
+741,Charsadda,34.1453,71.7436,sugarcane,clay loam,4.21,Kharif,26.0,435.2,182,FYM,309,51.2,113670
+742,Rawalpindi,33.5651,73.0169,gram,loamy sand,9.64,Rabi,15.2,186.1,120,NPK,167,2.1,135318
+743,Faisalabad,31.4504,73.135,date palm,desert sand,1.72,Perennial,34.1,121.1,49,None,0,10.8,17989
+744,Burewala,30.15,72.65,apple orchard,rocky loam,1.12,Perennial,18.5,450.1,165,FYM,277,8.6,11491
+745,Khanewal,30.3016,71.9351,apple orchard,rocky loam,9.0,Perennial,13.3,458.5,139,FYM,233,9.3,92340
+746,Rahim Yar Khan,28.4209,70.2952,maize,loam,5.05,Kharif,20.9,314.4,193,NPK,193,3.0,72720
+747,Jhelum,32.9416,73.7251,sugarcane,loam,2.16,Kharif,30.4,560.7,150,FYM,330,58.3,48600
+748,Quetta,30.1798,66.975,sugarcane,loam,4.85,Kharif,31.1,557.5,182,Urea,160,62.2,109125
+749,Hyderabad,25.396,68.3578,cotton,sandy loam,9.47,Kharif,31.9,215.3,128,NPK,164,2.0,181907
+750,Rahim Yar Khan,28.4209,70.2952,date palm,desert sand,5.46,Perennial,28.2,89.0,60,DAP,143,9.1,63677
+751,Quetta,30.1798,66.975,sugarcane,loam,6.19,Kharif,34.7,533.6,175,FYM,214,69.0,139275
+752,Kohat,33.5861,71.4414,gram,sandy loam,8.56,Rabi,20.0,106.2,116,FYM,304,2.4,176045
+753,Lasbela,25.8694,66.7097,maize,sandy loam,7.98,Kharif,24.0,304.1,115,DAP,143,3.4,91930
+754,Burewala,30.15,72.65,gram,sandy loam,5.3,Rabi,16.9,214.4,146,NPK,185,1.8,68858
+755,Sargodha,32.0836,72.6711,gram,loamy sand,3.79,Rabi,20.4,133.1,116,NPK,184,1.8,66383
+756,Khanewal,30.3016,71.9351,gram,sandy loam,6.61,Rabi,16.7,168.1,123,Urea,154,1.6,107300
+757,Okara,30.8103,73.4513,sugarcane,loam,4.98,Kharif,25.8,433.7,191,FYM,324,67.5,112050
+758,Lahore,31.5204,74.3587,potato,loam,1.7,Rabi,16.1,211.9,155,Urea,104,2.3,31977
+759,Bahawalpur,29.3956,71.6836,rice,clay loam,4.07,Kharif,26.0,691.1,221,None,0,4.1,99634
+760,Multan,30.1575,71.5249,potato,sandy loam,4.36,Rabi,18.7,254.5,108,Urea,188,2.4,50750
+761,Okara,30.8103,73.4513,maize,loam,8.05,Kharif,28.2,287.0,175,None,0,3.7,115920
+762,Larkana,27.5609,68.2066,maize,loam,2.03,Kharif,21.0,408.8,197,NPK,197,3.8,29232
+763,Chitral,35.8512,71.7864,sugarcane,clay loam,1.7,Kharif,28.4,569.0,244,None,0,69.4,45900
+764,Lahore,31.5204,74.3587,tobacco,loam,9.3,Kharif,24.4,337.1,169,DAP,147,2.2,117180
+765,Mirpur Khas,25.5255,69.0159,date palm,desert sand,2.05,Perennial,30.5,107.7,71,None,0,11.2,22471
+766,Chitral,35.8512,71.7864,gram,sandy loam,4.64,Rabi,24.5,207.5,144,DAP,178,2.3,62524
+767,Gujranwala,32.1877,74.1945,maize,loam,4.61,Kharif,22.5,277.8,164,FYM,216,4.2,67601
+768,Gujrat,32.5742,74.0754,rice,clay,1.34,Kharif,28.4,628.9,289,NPK,209,4.5,35537
+769,Sialkot,32.4922,74.5311,date palm,sandy,7.0,Perennial,39.3,53.7,79,NPK,205,11.6,127265
+770,Karachi,24.8607,67.0011,potato,loam,1.97,Rabi,16.6,285.2,162,Urea,158,2.1,23640
+771,Baghsar,33.8667,74.7667,potato,loam,4.88,Rabi,24.3,308.7,164,Urea,106,2.3,58560
+772,Mingora,35.0266,72.276,rice,clay,2.52,Kharif,28.0,780.3,255,NPK,219,4.4,66830
+773,Hafizabad,32.0709,73.688,rice,clay,5.85,Kharif,27.8,730.3,239,FYM,292,4.3,155142
+774,Lodhran,29.5383,71.6315,potato,sandy loam,2.64,Rabi,22.1,267.9,121,Urea,190,2.6,27900
+775,Khuzdar,27.8,66.6167,wheat,silty loam,2.2,Rabi,20.4,350.9,163,DAP,134,3.2,32670
+776,Bahawalpur,29.3956,71.6836,potato,sandy loam,3.96,Rabi,21.7,318.6,124,NPK,215,3.3,38016
+777,Lodhran,29.5383,71.6315,cotton,loam,6.24,Kharif,34.9,331.2,198,Urea,176,2.1,97344
+778,Okara,30.8103,73.4513,apple orchard,rocky loam,7.24,Perennial,13.9,515.1,158,Urea,145,9.2,74282
+779,Swabi,34.1202,72.4697,maize,loam,6.22,Kharif,23.3,451.8,186,DAP,173,4.1,89568
+780,Baghsar,33.8667,74.7667,cotton,loam,8.01,Kharif,31.9,346.8,168,Urea,103,2.5,124956
+781,Gwadar,25.1263,62.3225,sugarcane,clay loam,0.73,Kharif,32.3,494.0,228,FYM,259,67.7,19710
+782,Mingora,35.0266,72.276,tobacco,loam,1.12,Kharif,27.9,292.1,182,FYM,335,1.5,14112
+783,Kohat,33.5861,71.4414,gram,sandy loam,6.08,Rabi,24.3,245.8,106,None,0,2.0,65628
+784,Swabi,34.1202,72.4697,apple orchard,loam,9.43,Perennial,17.7,578.8,186,Urea,131,9.6,107502
+785,Burewala,30.15,72.65,maize,sandy loam,2.16,Kharif,24.3,334.1,129,None,0,3.3,24883
+786,Zhob,31.3487,69.4484,wheat,silty loam,6.22,Rabi,16.5,270.8,184,NPK,179,3.3,99448
+787,Charsadda,34.1453,71.7436,apple orchard,rocky loam,4.02,Perennial,16.8,537.2,156,NPK,192,7.4,41245
+788,Gwadar,25.1263,62.3225,rice,clay,4.44,Kharif,31.3,690.2,215,FYM,217,3.6,117749
+789,Khanewal,30.3016,71.9351,gram,sandy loam,3.45,Rabi,20.0,192.0,144,FYM,249,2.4,50232
+790,Rawalpindi,33.5651,73.0169,cotton,loam,6.25,Kharif,29.8,218.9,198,Urea,144,2.9,147144
+791,Kohat,33.5861,71.4414,potato,sandy loam,5.93,Rabi,22.4,308.9,119,None,0,2.2,56928
+792,Peshawar,34.0151,71.5249,wheat,clay loam,6.94,Rabi,24.4,214.9,203,FYM,302,3.4,173420
+793,Multan,30.1575,71.5249,wheat,clay loam,4.62,Rabi,20.2,393.1,209,FYM,296,4.3,74844
+794,Kohat,33.5861,71.4414,sugarcane,clay loam,1.3,Kharif,33.3,406.1,192,DAP,150,58.7,35100
+795,Faisalabad,31.4504,73.135,sugarcane,clay loam,7.33,Kharif,33.6,421.8,224,DAP,121,64.5,197910
+796,Islamabad,33.6844,73.0479,rice,clay loam,1.01,Kharif,32.9,504.4,186,FYM,275,4.9,24725
+797,Kohat,33.5861,71.4414,rice,clay loam,5.83,Kharif,34.9,561.1,197,NPK,183,3.9,142718
+798,Islamabad,33.6844,73.0479,sugarcane,clay loam,5.0,Kharif,25.2,529.3,241,DAP,134,51.0,135000
+799,Lasbela,25.8694,66.7097,potato,sandy loam,8.37,Rabi,23.4,249.1,149,FYM,210,2.6,101043
+800,Jhelum,32.9416,73.7251,wheat,loam,3.77,Rabi,18.6,357.1,164,Urea,180,3.7,50895
+801,Peshawar,34.0151,71.5249,potato,sandy loam,2.04,Rabi,17.0,239.3,145,DAP,173,2.5,26226
+802,Nawabshah,26.2483,68.4035,cotton,loam,1.28,Kharif,34.0,240.0,184,None,0,1.7,26624
+803,Hafizabad,32.0709,73.688,tobacco,loam,9.86,Kharif,27.9,387.4,186,None,0,1.7,124236
+804,Lasbela,25.8694,66.7097,cotton,loam,8.28,Kharif,28.7,218.5,152,NPK,170,3.0,195367
+805,Gwadar,25.1263,62.3225,tobacco,loam,9.94,Kharif,23.8,365.4,162,DAP,166,1.7,125244
+806,Mardan,34.1983,72.0452,gram,sandy loam,5.97,Rabi,22.2,115.6,135,NPK,204,1.8,118851
+807,Chitral,35.8512,71.7864,gram,sandy loam,3.55,Rabi,18.3,239.5,137,NPK,168,1.8,39884
+808,Jhang,31.2682,72.3184,date palm,sandy,6.55,Perennial,31.2,70.4,88,NPK,215,11.9,113341
+809,Hafizabad,32.0709,73.688,cotton,sandy loam,3.48,Kharif,29.8,154.6,111,Urea,131,1.9,88815
+810,Hyderabad,25.396,68.3578,maize,sandy loam,9.65,Kharif,24.9,364.6,129,FYM,236,4.5,111168
+811,Jhang,31.2682,72.3184,maize,sandy loam,1.71,Kharif,23.0,331.4,137,Urea,160,4.0,19699
+812,Kohat,33.5861,71.4414,rice,clay,8.69,Kharif,25.9,641.5,248,NPK,202,4.1,230459
+813,Mianwali,32.5833,71.5375,wheat,loam,9.55,Rabi,18.4,399.4,197,FYM,261,4.3,128925
+814,Faisalabad,31.4504,73.135,cotton,sandy loam,9.68,Kharif,34.7,198.2,134,None,0,2.0,203156
+815,Chiniot,31.716,72.9814,apple orchard,rocky loam,8.89,Perennial,19.1,357.2,144,Urea,115,8.9,91211
+816,Khanewal,30.3016,71.9351,sugarcane,loam,4.58,Kharif,29.1,554.6,181,FYM,202,53.8,103050
+817,Sukkur,27.7132,68.8482,rice,clay loam,9.98,Kharif,26.8,721.3,208,None,0,4.3,244310
+818,Lasbela,25.8694,66.7097,gram,loamy sand,3.13,Rabi,16.5,231.9,111,Urea,168,2.1,34529
+819,Larkana,27.5609,68.2066,apple orchard,loam,9.84,Perennial,12.9,495.5,152,None,0,7.5,112176
+820,Bannu,32.9886,70.6055,apple orchard,rocky loam,2.12,Perennial,18.9,446.2,177,FYM,209,9.0,21751
+821,Thatta,24.747,67.9192,sugarcane,clay loam,1.14,Kharif,25.7,527.2,210,FYM,322,68.5,30780
+822,Larkana,27.5609,68.2066,maize,sandy loam,2.0,Kharif,22.9,400.0,101,NPK,203,3.3,23040
+823,Peshawar,34.0151,71.5249,potato,loam,9.66,Rabi,23.5,316.2,169,None,0,2.4,115920
+824,Mingora,35.0266,72.276,tobacco,loam,5.1,Kharif,24.5,278.8,199,Urea,148,1.5,64903
+825,Okara,30.8103,73.4513,sugarcane,loam,5.09,Kharif,28.0,529.6,175,FYM,205,59.9,114525
+826,Quetta,30.1798,66.975,apple orchard,rocky loam,2.17,Perennial,15.8,559.2,147,DAP,158,8.1,22264
+827,Sargodha,32.0836,72.6711,rice,clay,8.09,Kharif,34.6,694.0,262,Urea,139,5.0,214547
+828,Mirpur Khas,25.5255,69.0159,date palm,desert sand,4.47,Perennial,32.2,126.2,62,DAP,170,8.9,45896
+829,Sheikhupura,31.7131,73.9783,tobacco,silty loam,2.15,Kharif,21.5,339.3,171,Urea,175,2.3,29799
+830,Bannu,32.9886,70.6055,sugarcane,clay loam,6.47,Kharif,28.0,431.2,203,DAP,145,67.0,174690
+831,Jhelum,32.9416,73.7251,maize,loam,6.04,Kharif,29.2,468.6,198,Urea,173,4.0,86976
+832,Larkana,27.5609,68.2066,potato,sandy loam,9.7,Rabi,20.7,269.1,105,Urea,134,2.2,101578
+833,Quetta,30.1798,66.975,apple orchard,loam,8.93,Perennial,17.8,522.6,167,NPK,210,9.2,101802
+834,Haripur,33.9962,72.9338,maize,loam,8.17,Kharif,29.9,490.1,164,Urea,150,3.3,117648
+835,Sialkot,32.4922,74.5311,sugarcane,loam,5.63,Kharif,26.7,430.4,172,DAP,143,65.9,126675
+836,Larkana,27.5609,68.2066,tobacco,loam,7.39,Kharif,25.4,379.1,160,None,0,2.0,93114
+837,Sahiwal,30.6705,73.1063,cotton,loam,8.56,Kharif,28.1,176.5,166,None,0,2.9,248711
+838,Haripur,33.9962,72.9338,date palm,sandy,3.54,Perennial,38.1,97.4,83,NPK,197,9.6,56238
+839,Bannu,32.9886,70.6055,potato,sandy loam,1.17,Rabi,21.4,217.6,147,Urea,133,2.3,17073
+840,Nawabshah,26.2483,68.4035,gram,sandy loam,8.03,Rabi,15.7,177.7,119,NPK,212,1.7,124955
+841,Mirpur Khas,25.5255,69.0159,apple orchard,loam,1.22,Perennial,13.6,336.2,174,NPK,209,7.8,13908
+842,Abbottabad,34.1463,73.2117,apple orchard,loam,4.02,Perennial,17.5,434.1,169,None,0,8.3,45828
+843,Kotli,33.5186,73.9022,maize,loam,6.93,Kharif,26.3,368.6,159,None,0,4.4,99792
+844,Rawalpindi,33.5651,73.0169,sugarcane,clay loam,3.45,Kharif,32.4,485.9,187,Urea,130,51.5,93150
+845,Kohat,33.5861,71.4414,potato,loam,3.1,Rabi,19.2,219.1,189,Urea,169,2.4,56079
+846,Baghsar,33.8667,74.7667,apple orchard,loam,0.78,Perennial,20.0,498.4,153,NPK,204,7.6,8892
+847,Rawalpindi,33.5651,73.0169,cotton,sandy loam,5.33,Kharif,28.0,209.2,129,DAP,151,1.9,105764
+848,Baghsar,33.8667,74.7667,gram,loamy sand,5.4,Rabi,24.1,164.0,94,DAP,134,1.6,83633
+849,Sukkur,27.7132,68.8482,potato,loam,4.31,Rabi,15.2,324.8,180,Urea,156,2.4,51720
+850,Larkana,27.5609,68.2066,rice,clay,1.06,Kharif,29.5,591.5,263,Urea,116,3.7,28111
+851,Mirpur Khas,25.5255,69.0159,cotton,loam,4.21,Kharif,34.4,173.7,194,Urea,198,2.9,123854
+852,Karachi,24.8607,67.0011,apple orchard,rocky loam,1.78,Perennial,17.3,591.0,152,NPK,165,8.3,18263
+853,Khuzdar,27.8,66.6167,maize,sandy loam,8.62,Kharif,22.8,357.8,110,NPK,181,3.5,99302
+854,Faisalabad,31.4504,73.135,wheat,silty loam,5.93,Rabi,17.6,299.0,170,None,0,3.4,88060
+855,Quetta,30.1798,66.975,wheat,clay loam,9.19,Rabi,21.7,310.0,226,FYM,332,4.0,148878
+856,Chitral,35.8512,71.7864,apple orchard,rocky loam,6.9,Perennial,15.7,543.8,132,DAP,132,9.0,70794
+857,Bannu,32.9886,70.6055,potato,loam,9.96,Rabi,21.1,316.8,168,None,0,2.5,119520
+858,Swat,35.2217,72.4252,date palm,desert sand,8.46,Perennial,36.9,144.9,47,FYM,238,9.9,80930
+859,Nawabshah,26.2483,68.4035,cotton,sandy loam,7.55,Kharif,31.3,187.7,107,Urea,164,2.4,166698
+860,Kotli,33.5186,73.9022,cotton,sandy loam,5.44,Kharif,26.1,172.4,144,DAP,180,1.6,128767
+861,Nawabshah,26.2483,68.4035,maize,sandy loam,7.3,Kharif,24.4,327.6,136,DAP,139,4.1,84096
+862,Gujrat,32.5742,74.0754,apple orchard,loam,9.88,Perennial,13.2,386.5,175,None,0,9.8,112632
+863,Attock,33.7731,72.3744,gram,loamy sand,2.12,Rabi,24.6,202.9,87,DAP,161,2.4,27422
+864,Haripur,33.9962,72.9338,rice,clay loam,1.06,Kharif,33.3,572.5,194,NPK,175,4.9,25949
+865,Khanewal,30.3016,71.9351,maize,loam,2.0,Kharif,23.6,453.8,190,NPK,172,3.9,28800
+866,Burewala,30.15,72.65,cotton,loam,0.65,Kharif,27.4,205.6,150,None,0,2.2,16427
+867,Kasur,31.1155,74.4466,wheat,loam,5.68,Rabi,24.4,295.4,161,DAP,178,4.1,76680
+868,Bhimber,32.979,74.0792,date palm,desert sand,9.07,Perennial,31.0,84.1,59,None,0,8.0,107445
+869,Khanewal,30.3016,71.9351,sugarcane,clay loam,1.54,Kharif,29.0,462.9,198,None,0,59.1,41580
+870,Thatta,24.747,67.9192,potato,sandy loam,2.12,Rabi,23.4,322.3,127,None,0,2.5,20352
+871,Larkana,27.5609,68.2066,wheat,silty loam,5.21,Rabi,20.2,264.5,165,None,0,4.5,87362
+872,Islamabad,33.6844,73.0479,tobacco,loam,8.45,Kharif,24.5,274.4,169,DAP,154,1.7,111439
+873,Kotli,33.5186,73.9022,wheat,silty loam,3.99,Rabi,18.9,319.4,181,FYM,214,4.4,59252
+874,Larkana,27.5609,68.2066,rice,clay,6.54,Kharif,25.4,542.0,276,NPK,203,4.8,173441
+875,Charsadda,34.1453,71.7436,sugarcane,loam,5.06,Kharif,30.6,465.2,173,DAP,173,52.3,113850
+876,Hyderabad,25.396,68.3578,cotton,loam,1.18,Kharif,34.1,171.1,182,None,0,2.8,35113
+877,Turbat,26.0012,63.0515,potato,loam,6.87,Rabi,24.0,281.3,189,FYM,292,2.1,82440
+878,Thatta,24.747,67.9192,apple orchard,loam,9.92,Perennial,16.3,341.2,159,FYM,312,8.4,113088
+879,Muzaffarabad,34.3702,73.4711,maize,loam,3.04,Kharif,24.2,468.6,182,FYM,301,3.4,43776
+880,Abbottabad,34.1463,73.2117,potato,loam,6.65,Rabi,22.7,228.3,181,None,0,3.3,114180
+881,Kohat,33.5861,71.4414,maize,sandy loam,5.48,Kharif,29.9,469.4,141,DAP,176,3.8,63130
+882,Larkana,27.5609,68.2066,rice,clay,8.29,Kharif,31.0,620.2,213,DAP,144,4.4,219851
+883,Jhang,31.2682,72.3184,cotton,loam,5.64,Kharif,29.3,274.9,185,FYM,315,2.1,91723
+884,Chiniot,31.716,72.9814,cotton,loam,3.33,Kharif,30.7,307.4,198,DAP,169,2.2,51948
+885,Turbat,26.0012,63.0515,gram,sandy loam,6.5,Rabi,24.2,159.9,143,NPK,219,1.5,109246
+886,Burewala,30.15,72.65,potato,sandy loam,8.3,Rabi,17.6,287.2,145,DAP,165,2.1,79680
+887,Thatta,24.747,67.9192,gram,sandy loam,9.95,Rabi,19.5,206.2,122,FYM,263,1.9,134982
+888,Lasbela,25.8694,66.7097,date palm,sandy,9.71,Perennial,40.0,65.3,62,FYM,224,11.3,170622
+889,Thatta,24.747,67.9192,maize,sandy loam,3.27,Kharif,26.8,357.6,131,DAP,160,4.1,37670
+890,Mingora,35.0266,72.276,potato,sandy loam,2.54,Rabi,19.9,258.2,138,None,0,3.1,28814
+891,Nawabshah,26.2483,68.4035,maize,loam,6.91,Kharif,23.6,479.9,152,None,0,4.1,99504
+892,Mardan,34.1983,72.0452,apple orchard,rocky loam,6.7,Perennial,10.4,384.5,164,FYM,328,9.3,68742
+893,Bahawalpur,29.3956,71.6836,potato,sandy loam,5.69,Rabi,23.3,314.7,138,FYM,298,3.0,54624
+894,Chiniot,31.716,72.9814,sugarcane,loam,4.1,Kharif,28.4,426.5,155,FYM,236,63.4,92250
+895,Gujrat,32.5742,74.0754,cotton,loam,1.88,Kharif,32.9,284.9,155,DAP,172,2.6,29328
+896,Mardan,34.1983,72.0452,sugarcane,loam,8.76,Kharif,34.2,587.2,156,DAP,148,59.8,197100
+897,Bannu,32.9886,70.6055,gram,loamy sand,2.12,Rabi,23.3,190.1,96,FYM,284,1.7,29202
+898,Jhelum,32.9416,73.7251,rice,clay loam,9.98,Kharif,27.1,599.7,207,None,0,4.0,244310
+899,Sukkur,27.7132,68.8482,date palm,desert sand,9.86,Perennial,39.6,71.4,79,FYM,304,8.3,121500
+900,Faisalabad,31.4504,73.135,date palm,desert sand,2.72,Perennial,31.9,73.9,70,Urea,123,9.6,33262
+901,Sukkur,27.7132,68.8482,potato,sandy loam,7.42,Rabi,19.9,260.5,115,Urea,161,2.1,82807
+902,Jhang,31.2682,72.3184,wheat,loam,1.47,Rabi,17.7,231.3,195,Urea,103,3.4,27899
+903,Multan,30.1575,71.5249,tobacco,loam,8.64,Kharif,25.2,373.4,165,FYM,239,2.4,108864
+904,Burewala,30.15,72.65,wheat,loam,1.38,Rabi,20.0,283.7,169,DAP,155,4.2,18630
+905,Kotli,33.5186,73.9022,potato,loam,1.04,Rabi,16.1,295.9,184,NPK,199,3.2,12480
+906,Faisalabad,31.4504,73.135,tobacco,loam,0.98,Kharif,21.1,348.8,172,DAP,121,2.2,12348
+907,Charsadda,34.1453,71.7436,date palm,sandy,8.14,Perennial,38.5,76.8,79,Urea,178,9.0,138120
+908,Peshawar,34.0151,71.5249,tobacco,loam,5.95,Kharif,29.5,331.6,174,NPK,206,1.5,74970
+909,Khuzdar,27.8,66.6167,maize,loam,1.02,Kharif,22.3,286.7,162,FYM,250,3.9,14688
+910,Bhimber,32.979,74.0792,rice,clay,1.8,Kharif,25.5,547.9,223,DAP,120,3.7,47736
+911,Bhimber,32.979,74.0792,wheat,loam,4.33,Rabi,24.2,292.5,156,None,0,3.4,58455
+912,Baghsar,33.8667,74.7667,cotton,loam,3.23,Kharif,27.1,314.3,168,NPK,170,2.2,50388
+913,Nawabshah,26.2483,68.4035,wheat,loam,4.83,Rabi,16.8,338.9,191,None,0,4.0,65205
+914,Mirpur Khas,25.5255,69.0159,rice,clay loam,9.58,Kharif,30.2,756.2,194,Urea,135,4.7,234518
+915,Jhang,31.2682,72.3184,gram,sandy loam,3.89,Rabi,21.9,174.0,143,NPK,162,2.2,61540
+916,Quetta,30.1798,66.975,wheat,loam,5.47,Rabi,19.9,251.1,184,Urea,166,4.4,91629
+917,Sukkur,27.7132,68.8482,tobacco,silty loam,9.28,Kharif,22.8,254.4,212,None,0,1.8,156060
+918,Lahore,31.5204,74.3587,rice,clay loam,4.38,Kharif,33.4,631.6,242,NPK,190,3.9,107222
+919,Lodhran,29.5383,71.6315,date palm,sandy,7.91,Perennial,29.7,54.9,70,DAP,132,9.3,143311
+920,Larkana,27.5609,68.2066,cotton,sandy loam,8.9,Kharif,29.0,189.6,106,None,0,2.0,194746
+921,Chitral,35.8512,71.7864,potato,sandy loam,5.78,Rabi,24.1,343.7,136,NPK,179,3.3,55488
+922,Bhimber,32.979,74.0792,potato,loam,2.0,Rabi,20.8,262.5,151,NPK,204,2.1,27500
+923,Chiniot,31.716,72.9814,potato,sandy loam,9.57,Rabi,22.1,254.5,101,Urea,164,2.4,111395
+924,Chitral,35.8512,71.7864,gram,sandy loam,6.29,Rabi,24.6,221.1,106,FYM,270,2.0,78770
+925,Swabi,34.1202,72.4697,sugarcane,loam,4.71,Kharif,34.4,414.1,176,Urea,130,67.2,105975
+926,Multan,30.1575,71.5249,maize,sandy loam,1.7,Kharif,24.4,437.8,139,FYM,212,3.4,19584
+927,Gwadar,25.1263,62.3225,rice,clay,8.41,Kharif,27.7,618.1,289,NPK,169,4.5,223033
+928,Gujranwala,32.1877,74.1945,potato,loam,2.16,Rabi,17.8,322.0,163,DAP,172,2.9,25920
+929,Hyderabad,25.396,68.3578,date palm,sandy,3.41,Perennial,29.3,52.8,65,Urea,109,10.3,62157
+930,Jhang,31.2682,72.3184,sugarcane,loam,3.3,Kharif,26.8,408.5,155,DAP,152,62.5,74250
+931,Mansehra,34.3332,73.1992,gram,loamy sand,4.24,Rabi,16.4,146.7,91,Urea,155,2.3,70481
+932,Zhob,31.3487,69.4484,potato,loam,7.75,Rabi,24.0,293.6,155,None,0,2.8,93000
+933,Khanewal,30.3016,71.9351,potato,loam,7.36,Rabi,22.0,284.2,189,None,0,3.0,88320
+934,Khanewal,30.3016,71.9351,gram,loamy sand,3.3,Rabi,21.9,207.4,86,None,0,1.8,41710
+935,Gujranwala,32.1877,74.1945,gram,loamy sand,7.11,Rabi,19.6,131.4,115,NPK,167,2.1,125327
+936,Mianwali,32.5833,71.5375,maize,sandy loam,2.58,Kharif,23.2,276.3,105,NPK,187,3.3,30638
+937,Haripur,33.9962,72.9338,sugarcane,loam,9.34,Kharif,34.5,528.9,179,DAP,178,62.6,210150
+938,Attock,33.7731,72.3744,wheat,loam,8.84,Rabi,23.9,302.3,152,None,0,4.0,119340
+939,Mianwali,32.5833,71.5375,apple orchard,rocky loam,3.2,Perennial,12.5,538.3,171,DAP,138,8.9,32832
+940,Turbat,26.0012,63.0515,rice,clay,0.73,Kharif,32.5,736.8,273,NPK,180,4.5,19360
+941,Lahore,31.5204,74.3587,rice,clay loam,8.03,Kharif,27.6,757.9,221,None,0,4.8,196574
+942,Chitral,35.8512,71.7864,tobacco,silty loam,4.89,Kharif,29.6,300.8,191,None,0,1.8,67775
+943,Larkana,27.5609,68.2066,maize,loam,8.9,Kharif,27.4,429.4,176,FYM,267,3.5,128160
+944,Sahiwal,30.6705,73.1063,apple orchard,rocky loam,6.6,Perennial,13.3,542.2,172,NPK,211,8.4,67716
+945,Faisalabad,31.4504,73.135,apple orchard,rocky loam,1.88,Perennial,13.2,420.5,167,Urea,151,8.6,19289
+946,Mingora,35.0266,72.276,tobacco,loam,3.6,Kharif,24.0,313.6,159,NPK,218,2.1,45360
+947,Bannu,32.9886,70.6055,apple orchard,rocky loam,9.91,Perennial,16.0,545.4,161,NPK,190,7.2,101677
+948,Lahore,31.5204,74.3587,date palm,desert sand,4.36,Perennial,32.0,126.4,44,None,0,10.8,44734
+949,Chiniot,31.716,72.9814,date palm,sandy,0.94,Perennial,37.5,75.7,55,DAP,167,10.7,16004
+950,Mardan,34.1983,72.0452,potato,loam,2.29,Rabi,23.6,226.9,153,None,0,2.4,39640
+951,Mingora,35.0266,72.276,tobacco,loam,8.78,Kharif,28.5,294.3,200,None,0,1.8,110628
+952,Gujranwala,32.1877,74.1945,rice,clay loam,4.89,Kharif,29.2,555.1,191,None,0,4.1,119707
+953,Thatta,24.747,67.9192,apple orchard,rocky loam,4.55,Perennial,19.5,373.5,178,Urea,142,9.4,46683
+954,Lasbela,25.8694,66.7097,cotton,loam,7.93,Kharif,32.0,225.9,176,DAP,157,1.9,179480
+955,Zhob,31.3487,69.4484,wheat,loam,2.49,Rabi,20.5,387.8,151,None,0,4.4,33615
+956,Dera Ismail Khan,31.8322,70.9024,rice,clay,6.15,Kharif,32.6,715.3,287,NPK,155,4.0,163098
+957,Khuzdar,27.8,66.6167,apple orchard,rocky loam,3.97,Perennial,15.6,473.4,126,NPK,185,9.7,40732
+958,Quetta,30.1798,66.975,wheat,loam,8.54,Rabi,15.4,372.5,153,NPK,205,4.2,115290
+959,Karachi,24.8607,67.0011,maize,sandy loam,8.65,Kharif,23.3,357.3,131,None,0,3.9,99648
+960,Gwadar,25.1263,62.3225,tobacco,loam,0.84,Kharif,22.7,371.3,164,Urea,136,2.3,10584
+961,Sahiwal,30.6705,73.1063,potato,loam,1.28,Rabi,21.0,216.5,165,FYM,213,2.4,23488
+962,Multan,30.1575,71.5249,sugarcane,clay loam,4.04,Kharif,32.9,476.5,198,None,0,51.5,109080
+963,Quetta,30.1798,66.975,potato,loam,6.36,Rabi,19.5,302.4,169,NPK,185,2.6,76320
+964,Rahim Yar Khan,28.4209,70.2952,date palm,sandy,2.01,Perennial,36.9,138.6,99,None,0,11.7,27584
+965,Gwadar,25.1263,62.3225,sugarcane,clay loam,8.21,Kharif,33.3,497.4,231,Urea,164,64.3,221670
+966,Peshawar,34.0151,71.5249,apple orchard,rocky loam,1.74,Perennial,13.7,453.5,135,Urea,139,7.1,17852
+967,Chitral,35.8512,71.7864,rice,clay loam,2.45,Kharif,33.6,697.9,195,FYM,228,4.8,59976
+968,Haripur,33.9962,72.9338,gram,loamy sand,4.4,Rabi,21.1,141.8,126,FYM,332,2.4,74555
+969,Chiniot,31.716,72.9814,cotton,loam,4.68,Kharif,32.1,174.1,174,FYM,264,2.5,137438
+970,Quetta,30.1798,66.975,wheat,loam,7.66,Rabi,20.1,217.1,177,DAP,152,4.4,157614
+971,Haripur,33.9962,72.9338,wheat,clay loam,9.22,Rabi,23.1,310.3,225,DAP,151,3.5,149364
+972,Turbat,26.0012,63.0515,date palm,sandy,7.11,Perennial,34.4,139.0,54,None,0,10.9,97425
+973,Lahore,31.5204,74.3587,potato,loam,9.66,Rabi,22.6,204.8,176,FYM,317,2.5,188563
+974,Karachi,24.8607,67.0011,date palm,desert sand,3.35,Perennial,33.8,115.5,73,Urea,153,10.2,35740
+975,Lasbela,25.8694,66.7097,maize,loam,0.64,Kharif,28.7,395.4,151,None,0,3.0,9216
+976,Mirpur,33.1497,73.7515,gram,sandy loam,0.85,Rabi,21.6,221.2,120,FYM,253,1.8,10639
+977,Chitral,35.8512,71.7864,tobacco,loam,1.56,Kharif,26.1,297.4,162,DAP,133,1.5,19656
+978,Abbottabad,34.1463,73.2117,gram,loamy sand,8.04,Rabi,15.8,136.5,80,FYM,252,2.4,139029
+979,Karachi,24.8607,67.0011,maize,sandy loam,3.34,Kharif,22.2,380.0,132,DAP,174,3.6,38477
+980,Mansehra,34.3332,73.1992,tobacco,silty loam,4.74,Kharif,24.6,293.6,212,None,0,1.6,65696
+981,Turbat,26.0012,63.0515,tobacco,loam,9.97,Kharif,20.5,317.9,151,Urea,136,2.1,125622
+982,Mirpur Khas,25.5255,69.0159,rice,clay,3.8,Kharif,29.8,687.5,201,NPK,179,4.4,100776
+983,Mirpur Khas,25.5255,69.0159,tobacco,silty loam,3.72,Kharif,29.8,362.3,170,NPK,197,1.9,51559
+984,Karachi,24.8607,67.0011,date palm,sandy,3.34,Perennial,34.9,103.1,51,FYM,238,8.5,52061
+985,Lodhran,29.5383,71.6315,date palm,desert sand,1.66,Perennial,29.9,124.5,79,Urea,150,8.8,17150
+986,Mirpur Khas,25.5255,69.0159,rice,clay loam,4.89,Kharif,25.4,536.4,218,None,0,4.5,119707
+987,Multan,30.1575,71.5249,date palm,sandy,2.64,Perennial,39.9,146.1,60,DAP,153,10.6,35191
+988,Khuzdar,27.8,66.6167,gram,loamy sand,7.97,Rabi,22.3,187.6,116,DAP,144,2.0,111092
+989,Gujrat,32.5742,74.0754,wheat,loam,2.68,Rabi,17.6,201.9,163,None,0,3.0,59727
+990,Chitral,35.8512,71.7864,date palm,sandy,7.08,Perennial,33.6,139.6,96,Urea,149,11.8,96791
+991,Sargodha,32.0836,72.6711,tobacco,loam,3.79,Kharif,28.7,397.8,178,FYM,231,1.7,47754
+992,Mianwali,32.5833,71.5375,potato,loam,8.85,Rabi,24.7,334.4,190,NPK,151,3.1,106200
+993,Bannu,32.9886,70.6055,sugarcane,loam,9.44,Kharif,28.3,504.2,170,NPK,201,64.8,212400
+994,Lasbela,25.8694,66.7097,cotton,loam,1.18,Kharif,26.2,229.4,185,FYM,301,2.6,26170
+995,Hyderabad,25.396,68.3578,apple orchard,rocky loam,1.35,Perennial,13.4,599.5,162,Urea,145,9.1,13851
+996,Multan,30.1575,71.5249,gram,sandy loam,3.61,Rabi,18.8,132.2,137,Urea,175,2.4,67673
+997,Rawalpindi,33.5651,73.0169,wheat,silty loam,2.25,Rabi,16.4,389.9,215,None,0,3.7,33413
+998,Baghsar,33.8667,74.7667,tobacco,loam,2.43,Kharif,27.2,269.4,155,FYM,213,2.1,33323
+999,Rahim Yar Khan,28.4209,70.2952,wheat,clay loam,4.99,Rabi,21.9,305.2,241,FYM,348,4.3,80838
+1000,Okara,30.8103,73.4513,potato,sandy loam,1.86,Rabi,21.5,328.4,149,Urea,181,2.0,17856
