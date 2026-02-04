@@ -389,14 +389,15 @@ export const styles = StyleSheet.create({
     color: '#9ca3af',
   },
   recommendationBox: {
-    padding: 20,
-    borderRadius: 16,
-    marginBottom: 20,
-    minHeight: 70,
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#10b981',
-  },
+  padding: 15,
+  borderRadius: 16,
+  marginBottom: 15,
+  minHeight: 70,
+  justifyContent: 'center',
+  borderWidth: 2,
+  borderColor: '#10b981',
+},
+
   recommendationContent: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -407,11 +408,14 @@ export const styles = StyleSheet.create({
     flexShrink: 0,
   },
   recommendationText: {
-    fontSize: 18,
+    fontSize: 16, // 18 سے 16 کر دیں
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',
-  },
+    lineHeight: 20, // 24 سے 20 کر دیں
+    textAlign: 'center', // نئی لائن شامل کریں
+    paddingHorizontal: 8, // نئی لائن شامل کریں (دائیں/بائیں پڈنگ)
+},
   
   // Water Requirement Details
   waterContainer: {

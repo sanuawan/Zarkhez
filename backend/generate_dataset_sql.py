@@ -4,7 +4,6 @@ import sqlite3
 import random
 from datetime import datetime, timedelta
 
-# ---------------------------------------
 # Pakistan districts with coordinates
 pakistan_districts = {
     "Lahore": (31.5204, 74.3587),
@@ -58,7 +57,6 @@ crops_data = {
 soil_types = ["loam","clay","sandy","sandy loam","clay loam"]
 fertilizers = ["Urea","DAP","NPK","FYM","None"]
 
-# ---------------------------------------
 # Data generation
 def generate_realistic_data(num_rows=1000):
     data = []

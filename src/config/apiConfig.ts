@@ -1,6 +1,6 @@
 // src/config/apiConfig.ts
 export const API_CONFIG = {
-  WEATHER_API_KEY: 'a7e93a4511535b6ed4d9cc47ab75d6f6', // یہاں اپنی API Key ڈالیں
+  WEATHER_API_KEY: 'a7e93a4511535b6ed4d9cc47ab75d6f6', 
   WEATHER_BASE_URL: 'https://api.openweathermap.org/data/2.5/weather',
   WEATHER_FORECAST_URL: 'https://api.openweathermap.org/data/2.5/forecast',
   

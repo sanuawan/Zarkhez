@@ -26,7 +26,7 @@ const CropSoilScreen: React.FC = () => {
   const { t, language } = useLanguage();
   const { isDark } = useTheme();
   const navigation = useNavigation();
-  
+
   // State variables
   const [activeTab, setActiveTab] = useState('soil');
   const [selectedCrop, setSelectedCrop] = useState('wheat');
@@ -34,13 +34,13 @@ const CropSoilScreen: React.FC = () => {
   const [selectedDistrict, setSelectedDistrict] = useState('Lahore');
   const [fieldArea, setFieldArea] = useState('5.0');
   const [motorPower, setMotorPower] = useState('5');
-  
+
   // Dropdown states
   const [showCropDropdown, setShowCropDropdown] = useState(false);
   const [showSoilDropdown, setShowSoilDropdown] = useState(false);
   const [showDistrictDropdown, setShowDistrictDropdown] = useState(false);
   const [showMotorDropdown, setShowMotorDropdown] = useState(false);
-  
+
   // Data states
   const [districts] = useState<string[]>([
     "Lahore", "Faisalabad", "Karachi", "Islamabad", "Rawalpindi",
@@ -61,7 +61,7 @@ const CropSoilScreen: React.FC = () => {
   const [motorPowers] = useState<string[]>([
     '2', '3', '5', '7', '10', '20', '30', '40', '50'
   ]);
-  
+
   const motorTypeNames: Record<string, string> = {
     '2': 'Very Small',
     '3': 'Small',
@@ -73,13 +73,13 @@ const CropSoilScreen: React.FC = () => {
     '40': 'Mega',
     '50': 'Ultra'
   };
-  
+
   // Recommendation states
   const [loading, setLoading] = useState(false);
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [recommendation, setRecommendation] = useState<any>(null);
   const [soilMoisture] = useState(45);
-  
+
   // Weather states
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [forecastData, setForecastData] = useState<ForecastData[]>([]);
@@ -120,17 +120,17 @@ const CropSoilScreen: React.FC = () => {
     try {
       const weather = await weatherService.getCurrentWeather(district);
       const forecast = await weatherService.getWeatherForecast(district);
-      
+
       setWeatherData(weather);
       setForecastData(forecast);
-      
+
       // Set last updated time
       const now = new Date();
       setLastUpdated(now.toLocaleTimeString(language === 'ur' ? 'ur-PK' : 'en-US', {
         hour: '2-digit',
         minute: '2-digit'
       }));
-      
+
     } catch (error) {
       console.error('Error fetching weather:', error);
       Alert.alert(
@@ -161,7 +161,7 @@ const CropSoilScreen: React.FC = () => {
       40: 1200, // Mega
       50: 1500  // Ultra
     };
-    
+
     return flowRates[hp] || 120;
   };
 
@@ -183,28 +183,28 @@ const CropSoilScreen: React.FC = () => {
       try {
         const area = parseFloat(fieldArea) || 1;
         const motorHP = parseFloat(motorPower) || 5;
-        
+
         // Calculate flow rate from dataset
         const flowRate = calculateFlowRate(motorHP);
         const motorType = motorTypeNames[motorHP.toString()] || 'Medium';
-        
+
         // Calculate water requirement (consider weather factor)
         const waterNeeded = calculateWaterRequirement(
-          selectedCrop, 
-          selectedSoil, 
-          area, 
+          selectedCrop,
+          selectedSoil,
+          area,
           weatherData
         );
-        
+
         // Calculate irrigation duration
         const durationHours = calculateIrrigationDuration(waterNeeded, flowRate);
-        
+
         // Adjust based on weather conditions
         const adjustedDuration = adjustIrrigationForWeather(durationHours, weatherData);
-        
+
         // Get motor price range
         const priceRange = getMotorPriceRange(motorHP);
-        
+
         const result = {
           water_needed_liters: waterNeeded,
           flow_rate_lpm: flowRate,
@@ -220,16 +220,16 @@ const CropSoilScreen: React.FC = () => {
         };
 
         setRecommendation(result);
-        
+
         // Show success message
         Alert.alert(
           t('soil.success'),
-          language === 'ur' 
+          language === 'ur'
             ? `آبپاشی کی سفارش تیار کر لی گئی ہے۔ ${adjustedDuration} گھنٹے آبپاشی کریں۔`
             : `Irrigation recommendation generated. Irrigate for ${adjustedDuration} hours.`,
           [{ text: t('common.ok'), style: 'default' }]
         );
-        
+
       } catch (error) {
         console.error(error);
         Alert.alert(
@@ -245,9 +245,9 @@ const CropSoilScreen: React.FC = () => {
 
   // Calculate water requirement with weather factor
   const calculateWaterRequirement = (
-    crop: string, 
-    soil: string, 
-    area: number, 
+    crop: string,
+    soil: string,
+    area: number,
     weather: WeatherData | null
   ): number => {
     const cropWaterMap: Record<string, number> = {
@@ -261,7 +261,7 @@ const CropSoilScreen: React.FC = () => {
     };
 
     const baseWater = cropWaterMap[crop] || 4.0;
-    
+
     // Weather factor (temperature and humidity based)
     let weatherFactor = 1.0;
     if (weather) {
@@ -271,57 +271,57 @@ const CropSoilScreen: React.FC = () => {
       if (weather.humidity > 70) weatherFactor *= 0.9; // Humid air
       if (weather.rainfall > 10) weatherFactor *= 0.5; // Recent rain
     }
-    
+
     const waterLiters = baseWater * 10 * 10000 * area * weatherFactor;
-    
+
     return Math.round(waterLiters);
   };
 
   // Calculate irrigation duration
   const calculateIrrigationDuration = (waterNeeded: number, flowRate: number): number => {
     if (flowRate <= 0) return 0;
-    
+
     const durationMinutes = waterNeeded / flowRate;
     const durationHours = durationMinutes / 60;
-    
+
     return Math.max(0.5, Math.round(durationHours * 10) / 10);
   };
 
   // Adjust irrigation based on weather
   const adjustIrrigationForWeather = (
-    duration: number, 
+    duration: number,
     weather: WeatherData | null
   ): number => {
     if (!weather) return duration;
-    
+
     let adjusted = duration;
-    
+
     // Reduce irrigation if it rained today
     if (weather.rainfall > 5) {
       adjusted *= 0.7;
     }
-    
+
     // Increase if hot and dry
     if (weather.temp > 35 && weather.humidity < 40) {
       adjusted *= 1.3;
     }
-    
+
     // Decrease if cool and humid
     if (weather.temp < 25 && weather.humidity > 60) {
       adjusted *= 0.8;
     }
-    
+
     return Math.max(0.5, Math.round(adjusted * 10) / 10);
   };
 
   // Get weather impact description
   const getWeatherImpact = (weather: WeatherData | null): string => {
     if (!weather) return language === 'ur' ? 'معمول' : 'Normal';
-    
+
     if (weather.rainfall > 10) return language === 'ur' ? 'بارش کی وجہ سے کم' : 'Reduced due to rain';
     if (weather.temp > 35) return language === 'ur' ? 'گرمی کی وجہ سے زیادہ' : 'Increased due to heat';
     if (weather.humidity < 30) return language === 'ur' ? 'خشک ہوا کی وجہ سے زیادہ' : 'Increased due to dry air';
-    
+
     return language === 'ur' ? 'معمول' : 'Normal';
   };
 
@@ -338,26 +338,26 @@ const CropSoilScreen: React.FC = () => {
       40: "220,000-300,000 PKR",
       50: "300,000-400,000 PKR"
     };
-    
+
     return priceRanges[hp] || "30,000-45,000 PKR";
   };
 
   // Get moisture status
   const getMoistureStatus = (moisture: number) => {
-    if (moisture < 30) return { 
-      text: language === 'ur' ? 'کم' : 'Low', 
-      color: '#ef4444', 
-      bg: '#fef2f2' 
+    if (moisture < 30) return {
+      text: language === 'ur' ? 'کم' : 'Low',
+      color: '#ef4444',
+      bg: '#fef2f2'
     };
-    if (moisture < 60) return { 
-      text: language === 'ur' ? 'درمیانی' : 'Medium', 
-      color: '#f59e0b', 
-      bg: '#fffbeb' 
+    if (moisture < 60) return {
+      text: language === 'ur' ? 'درمیانی' : 'Medium',
+      color: '#f59e0b',
+      bg: '#fffbeb'
     };
-    return { 
-      text: language === 'ur' ? 'اچھی' : 'Good', 
-      color: '#10b981', 
-      bg: '#f0fdf4' 
+    return {
+      text: language === 'ur' ? 'اچھی' : 'Good',
+      color: '#10b981',
+      bg: '#f0fdf4'
     };
   };
 
@@ -380,7 +380,7 @@ const CropSoilScreen: React.FC = () => {
       'Squall': '💨',
       'Tornado': '🌪️'
     };
-    
+
     return icons[condition] || '🌤️';
   };
 
@@ -434,10 +434,10 @@ const CropSoilScreen: React.FC = () => {
   return (
     <View style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-      
+
       <Header showLogout={false} />
 
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
@@ -460,7 +460,7 @@ const CropSoilScreen: React.FC = () => {
           <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}>
             🌾 {t('soil.farmDetails')}
           </Text>
-          
+
           <View style={styles.selectionContainer}>
             {/* District Selection */}
             <View style={styles.selectionItem}>
@@ -636,10 +636,10 @@ const CropSoilScreen: React.FC = () => {
               </Text>
             </View>
             <View style={[styles.progressBar, isDark && styles.progressBarDark]}>
-              <View 
+              <View
                 style={[
                   styles.progressFill,
-                  { 
+                  {
                     width: `${soilMoisture}%`,
                     backgroundColor: soilMoisture < 30 ? '#ef4444' : soilMoisture < 60 ? '#f59e0b' : '#10b981'
                   }
@@ -665,10 +665,10 @@ const CropSoilScreen: React.FC = () => {
                 </View>
                 <View>
                   <Text style={[styles.aiTitle, isDark && styles.aiTitleDark]}>
-                    {language === 'ur' ? 'آبپاشی کی سفارش' : 'Irrigation Recommendation'}
+                    {language === 'ur' ? 'آبپاشی کی سفارش' : 'Irrigation \nRecommendation'}
                   </Text>
                   <Text style={[styles.aiDescription, isDark && styles.aiDescriptionDark]}>
-                    {language === 'ur' 
+                    {language === 'ur'
                       ? `موسم کا اثر: ${recommendation.weather_impact}`
                       : `Weather impact: ${recommendation.weather_impact}`
                     }
@@ -679,8 +679,16 @@ const CropSoilScreen: React.FC = () => {
               <View style={[styles.recommendationBox, { backgroundColor: '#d1fae5' }]}>
                 <View style={styles.recommendationContent}>
                   <Text style={styles.recommendationIcon}>⏱️</Text>
-                  <Text style={[styles.recommendationText, { color: '#065f46' }]}>
-                    {language === 'ur' 
+                  <Text style={[
+                    styles.recommendationText,
+                    {
+                      color: '#065f46',
+                      fontSize: 16,
+                      textAlign: 'center', // 
+                      flexWrap: 'wrap' // نئے سٹائل
+                    }
+                  ]}>
+                    {language === 'ur'
                       ? `دورانیہ: ${recommendation.duration_hours} گھنٹے`
                       : `Duration: ${recommendation.duration_hours} hours`
                     }
@@ -689,15 +697,15 @@ const CropSoilScreen: React.FC = () => {
               </View>
 
               <View style={styles.waterContainer}>
-                <View style={styles.waterInfo}>
-                  <Text style={[styles.waterLabel, isDark && styles.waterLabelDark]}>
+                <View style={[styles.waterInfo, { paddingVertical: 12 }]}>
+                  <Text style={[styles.waterLabel, isDark && styles.waterLabelDark, { fontSize: 16 }]}>
                     {language === 'ur' ? 'پانی کی ضرورت' : 'Water Required'}
                   </Text>
-                  <Text style={[styles.waterValue, isDark && styles.waterValueDark]}>
+                  <Text style={[styles.waterValue, isDark && styles.waterValueDark, { fontSize: 24 }]}>
                     {recommendation.water_needed_liters.toLocaleString()} L
                   </Text>
                 </View>
-                
+
                 <View style={styles.detailsGrid}>
                   <View style={[styles.detailItem, isDark && styles.detailItemDark]}>
                     <Text style={styles.detailIcon}>⚡</Text>
@@ -710,7 +718,7 @@ const CropSoilScreen: React.FC = () => {
                       </Text>
                     </View>
                   </View>
-                  
+
                   <View style={[styles.detailItem, isDark && styles.detailItemDark]}>
                     <Text style={styles.detailIcon}>💧</Text>
                     <View style={styles.detailContent}>
@@ -737,7 +745,7 @@ const CropSoilScreen: React.FC = () => {
               </Text>
               {lastUpdated && (
                 <Text style={[styles.lastUpdated, isDark && styles.lastUpdatedDark]}>
-                  {language === 'ur' 
+                  {language === 'ur'
                     ? `آخری اپ ڈیٹ: ${lastUpdated}`
                     : `Last updated: ${lastUpdated}`
                   }
@@ -754,7 +762,7 @@ const CropSoilScreen: React.FC = () => {
               )}
             </TouchableOpacity>
           </View>
-          
+
           {weatherData ? (
             <>
               {/* Current Weather Summary */}
@@ -772,7 +780,7 @@ const CropSoilScreen: React.FC = () => {
                     </Text>
                   </View>
                 </View>
-                
+
                 <View style={styles.weatherDetails}>
                   <View style={styles.detailRow}>
                     <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>
@@ -808,7 +816,7 @@ const CropSoilScreen: React.FC = () => {
                   </View>
                 </View>
               </View>
-              
+
               {/* 5-Day Forecast */}
               {forecastData.length > 0 && (
                 <View style={styles.forecastContainer}>

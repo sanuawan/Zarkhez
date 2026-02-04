@@ -12,7 +12,7 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-// Translations dictionary - PURANE FORMAT MEIN
+// Translations dictionary
 const translations: Record<Language, Record<string, string>> = {
   en: {
     'header.title': 'Zarkhez',

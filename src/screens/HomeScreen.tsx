@@ -1,5 +1,5 @@
 // src/screens/HomeScreen.tsx
-import React, { useState, useEffect, useEffect } from 'react'; 
+import React, { useState,  useEffect } from 'react'; 
 import {
   View,
   Text,
@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-// 1. CHANGE IMPORT
 import firestore from '@react-native-firebase/firestore'; 
 import LinearGradient from 'react-native-linear-gradient';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -99,6 +98,10 @@ const onSignOut = () => {
 
   const handleTabPress = (tab: string) => {
     setActiveTab(tab);
+    if (tab === 'schedule') navigation.navigate('Schedule' as never);
+    if (tab === 'soil') navigation.navigate('CropSoil' as never);
+    if (tab === 'billing') navigation.navigate('Billing' as never);
+    if (tab === 'alerts') navigation.navigate('Alerts' as never);
   };
 
   // ---- Firestore Sync for Motor State ----
@@ -182,11 +185,11 @@ const onSignOut = () => {
 
           {/* Auto/Manual Toggle */}
           <View style={styles.modeToggleContainer}>
-            {/* ... (Toggle UI remains same) ... */}
-            <View style={[styles.modeToggle, darkMode && styles.modeToggleDark]}>
-                <Text style={[styles.modeText, !autoMode && styles.modeTextActive, darkMode && styles.modeTextDark]}>{t('motor.manual')}</Text>
-                <Switch value={autoMode} onValueChange={setAutoMode} trackColor={{ false: '#d1d5db', true: '#10b981' }} thumbColor={darkMode ? '#f3f4f6' : '#ffffff'} />
-                <Text style={[styles.modeText, autoMode && styles.modeTextActive, darkMode && styles.modeTextDark]}>{t('motor.auto')}</Text>
+            {/*Toggle UI remains same*/}
+            <View style={[styles.modeToggle, isDark && styles.modeToggleDark]}>
+                <Text style={[styles.modeText, !autoMode && styles.modeTextActive, isDark && styles.modeTextDark]}>{t('motor.manual')}</Text>
+                <Switch value={autoMode} onValueChange={setAutoMode} trackColor={{ false: '#d1d5db', true: '#10b981' }} thumbColor={isDark ? '#f3f4f6' : '#ffffff'} />
+                <Text style={[styles.modeText, autoMode && styles.modeTextActive, isDark && styles.modeTextDark]}>{t('motor.auto')}</Text>
             </View>
           </View>
 
@@ -202,7 +205,6 @@ const onSignOut = () => {
               onPress={() => {
                 if (!autoMode) {
                   const newMotorState = !motorOn;
-                  // Optimistic update (optional, but makes UI feel faster)
                   setMotorOn(newMotorState);
 
                   // 3. CHANGE WRITE LOGIC
@@ -226,63 +228,62 @@ const onSignOut = () => {
               disabled={autoMode}
             >
               <LinearGradient
-                colors={motorOn ? (darkMode ? ['#059669', '#047857'] : ['#10b981', '#059669']) : (darkMode ? ['#4b5563', '#374151'] : ['#d1d5db', '#9ca3af'])}
+                colors={motorOn ? (isDark ? ['#059669', '#047857'] : ['#10b981', '#059669']) : (isDark ? ['#4b5563', '#374151'] : ['#d1d5db', '#9ca3af'])}
                 style={styles.powerGradient}
               >
                 <Text style={styles.powerIcon}>⚡</Text>
               </LinearGradient>
             </TouchableOpacity>
 
-            <Text style={[styles.powerStatus, darkMode && styles.powerStatusDark, motorOn && styles.powerStatusOn]}>
+            <Text style={[styles.powerStatus, isDark && styles.powerStatusDark, motorOn && styles.powerStatusOn]}>
               {motorOn ? t('motor.on') : t('motor.off')}
             </Text>
 
             {autoMode && (
               <View style={styles.autoModeIndicator}>
                 <Text style={styles.autoModeText}>🤖 {t('motor.autoActive')}</Text>
-                <Text style={[styles.autoModeDescription, darkMode && styles.autoModeDescriptionDark]}>{t('motor.autoDescription')}</Text>
+                <Text style={[styles.autoModeDescription, isDark && styles.autoModeDescriptionDark]}>{t('motor.autoDescription')}</Text>
               </View>
             )}
           </View>
         </View>
 
-        {/* ... (Rest of the UI: Voltage, Weather, Actions remains exactly the same) ... */}
         <View style={styles.statusRow}>
-             <View style={[styles.statusCard, darkMode && styles.statusCardDark]}>
-                 <LinearGradient colors={darkMode ? ['#1e40af', '#1d4ed8'] : ['#3b82f6', '#2563eb']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>⚡</Text></LinearGradient>
-                 <Text style={[styles.statusLabel, darkMode && styles.statusLabelDark]}>{t('measurements.voltage')}</Text>
-                 <Text style={[styles.statusValue, darkMode && styles.statusValueDark]}>{voltage}V</Text>
+             <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
+                 <LinearGradient colors={isDark ? ['#1e40af', '#1d4ed8'] : ['#3b82f6', '#2563eb']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>⚡</Text></LinearGradient>
+                 <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.voltage')}</Text>
+                 <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>{voltage}V</Text>
              </View>
-             <View style={[styles.statusCard, darkMode && styles.statusCardDark]}>
-                 <LinearGradient colors={darkMode ? ['#ea580c', '#dc2626'] : ['#f97316', '#ea580c']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>🔌</Text></LinearGradient>
-                 <Text style={[styles.statusLabel, darkMode && styles.statusLabelDark]}>{t('measurements.current')}</Text>
-                 <Text style={[styles.statusValue, darkMode && styles.statusValueDark]}>{current}A</Text>
+             <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
+                 <LinearGradient colors={isDark ? ['#ea580c', '#dc2626'] : ['#f97316', '#ea580c']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>🔌</Text></LinearGradient>
+                 <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.current')}</Text>
+                 <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>{current}A</Text>
              </View>
         </View>
 
-        <View style={[styles.weatherCard, darkMode && styles.weatherCardDark]}>
+        <View style={[styles.weatherCard, isDark && styles.weatherCardDark]}>
              <View style={styles.weatherHeader}>
                  <Text style={styles.weatherIcon}>☀️</Text>
-                 <View><Text style={[styles.weatherTitle, darkMode && styles.weatherTitleDark]}>{t('measurements.weather')}</Text><Text style={[styles.weatherSubtitle, darkMode && styles.weatherSubtitleDark]}>{t('measurements.temperature')}</Text></View>
+                 <View><Text style={[styles.weatherTitle, isDark && styles.weatherTitleDark]}>{t('measurements.weather')}</Text><Text style={[styles.weatherSubtitle, isDark && styles.weatherSubtitleDark]}>{t('measurements.temperature')}</Text></View>
              </View>
              <View style={styles.weatherInfo}>
-                 <Text style={[styles.temperature, darkMode && styles.temperatureDark]}>{temperature}°C</Text>
-                 <View style={styles.humidityContainer}><Text style={styles.humidityIcon}>💧</Text><Text style={[styles.humidity, darkMode && styles.humidityDark]}>{humidity}%</Text></View>
+                 <Text style={[styles.temperature, isDark && styles.temperatureDark]}>{temperature}°C</Text>
+                 <View style={styles.humidityContainer}><Text style={styles.humidityIcon}>💧</Text><Text style={[styles.humidity, isDark && styles.humidityDark]}>{humidity}%</Text></View>
              </View>
         </View>
 
         <View style={styles.actionsGrid}>
-            <TouchableOpacity style={[styles.actionButton, darkMode && styles.actionButtonDark]} onPress={() => handleTabPress('schedule')}>
-                <Text style={styles.actionIcon}>⏰</Text><Text style={[styles.actionLabel, darkMode && styles.actionLabelDark]}>{t('nav.schedule')}</Text>
+            <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('schedule')}>
+                <Text style={styles.actionIcon}>⏰</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.schedule')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionButton, darkMode && styles.actionButtonDark]} onPress={() => handleTabPress('soil')}>
-                <Text style={styles.actionIcon}>🌱</Text><Text style={[styles.actionLabel, darkMode && styles.actionLabelDark]}>{t('nav.soil')}</Text>
+            <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('soil')}>
+                <Text style={styles.actionIcon}>🌱</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.soil')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionButton, darkMode && styles.actionButtonDark]} onPress={() => handleTabPress('billing')}>
-                <Text style={styles.actionIcon}>💰</Text><Text style={[styles.actionLabel, darkMode && styles.actionLabelDark]}>{t('nav.billing')}</Text>
+            <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('billing')}>
+                <Text style={styles.actionIcon}>💰</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.billing')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionButton, darkMode && styles.actionButtonDark]} onPress={() => handleTabPress('alerts')}>
-                <Text style={styles.actionIcon}>⚠️</Text><Text style={[styles.actionLabel, darkMode && styles.actionLabelDark]}>{t('nav.alerts')}</Text>
+            <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('alerts')}>
+                <Text style={styles.actionIcon}>⚠️</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.alerts')}</Text>
             </TouchableOpacity>
         </View>
 

@@ -77,7 +77,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
                 <Text style={styles.logoEmoji}>🌾</Text>
               </LinearGradient>
               
-              {/* Gradient Text for Zarkhez */}
+              {/* Gradient Text  */}
               <View style={styles.titleContainer}>
                 <LinearGradient
                   colors={['#2563eb', '#16a34a']} 
