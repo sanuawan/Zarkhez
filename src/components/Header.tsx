@@ -5,11 +5,13 @@ import {
   Text,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { headerStyles } from './Header.styles';
+import { styles } from '../screens/styles/HomeScreen.styles';
 
 interface HeaderProps {
   showLogout?: boolean;
@@ -41,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ showLogout = true }) => {
           {t('header.subtitle')}
         </Text>
       </View>
-      
+
       <View style={headerStyles.headerRight}>
         {/* Language Toggle */}
         <TouchableOpacity
@@ -66,10 +68,17 @@ const Header: React.FC<HeaderProps> = ({ showLogout = true }) => {
         {/* Logout Button */}
         {showLogout && (
           <TouchableOpacity
-            style={[headerStyles.logoutButton, isDark && headerStyles.logoutButtonDark]}
+            style={[styles.logoutButton, isDark && styles.logoutButtonDark]}
             onPress={onSignOut}
           >
-            <Text style={headerStyles.logoutButtonText}>🚪</Text>
+            <Image
+              source={require('../assets/icons/logout.png')}
+              style={{
+                width: 24,
+                height: 24,
+              }}
+              resizeMode="contain" 
+            />
           </TouchableOpacity>
         )}
       </View>
