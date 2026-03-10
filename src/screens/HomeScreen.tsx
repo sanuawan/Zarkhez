@@ -1,5 +1,5 @@
 // src/screens/HomeScreen.tsx
-import React, { useState,  useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,26 +9,35 @@ import {
   StatusBar,
   Alert,
   BackHandler,
+  Modal,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore'; 
+import firestore from '@react-native-firebase/firestore';
 import LinearGradient from 'react-native-linear-gradient';
 import { useLanguage } from '../contexts/LanguageContext';
 import BottomNavBar from '../components/BottomNavBar';
 import { styles } from './styles/HomeScreen.styles';
-import { useTheme } from '../contexts/ThemeContext'; 
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import { useTheme } from '../contexts/ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen: React.FC = () => {
   const user = auth().currentUser;
   const { language, toggleLanguage, t } = useLanguage();
-  const { isDark, toggleTheme } = useTheme(); 
+  const { isDark, toggleTheme } = useTheme();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState('home');
   const [motorOn, setMotorOn] = useState(false);
   const [autoMode, setAutoMode] = useState(false);
-  
+
+  // 🔥 NEW STATES
+  const [modalVisible, setModalVisible] = useState(false);
+  const [enteredName, setEnteredName] = useState('');
+  const [inputError, setInputError] = useState(false);
+  const [activeUser, setActiveUser] = useState<string | null>(null);
 
   // Mock data
   const voltage = 220;
@@ -45,56 +54,34 @@ const HomeScreen: React.FC = () => {
           t('common.exitApp'),
           t('common.exitConfirm'),
           [
-            {
-              text: t('common.cancel'),
-              onPress: () => null,
-              style: 'cancel',
-            },
-            {
-              text: t('common.exit'),
-              onPress: () => BackHandler.exitApp(),
-            },
+            { text: t('common.cancel'), style: 'cancel' },
+            { text: t('common.exit'), onPress: () => BackHandler.exitApp() },
           ],
           { cancelable: false }
         );
         return true;
       }
     );
-
     return () => backHandler.remove();
   }, [t]);
 
-const onSignOut = () => {
-  Alert.alert(
-    t('common.logout'),
-    t('common.logoutConfirm'),
-    [
-      {
-        text: t('common.cancel'),
-        style: 'cancel',
-      },
-      {
-        text: t('common.logout'),
-        onPress: async () => {
-          try {
-            console.log('Logging out...');
+  const onSignOut = () => {
+    Alert.alert(
+      t('common.logout'),
+      t('common.logoutConfirm'),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('common.logout'),
+          onPress: async () => {
             await auth().signOut();
-            console.log('Logout successful');
-            
-            // Navigation to Login
             navigation.navigate('Login' as never);
-            
-          } catch (error) {
-            console.error('Logout error:', error);
-            Alert.alert('Error', 'Failed to sign out');
-          }
+          },
         },
-        style: 'destructive',
-      },
-    ],
-    { cancelable: true }
-  );
-};
+      ],
+      { cancelable: true }
+    );
+  };
 
   const handleTabPress = (tab: string) => {
     setActiveTab(tab);
@@ -104,164 +91,182 @@ const onSignOut = () => {
     if (tab === 'alerts') navigation.navigate('Alerts' as never);
   };
 
-  // ---- Firestore Sync for Motor State ----
+  // 🔥 Firestore Sync
   useEffect(() => {
-    // 2. CHANGE LISTENER LOGIC
-    // We listen to collection 'iot_data', document 'relay'
     const unsubscribe = firestore()
-      .collection('iot_data') 
+      .collection('iot_data')
       .doc('relay')
       .onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists()) {
           const data = documentSnapshot.data();
-          // Assuming the field name is 'state'
-          const value = data?.state; 
-          console.log('Firestore value received:', value); 
-          setMotorOn(value === 'on');
-        } else {
-            console.log("Document does not exist yet");
+          setMotorOn(data?.state === 'on');
+          setActiveUser(data?.activeUser ?? null);
+          setAutoMode(data?.mode === 'auto');
         }
-      }, error => {
-          console.error("Firestore Read Error:", error);
       });
-
-    // Unsubscribe on unmount
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, []);
 
+  // 🔥 Confirm Start
+  const confirmStartMotor = () => {
+    if (!enteredName.trim()) {
+      setInputError(true);
+      return;
+    }
+
+    setInputError(false);
+    setModalVisible(false);
+
+    firestore()
+      .collection('iot_data')
+      .doc('relay')
+      .set({
+        state: 'on',
+        activeUser: enteredName.trim(),
+        mode: 'manual'
+      });
+
+    setEnteredName('');
+  };
+
   return (
-    <View style={[styles.container, isDark && styles.containerDark]}> 
-      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} /> 
-      
+    <View style={[styles.container, isDark && styles.containerDark]}>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+
       {/* Header */}
-      <View style={[styles.header, isDark && styles.headerDark]}> 
+      <View style={[styles.header, isDark && styles.headerDark]}>
         <View style={styles.headerLeft}>
-          <Text style={[styles.title, isDark && styles.titleDark]}> 
+          <Text style={[styles.title, isDark && styles.titleDark]}>
             {t('header.title')}
           </Text>
-          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}> 
+          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>
             {t('header.subtitle')}
           </Text>
         </View>
-        
+
         <View style={styles.headerRight}>
-          {/* Language Toggle */}
           <TouchableOpacity
-            style={[styles.headerButton, isDark && styles.headerButtonDark]} 
-            onPress={toggleLanguage}
-          >
-            <Text style={[styles.headerButtonText, isDark && styles.headerButtonTextDark]}> 
+            style={[styles.headerButton, isDark && styles.headerButtonDark]}
+            onPress={toggleLanguage}>
+            <Text style={[styles.headerButtonText, isDark && styles.headerButtonTextDark]}>
               {language === 'en' ? 'اردو' : 'English'}
             </Text>
           </TouchableOpacity>
 
-          {/* Dark Mode Toggle */}
           <TouchableOpacity
-            style={[styles.headerButton, isDark && styles.headerButtonDark]} 
-            onPress={toggleTheme}
-          >
-            <Text style={styles.headerButtonText}>
-              {isDark ? '🌙' : '☀️'} 
-            </Text>
+            style={[styles.headerButton, isDark && styles.headerButtonDark]}
+            onPress={toggleTheme}>
+            <Text>{isDark ? '🌙' : '☀️'}</Text>
           </TouchableOpacity>
 
-          {/* Logout Button */}
           <TouchableOpacity
-            style={[styles.logoutButton, isDark && styles.logoutButtonDark]} 
-            onPress={onSignOut}
-          >
+            style={[styles.logoutButton, isDark && styles.logoutButtonDark]}
+            onPress={onSignOut}>
             <Text style={styles.logoutButtonText}>🚪</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         
         {/* Motor Control Card */}
-        <View style={[styles.card, isDark && styles.cardDark]}> 
-          <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}> 
+        <View style={[styles.card, isDark && styles.cardDark]}>
+          <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}>
             {t('motor.status')}
           </Text>
 
-          {/* Auto/Manual Toggle */}
           <View style={styles.modeToggleContainer}>
-            {/*Toggle UI remains same*/}
             <View style={[styles.modeToggle, isDark && styles.modeToggleDark]}>
-                <Text style={[styles.modeText, !autoMode && styles.modeTextActive, isDark && styles.modeTextDark]}>{t('motor.manual')}</Text>
-                <Switch value={autoMode} onValueChange={setAutoMode} trackColor={{ false: '#d1d5db', true: '#10b981' }} thumbColor={isDark ? '#f3f4f6' : '#ffffff'} />
-                <Text style={[styles.modeText, autoMode && styles.modeTextActive, isDark && styles.modeTextDark]}>{t('motor.auto')}</Text>
+              <Text style={[styles.modeText]}>{t('motor.manual')}</Text>
+              <Switch 
+                value={autoMode} 
+                onValueChange={(val) => {
+                  firestore()
+                    .collection('iot_data')
+                    .doc('relay')
+                    .set({
+                      mode: val ? 'auto' : 'manual'
+                    }, { merge: true });
+                }} 
+              />
+              <Text style={[styles.modeText]}>{t('motor.auto')}</Text>
             </View>
           </View>
 
-          {/* Large Power Button */}
           <View style={styles.powerContainer}>
             <TouchableOpacity
               style={[
                 styles.powerButton,
                 motorOn && styles.powerButtonOn,
-                isDark && styles.powerButtonDark, 
-                autoMode && styles.powerButtonDisabled
+                autoMode && styles.powerButtonDisabled,
               ]}
               onPress={() => {
                 if (!autoMode) {
-                  const newMotorState = !motorOn;
-                  setMotorOn(newMotorState);
-
-                  // 3. CHANGE WRITE LOGIC
-                  const newValue = newMotorState ? 'on' : 'off';
-                  console.log('Sending to Firestore:', newValue);
-
-                  firestore()
-                    .collection('iot_data')
-                    .doc('relay')
-                    .set({
-                      state: newValue
-                    })
-                    .then(() => console.log('Firestore write OK'))
-                    .catch(err => {
-                        console.log('Firestore write ERR', err);
-                        // Revert state if error
-                        setMotorOn(!newMotorState);
-                    });
+                  if (!motorOn) {
+                    setModalVisible(true);
+                  } else {
+                    firestore()
+                      .collection('iot_data')
+                      .doc('relay')
+                      .set({
+                        state: 'off',
+                        activeUser: null,
+                        mode: 'manual'
+                      }, { merge: true });
+                  }
                 }
               }}
-              disabled={autoMode}
-            >
+              disabled={autoMode}>
               <LinearGradient
-                colors={motorOn ? (isDark ? ['#059669', '#047857'] : ['#10b981', '#059669']) : (isDark ? ['#4b5563', '#374151'] : ['#d1d5db', '#9ca3af'])}
-                style={styles.powerGradient}
-              >
+                colors={
+                  motorOn
+                    ? ['#10b981', '#059669']
+                    : ['#d1d5db', '#9ca3af']
+                }
+                style={styles.powerGradient}>
                 <Text style={styles.powerIcon}>⚡</Text>
               </LinearGradient>
             </TouchableOpacity>
 
-            <Text style={[styles.powerStatus, isDark && styles.powerStatusDark, motorOn && styles.powerStatusOn]}>
+            <Text style={[styles.powerStatus]}>
               {motorOn ? t('motor.on') : t('motor.off')}
             </Text>
 
+            {motorOn && activeUser && (
+              <Text style={{ marginTop: 8, fontSize: 14, color: '#10b981' }}>
+                Motor is running for {activeUser}
+              </Text>
+            )}
+
             {autoMode && (
               <View style={styles.autoModeIndicator}>
-                <Text style={styles.autoModeText}>🤖 {t('motor.autoActive')}</Text>
-                <Text style={[styles.autoModeDescription, isDark && styles.autoModeDescriptionDark]}>{t('motor.autoDescription')}</Text>
+                <Text style={styles.autoModeText}>
+                  🤖 {t('motor.autoActive')}
+                </Text>
               </View>
             )}
           </View>
         </View>
 
+        {/* BAQI UI SAME — Voltage, Weather, Grid */}
         <View style={styles.statusRow}>
-             <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
-                 <LinearGradient colors={isDark ? ['#1e40af', '#1d4ed8'] : ['#3b82f6', '#2563eb']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>⚡</Text></LinearGradient>
-                 <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.voltage')}</Text>
-                 <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>{voltage}V</Text>
-             </View>
-             <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
-                 <LinearGradient colors={isDark ? ['#ea580c', '#dc2626'] : ['#f97316', '#ea580c']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>🔌</Text></LinearGradient>
-                 <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.current')}</Text>
-                 <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>{current}A</Text>
-             </View>
-        </View>
+          <View style={[styles.statusCard]}>
+            <LinearGradient colors={['#3b82f6', '#2563eb']} style={styles.statusIconContainer}>
+              <Text style={styles.statusIcon}>⚡</Text>
+            </LinearGradient>
+            <Text style={styles.statusLabel}>{t('measurements.voltage')}</Text>
+            <Text style={styles.statusValue}>{voltage}V</Text>
+          </View>
 
-        <View style={[styles.weatherCard, isDark && styles.weatherCardDark]}>
+          <View style={[styles.statusCard]}>
+            <LinearGradient colors={['#f97316', '#ea580c']} style={styles.statusIconContainer}>
+              <Text style={styles.statusIcon}>🔌</Text>
+            </LinearGradient>
+            <Text style={styles.statusLabel}>{t('measurements.current')}</Text>
+            <Text style={styles.statusValue}>{current}A</Text>
+          </View>
+        </View>
+                <View style={[styles.weatherCard, isDark && styles.weatherCardDark]}>
              <View style={styles.weatherHeader}>
                  <Text style={styles.weatherIcon}>☀️</Text>
                  <View><Text style={[styles.weatherTitle, isDark && styles.weatherTitleDark]}>{t('measurements.weather')}</Text><Text style={[styles.weatherSubtitle, isDark && styles.weatherSubtitleDark]}>{t('measurements.temperature')}</Text></View>
@@ -288,7 +293,81 @@ const onSignOut = () => {
         </View>
 
       </ScrollView>
+
       <BottomNavBar activeTab={activeTab} onTabPress={handleTabPress} />
+
+      {/* 🔥 MODAL */}
+      <Modal visible={modalVisible} transparent animationType="fade">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+            <View style={{
+              width: '85%',
+              backgroundColor: '#fff',
+              borderRadius: 20,
+              padding: 25,
+            }}>
+              <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 15 }}>
+                Enter User Name
+              </Text>
+
+              <TextInput
+                placeholder="Enter name..."
+                value={enteredName}
+                onChangeText={(text) => {
+                  setEnteredName(text);
+                  setInputError(false);
+                }}
+                style={{
+                  borderWidth: 1,
+                  borderColor: inputError ? 'red' : '#ccc',
+                  borderRadius: 10,
+                  padding: 10,
+                  marginBottom: 10,
+                }}
+              />
+
+              {inputError && (
+                <Text style={{ color: 'red', marginBottom: 10 }}>
+                  Name is required
+                </Text>
+              )}
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#e5e7eb',
+                    padding: 10,
+                    borderRadius: 10,
+                    flex: 1,
+                    marginRight: 10,
+                  }}
+                  onPress={() => setModalVisible(false)}>
+                  <Text style={{ textAlign: 'center' }}>Cancel</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#10b981',
+                    padding: 10,
+                    borderRadius: 10,
+                    flex: 1,
+                  }}
+                  onPress={confirmStartMotor}>
+                  <Text style={{ textAlign: 'center', color: '#fff' }}>
+                    Start
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
     </View>
   );
 };

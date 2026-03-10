@@ -1,4 +1,3 @@
-// App.tsx
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,8 +11,14 @@ import ScheduleScreen from './src/screens/ScheduleScreen';
 import CropSoilScreen from './src/screens/CropSoilScreen';
 import BillingScreen from './src/screens/BillingScreen';
 import AlertsScreen from './src/screens/AlertsScreen';
+
+// NEW SCREENS
+import UserDetailScreen from './src/screens/UserDetailScreen';
+import AnalyticsScreen from './src/screens/AnalyticsScreen';
+
 import { LanguageProvider } from './src/contexts/LanguageContext';
 import { ThemeProvider } from './src/contexts/ThemeContext';
+import { UserProvider } from './src/contexts/UserContext';
 
 enableScreens();
 
@@ -25,6 +30,8 @@ export type RootStackParamList = {
   CropSoil: undefined;
   Billing: undefined;
   Alerts: undefined;
+  UserDetail: { userId: number };   // ← new
+  Analytics: undefined;              // ← new
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -59,23 +66,27 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <NavigationContainer>
-          <Stack.Navigator 
-            initialRouteName={isAuthenticated ? "Home" : "Login"}
-            screenOptions={{ 
-              headerShown: false,
-              gestureEnabled: false
-            }}
-          >
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Schedule" component={ScheduleScreen} />
-            <Stack.Screen name="CropSoil" component={CropSoilScreen} />
-            <Stack.Screen name="Billing" component={BillingScreen} />
-            <Stack.Screen name="Alerts" component={AlertsScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <UserProvider>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName={isAuthenticated ? "Home" : "Login"}
+              screenOptions={{
+                headerShown: false,
+                gestureEnabled: false
+              }}
+            >
+              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Signup" component={SignupScreen} />
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Schedule" component={ScheduleScreen} />
+              <Stack.Screen name="CropSoil" component={CropSoilScreen} />
+              <Stack.Screen name="Billing" component={BillingScreen} />
+              <Stack.Screen name="Alerts" component={AlertsScreen} />
+              <Stack.Screen name="UserDetail" component={UserDetailScreen} />
+              <Stack.Screen name="Analytics" component={AnalyticsScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </UserProvider>
       </LanguageProvider>
     </ThemeProvider>
   );

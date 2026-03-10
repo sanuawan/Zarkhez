@@ -4,309 +4,196 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0fdf4',
+    backgroundColor: '#F4F7F6',
   },
-  containerDark: {
-    backgroundColor: '#0f172a',
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 12,
+    paddingBottom: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 100,
-  },
-  titleContainer: {
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  titleIcon: {
-    width: 80,
-    height: 80,
-    backgroundColor: '#10b981',
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  titleIconText: {
-    fontSize: 36,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  titleDark: {
-    color: '#f8fafc',
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: '#f1f5f9',
-  },
-  cardDark: {
-    backgroundColor: '#1e293b',
-    borderColor: '#334155',
-  },
-  currentBillHeader: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  currentBillTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#374151',
-    marginBottom: 8,
-  },
-  currentBillTitleDark: {
-    color: '#e2e8f0',
-  },
-  currentBillAmount: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#7c3aed',
-  },
-  currentBillAmountDark: {
-    color: '#a78bfa',
-  },
-  usageGrid: {
+  headerTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  usageItem: {
-    flex: 1,
-    marginHorizontal: 6,
-    padding: 16,
-    borderRadius: 16,
     alignItems: 'center',
-  },
-  usageIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  usageIcon: {
-    fontSize: 20,
-  },
-  usageLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#4b5563',
-    marginBottom: 4,
-  },
-  usageLabelDark: {
-    color: '#cbd5e1',
-  },
-  usageValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  usageValueDark: {
-    color: '#f8fafc',
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#374151',
     marginBottom: 16,
-    textAlign: 'center',
   },
-  sectionTitleDark: {
-    color: '#e2e8f0',
-  },
-  usageSection: {
-    marginBottom: 24,
-  },
-  usageHeader: {
+  logoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
   },
-  usageSectionIcon: {
-    fontSize: 16,
+  logoIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(110,211,181,0.25)',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 8,
   },
-  usageSectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#4b5563',
+  logoIconText: {
+    fontSize: 14,
+    color: '#6ED3B5',
   },
-  usageSectionTitleDark: {
-    color: '#cbd5e1',
-  },
-  barChart: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    height: 80,
-    paddingHorizontal: 8,
-  },
-  barContainer: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  barWrapper: {
-    height: 60,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  bar: {
-    width: 12,
-    borderRadius: 6,
-    minHeight: 4,
-  },
-  barLabel: {
-    fontSize: 10,
+  logoText: {
+    fontSize: 12,
+    color: '#6ED3B5',
     fontWeight: '500',
-    color: '#6b7280',
-    marginTop: 4,
   },
-  barLabelDark: {
-    color: '#94a3b8',
+  analyticsButton: {
+    backgroundColor: '#FFD166',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
   },
-  lineChart: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    height: 80,
-    paddingHorizontal: 8,
-    position: 'relative',
-  },
-  linePointContainer: {
-    alignItems: 'center',
-    flex: 1,
-    position: 'relative',
-  },
-  linePoint: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    position: 'absolute',
-    zIndex: 2,
-  },
-  lineLabel: {
-    fontSize: 10,
-    fontWeight: '500',
-    color: '#6b7280',
-    marginTop: 20,
-  },
-  lineLabelDark: {
-    color: '#94a3b8',
-  },
-  line: {
-    position: 'absolute',
-    bottom: 30,
-    left: 16,
-    right: 16,
-    height: 2,
-    backgroundColor: '#d1d5db',
-    zIndex: 1,
-  },
-  lineDark: {
-    backgroundColor: '#475569',
-  },
-  historyList: {
-    marginTop: 8,
-  },
-  historyItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 16,
-    marginBottom: 12,
-    backgroundColor: '#f8fafc',
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-  },
-  historyItemDark: {
-    backgroundColor: '#334155',
-    borderColor: '#475569',
-  },
-  currentBillItem: {
-    backgroundColor: '#faf5ff',
-    borderColor: '#ddd6fe',
-  },
-  currentBillItemDark: {
-    backgroundColor: '#4c1d95',
-    borderColor: '#7c3aed',
-  },
-  historyLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  statusIndicator: {
-    marginRight: 12,
-  },
-  statusDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-  },
-  historyMonth: {
-    fontSize: 16,
+  analyticsButtonText: {
+    fontSize: 12,
+    color: '#1F7A63',
     fontWeight: '600',
-    color: '#1f2937',
+  },
+  mainTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#FFFFFF',
     marginBottom: 4,
   },
-  historyMonthDark: {
-    color: '#f1f5f9',
+  subtitle: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.65)',
+    marginBottom: 16,
   },
-  waterUsage: {
+  summaryRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  summaryCard: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderRadius: 16,
+    padding: 12,
+  },
+  summaryLabel: {
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.65)',
+    marginBottom: 4,
+  },
+  summaryValue: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+  content: {
+    padding: 16,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 12,
   },
-  waterIcon: {
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#1F7A63',
+  },
+  sectionDate: {
     fontSize: 12,
-    marginRight: 4,
+    color: '#8aabb3',
   },
-  waterAmount: {
-    fontSize: 12,
-    color: '#3b82f6',
-    fontWeight: '500',
-  },
-  waterAmountDark: {
-    color: '#60a5fa',
-  },
-  historyRight: {
-    alignItems: 'flex-end',
-  },
-  historyAmount: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 6,
-  },
-  historyAmountDark: {
-    color: '#f1f5f9',
-  },
-  statusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+  tableHeader: {
+    flexDirection: 'row',
+    backgroundColor: '#E8F3F0',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     borderRadius: 12,
+    marginBottom: 8,
   },
-  statusText: {
+  tableHeaderCell: {
+    flex: 1,
     fontSize: 12,
     fontWeight: '600',
+    color: '#1F7A63',
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
+  textRight: {
+    textAlign: 'right',
+  },
+  userRowContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 8,
+    shadowColor: '#1F7A63',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  userRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  userInfo: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  avatar: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#E8F3F0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#1F7A63',
+  },
+  userName: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#1a2e28',
+  },
+  userHours: {
+    flex: 1,
+    fontSize: 14,
+    color: '#4a6b64',
+  },
+  userRate: {
+    flex: 1,
+    fontSize: 14,
+    color: '#4a6b64',
+  },
+  userBill: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1F7A63',
+  },
+  detailsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#F4F7F6',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+  },
+  detailsButtonText: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#1F7A63',
+  },
+  chevron: {
+    fontSize: 14,
+    color: '#1F7A63',
   },
 });
