@@ -1,4 +1,3 @@
-// src/screens/CropSoilScreen.tsx
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -11,8 +10,7 @@ import {
   FlatList,
   ActivityIndicator,
   Alert,
-  TextInput,
-  Image
+  TextInput
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -27,78 +25,70 @@ const CropSoilScreen: React.FC = () => {
   const { isDark } = useTheme();
   const navigation = useNavigation();
 
-  // State variables
-  const [activeTab, setActiveTab] = useState('soil');
-  const [selectedCrop, setSelectedCrop] = useState('wheat');
-  const [selectedSoil, setSelectedSoil] = useState('loam');
-  const [selectedDistrict, setSelectedDistrict] = useState('Lahore');
-  const [fieldArea, setFieldArea] = useState('5.0');
-  const [motorPower, setMotorPower] = useState('5');
-
-  // Dropdown states
-  const [showCropDropdown, setShowCropDropdown] = useState(false);
-  const [showSoilDropdown, setShowSoilDropdown] = useState(false);
-  const [showDistrictDropdown, setShowDistrictDropdown] = useState(false);
-  const [showMotorDropdown, setShowMotorDropdown] = useState(false);
-
-  // Data states
+  // --- 1. DATA STATES (Matches Python Model) ---
   const [districts] = useState<string[]>([
-    "Lahore", "Faisalabad", "Karachi", "Islamabad", "Rawalpindi",
-    "Multan", "Gujranwala", "Peshawar", "Quetta", "Sargodha",
-    "Sialkot", "Bahawalpur", "Sukkur", "Jhang", "Sheikhupura",
-    "Rahim Yar Khan", "Gujrat", "Kasur", "Okara", "Sahiwal"
+    "Faisalabad", "Multan", "Sargodha", "Bahawalpur",
+    "Lahore", "Sukkur", "Hyderabad"
   ]);
 
   const [crops] = useState<string[]>([
-    'wheat', 'rice', 'cotton', 'maize', 'sugarcane',
-    'potato', 'gram'
+    'Wheat', 'Rice', 'Cotton', 'Sugarcane', 'Maize'
   ]);
 
   const [soilTypes] = useState<string[]>([
-    'loam', 'clay', 'sandy', 'sandy loam', 'clay loam'
+    'Loam', 'Clay', 'Sandy'
   ]);
 
   const [motorPowers] = useState<string[]>([
-    '2', '3', '5', '7', '10', '20', '30', '40', '50'
+    '5', '7.5', '10', '15', '20', '25', '30', '40', '50'
   ]);
 
+  // Motor Types Mapping
   const motorTypeNames: Record<string, string> = {
-    '2': 'Very Small',
-    '3': 'Small',
     '5': 'Medium',
-    '7': 'Upper Medium',
+    '7.5': 'Medium Plus',
     '10': 'Large',
+    '15': 'Large Plus',
     '20': 'Heavy',
+    '25': 'Heavy Plus',
     '30': 'Extra Heavy',
     '40': 'Mega',
     '50': 'Ultra'
   };
 
-  // Recommendation states
+  // --- 2. USER SELECTION STATES ---
+  const [activeTab, setActiveTab] = useState('soil');
+  const [selectedCrop, setSelectedCrop] = useState('Wheat');
+  const [selectedSoil, setSelectedSoil] = useState('Loam');
+  const [selectedDistrict, setSelectedDistrict] = useState('Lahore');
+  const [fieldArea, setFieldArea] = useState('5.0');
+  const [motorPower, setMotorPower] = useState('5');
+
+  // Dropdown Visibility States
+  const [showCropDropdown, setShowCropDropdown] = useState(false);
+  const [showSoilDropdown, setShowSoilDropdown] = useState(false);
+  const [showDistrictDropdown, setShowDistrictDropdown] = useState(false);
+  const [showMotorDropdown, setShowMotorDropdown] = useState(false);
+
+  // Result & Weather States
   const [loading, setLoading] = useState(false);
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [recommendation, setRecommendation] = useState<any>(null);
   const [soilMoisture] = useState(45);
-
-  // Weather states
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [forecastData, setForecastData] = useState<ForecastData[]>([]);
   const [lastUpdated, setLastUpdated] = useState<string>('');
 
-  // Back handler setup
+  // Back Handler
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        navigation.navigate('Home' as never);
-        return true;
-      }
-    );
-
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.navigate('Home' as never);
+      return true;
+    });
     return () => backHandler.remove();
   }, [navigation]);
 
-
+  // Navigation Handler
   const handleTabPress = (tab: string) => {
     setActiveTab(tab);
     if (tab === 'home') navigation.navigate('Home' as never);
@@ -107,310 +97,168 @@ const CropSoilScreen: React.FC = () => {
     if (tab === 'alerts') navigation.navigate('Alerts' as never);
   };
 
-  // Fetch weather data when district changes
+  // Fetch Weather on District Change
   useEffect(() => {
     if (selectedDistrict) {
       fetchWeatherData(selectedDistrict);
     }
   }, [selectedDistrict]);
 
-  // Fetch weather data function
   const fetchWeatherData = async (district: string) => {
     setWeatherLoading(true);
     try {
       const weather = await weatherService.getCurrentWeather(district);
       const forecast = await weatherService.getWeatherForecast(district);
-
       setWeatherData(weather);
       setForecastData(forecast);
-
-      // Set last updated time
       const now = new Date();
       setLastUpdated(now.toLocaleTimeString(language === 'ur' ? 'ur-PK' : 'en-US', {
-        hour: '2-digit',
-        minute: '2-digit'
+        hour: '2-digit', minute: '2-digit'
       }));
-
     } catch (error) {
       console.error('Error fetching weather:', error);
-      Alert.alert(
-        t('common.error'),
-        language === 'ur' ? 'موسم کی معلومات حاصل کرنے میں خرابی' : 'Failed to fetch weather data',
-        [{ text: t('common.ok'), style: 'default' }]
-      );
+      Alert.alert(t('common.error'), language === 'ur' ? 'موسم کی معلومات حاصل کرنے میں خرابی' : 'Failed to fetch weather data');
     } finally {
       setWeatherLoading(false);
     }
   };
 
-  // Refresh weather data
   const refreshWeather = () => {
     fetchWeatherData(selectedDistrict);
   };
 
-  // Calculate flow rate based on motor power (HP)
-  const calculateFlowRate = (hp: number): number => {
-    const flowRates: Record<number, number> = {
-      2: 40,   // Very Small
-      3: 60,   // Small
-      5: 120,  // Medium
-      7: 200,  // Upper Medium
-      10: 300, // Large
-      20: 600, // Heavy
-      30: 900, // Extra Heavy
-      40: 1200, // Mega
-      50: 1500  // Ultra
-    };
 
-    return flowRates[hp] || 120;
+
+  // Helper: Weather Impact Text
+  const getWeatherImpact = (weather: WeatherData | null): string => {
+    if (!weather) return language === 'ur' ? 'معمول' : 'Normal';
+    if (weather.rainfall > 10) return language === 'ur' ? 'بارش کی وجہ سے کم' : 'Reduced due to rain';
+    if (weather.temp > 35) return language === 'ur' ? 'گرمی کی وجہ سے زیادہ' : 'Increased due to heat';
+    if (weather.humidity < 30) return language === 'ur' ? 'خشک ہوا کی وجہ سے زیادہ' : 'Increased due to dry air';
+    return language === 'ur' ? 'معمول' : 'Normal';
   };
 
-  // Generate recommendation function
-  const generateRecommendation = () => {
+  // --- 3. MAIN RECOMMENDATION FUNCTION (API CALL) ---
+  const generateRecommendation = async () => {
+    // 1. Validation
     if (!selectedCrop || !selectedSoil || !fieldArea || !motorPower) {
-      Alert.alert(
-        t('common.error'),
-        t('soil.fillAllFields'),
-        [{ text: t('common.ok'), style: 'default' }]
-      );
+      Alert.alert(t('common.error'), t('soil.fillAllFields'), [{ text: t('common.ok'), style: 'default' }]);
       return;
     }
 
     setLoading(true);
 
-    // Simulate API call delay
-    setTimeout(() => {
-      try {
-        const area = parseFloat(fieldArea) || 1;
-        const motorHP = parseFloat(motorPower) || 5;
+    try {
+      // 2. API Call
+      // Yahan apna Render wala Link lagayen
+      const API_URL = 'https://irrigation-backend-9qtw.onrender.com/predict';
 
-        // Calculate flow rate from dataset
-        const flowRate = calculateFlowRate(motorHP);
-        const motorType = motorTypeNames[motorHP.toString()] || 'Medium';
+      // ✅ FIX: Keys ab bilkul waisi hain jaisi app.py main hain
+      const requestBody = {
+        District: selectedDistrict,
+        Crop: selectedCrop,
+        Soil: selectedSoil,
+        Area_Hectares: parseFloat(fieldArea),
+        Motor_HP: parseFloat(motorPower)
+      };
 
-        // Calculate water requirement (consider weather factor)
-        const waterNeeded = calculateWaterRequirement(
-          selectedCrop,
-          selectedSoil,
-          area,
-          weatherData
-        );
+      console.log("Sending Data to Server:", requestBody);
 
-        // Calculate irrigation duration
-        const durationHours = calculateIrrigationDuration(waterNeeded, flowRate);
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+      });
 
-        // Adjust based on weather conditions
-        const adjustedDuration = adjustIrrigationForWeather(durationHours, weatherData);
+      const data = await response.json();
+      console.log("Server Response:", data);
 
-        // Get motor price range
-        const priceRange = getMotorPriceRange(motorHP);
-
-        const result = {
-          water_needed_liters: waterNeeded,
-          flow_rate_lpm: flowRate,
-          duration_hours: adjustedDuration,
-          motor_power_hp: motorHP,
-          motor_type: motorType,
-          price_range: priceRange,
-          area_hectares: area,
-          crop_type: selectedCrop,
-          soil_type: selectedSoil,
-          district: selectedDistrict,
-          weather_impact: getWeatherImpact(weatherData)
-        };
-
-        setRecommendation(result);
-
-        // Show success message
-        Alert.alert(
-          t('soil.success'),
-          language === 'ur'
-            ? `آبپاشی کی سفارش تیار کر لی گئی ہے۔ ${adjustedDuration} گھنٹے آبپاشی کریں۔`
-            : `Irrigation recommendation generated. Irrigate for ${adjustedDuration} hours.`,
-          [{ text: t('common.ok'), style: 'default' }]
-        );
-
-      } catch (error) {
-        console.error(error);
-        Alert.alert(
-          t('common.error'),
-          t('soil.generationFailed'),
-          [{ text: t('common.ok'), style: 'default' }]
-        );
-      } finally {
-        setLoading(false);
+      // Agar server ne error bheja ho
+      if (data.status === 'failed' || data.error) {
+        throw new Error(data.error || "Unknown server error");
       }
-    }, 1500);
-  };
 
-  // Calculate water requirement with weather factor
-  const calculateWaterRequirement = (
-    crop: string,
-    soil: string,
-    area: number,
-    weather: WeatherData | null
-  ): number => {
-    const cropWaterMap: Record<string, number> = {
-      'wheat': 4.5,
-      'rice': 6.8,
-      'cotton': 5.2,
-      'maize': 4.8,
-      'sugarcane': 7.5,
-      'potato': 4.0,
-      'gram': 3.5
-    };
+      // 3. Result Processing
+      // ✅ FIX: Ab hum wahi data utha rahay hain jo app.py bhej raha hai
+      // Python code ne khud hi liters aur hours calculate kr k bheje hain
+      const waterNeeded = data.water_liters;
+      const durationHours = data.irrigation_hours;
 
-    const baseWater = cropWaterMap[crop] || 4.0;
+      // Motor details for UI display
+      const motorHP = parseFloat(motorPower);
+      const motorLabel = motorTypeNames[motorPower] || 'Standard';
 
-    // Weather factor (temperature and humidity based)
-    let weatherFactor = 1.0;
-    if (weather) {
-      if (weather.temp > 35) weatherFactor *= 1.2; // Hot weather
-      if (weather.temp < 20) weatherFactor *= 0.8; // Cool weather
-      if (weather.humidity < 30) weatherFactor *= 1.1; // Dry air
-      if (weather.humidity > 70) weatherFactor *= 0.9; // Humid air
-      if (weather.rainfall > 10) weatherFactor *= 0.5; // Recent rain
+      // Flow Rate UI k liye dikhana ho to (Optional calculation)
+      // Logic: Liters / (Hours * 60)
+      const flowRateLPM = Math.round(waterNeeded / (durationHours * 60));
+
+      // 4. Final Object for UI
+      const result = {
+        water_needed_liters: waterNeeded,
+        flow_rate_lpm: flowRateLPM || 0, // Fallback
+        duration_hours: durationHours,
+        motor_power_hp: motorHP,
+        motor_type: motorLabel,
+        area_hectares: parseFloat(fieldArea),
+        crop_type: selectedCrop,
+        soil_type: selectedSoil,
+        district: selectedDistrict,
+        weather_impact: getWeatherImpact(weatherData)
+      };
+
+      setRecommendation(result);
+
+      Alert.alert(
+        t('soil.success'),
+        language === 'ur'
+          ? `پانی کی ضرورت: ${waterNeeded.toLocaleString()} لیٹر\nدورانیہ: ${durationHours} گھنٹے`
+          : `Water Needed: ${waterNeeded.toLocaleString()} Liters\nDuration: ${durationHours} Hours`,
+        [{ text: t('common.ok'), style: 'default' }]
+      );
+
+    } catch (error: any) {
+      console.error("API Error Detailed:", error);
+      Alert.alert(
+        t('common.error'),
+        "Connection Failed. Check Internet or Inputs.\n" + (error.message || ""),
+        [{ text: t('common.ok'), style: 'default' }]
+      );
+    } finally {
+      setLoading(false);
     }
-
-    const waterLiters = baseWater * 10 * 10000 * area * weatherFactor;
-
-    return Math.round(waterLiters);
   };
 
-  // Calculate irrigation duration
-  const calculateIrrigationDuration = (waterNeeded: number, flowRate: number): number => {
-    if (flowRate <= 0) return 0;
-
-    const durationMinutes = waterNeeded / flowRate;
-    const durationHours = durationMinutes / 60;
-
-    return Math.max(0.5, Math.round(durationHours * 10) / 10);
-  };
-
-  // Adjust irrigation based on weather
-  const adjustIrrigationForWeather = (
-    duration: number,
-    weather: WeatherData | null
-  ): number => {
-    if (!weather) return duration;
-
-    let adjusted = duration;
-
-    // Reduce irrigation if it rained today
-    if (weather.rainfall > 5) {
-      adjusted *= 0.7;
-    }
-
-    // Increase if hot and dry
-    if (weather.temp > 35 && weather.humidity < 40) {
-      adjusted *= 1.3;
-    }
-
-    // Decrease if cool and humid
-    if (weather.temp < 25 && weather.humidity > 60) {
-      adjusted *= 0.8;
-    }
-
-    return Math.max(0.5, Math.round(adjusted * 10) / 10);
-  };
-
-  // Get weather impact description
-  const getWeatherImpact = (weather: WeatherData | null): string => {
-    if (!weather) return language === 'ur' ? 'معمول' : 'Normal';
-
-    if (weather.rainfall > 10) return language === 'ur' ? 'بارش کی وجہ سے کم' : 'Reduced due to rain';
-    if (weather.temp > 35) return language === 'ur' ? 'گرمی کی وجہ سے زیادہ' : 'Increased due to heat';
-    if (weather.humidity < 30) return language === 'ur' ? 'خشک ہوا کی وجہ سے زیادہ' : 'Increased due to dry air';
-
-    return language === 'ur' ? 'معمول' : 'Normal';
-  };
-
-  // Get motor price range
-  const getMotorPriceRange = (hp: number): string => {
-    const priceRanges: Record<number, string> = {
-      2: "12,000-18,000 PKR",
-      3: "15,000-25,000 PKR",
-      5: "30,000-45,000 PKR",
-      7: "45,000-65,000 PKR",
-      10: "70,000-100,000 PKR",
-      20: "100,000-150,000 PKR",
-      30: "150,000-220,000 PKR",
-      40: "220,000-300,000 PKR",
-      50: "300,000-400,000 PKR"
-    };
-
-    return priceRanges[hp] || "30,000-45,000 PKR";
-  };
-
-  // Get moisture status
+  // --- UI HELPERS ---
   const getMoistureStatus = (moisture: number) => {
-    if (moisture < 30) return {
-      text: language === 'ur' ? 'کم' : 'Low',
-      color: '#ef4444',
-      bg: '#fef2f2'
-    };
-    if (moisture < 60) return {
-      text: language === 'ur' ? 'درمیانی' : 'Medium',
-      color: '#f59e0b',
-      bg: '#fffbeb'
-    };
-    return {
-      text: language === 'ur' ? 'اچھی' : 'Good',
-      color: '#10b981',
-      bg: '#f0fdf4'
-    };
+    if (moisture < 30) return { text: language === 'ur' ? 'کم' : 'Low', color: '#ef4444', bg: '#fef2f2' };
+    if (moisture < 60) return { text: language === 'ur' ? 'درمیانی' : 'Medium', color: '#f59e0b', bg: '#fffbeb' };
+    return { text: language === 'ur' ? 'اچھی' : 'Good', color: '#10b981', bg: '#f0fdf4' };
   };
 
-  // Get weather condition icon
   const getWeatherIcon = (condition: string): string => {
     const icons: Record<string, string> = {
-      'Clear': '☀️',
-      'Clouds': '☁️',
-      'Rain': '🌧️',
-      'Drizzle': '🌦️',
-      'Thunderstorm': '⛈️',
-      'Snow': '❄️',
-      'Mist': '🌫️',
-      'Smoke': '💨',
-      'Haze': '😶‍🌫️',
-      'Dust': '💨',
-      'Fog': '🌫️',
-      'Sand': '💨',
-      'Ash': '🌋',
-      'Squall': '💨',
-      'Tornado': '🌪️'
+      'Clear': '☀️', 'Clouds': '☁️', 'Rain': '🌧️', 'Drizzle': '🌦️',
+      'Thunderstorm': '⛈️', 'Snow': '❄️', 'Mist': '🌫️', 'Smoke': '💨',
+      'Haze': '😶‍🌫️', 'Dust': '💨', 'Fog': '🌫️', 'Sand': '💨'
     };
-
     return icons[condition] || '🌤️';
   };
 
-  // Crop options for dropdown
-  const cropOptions = crops.map(crop => ({
-    id: crop,
-    label: t(`soil.${crop}`) || crop.charAt(0).toUpperCase() + crop.slice(1)
-  }));
+  // Dropdown Options Generation (REPLACE THIS BLOCK)
+  const cropOptions = crops.map(c => ({ id: c, label: t(`soil.${c.toLowerCase()}`) }));
+  const soilOptions = soilTypes.map(s => ({ id: s, label: t(`soil.${s.toLowerCase()}`) }));
+  const districtOptions = districts.map(d => ({ id: d, label: t(`district.${d.toLowerCase()}`) }));
 
-  // Soil options for dropdown
-  const soilOptions = soilTypes.map(soil => ({
-    id: soil,
-    label: t(`soil.${soil}`) || soil.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
-  }));
-
-  // District options
-  const districtOptions = districts.map(district => ({
-    id: district,
-    label: district
-  }));
-
-  // Motor power options
-  const motorOptions = motorPowers.map(power => ({
-    id: power,
-    label: `${power} HP (${motorTypeNames[power] || 'Medium'})`
-  }));
+  const motorOptions = motorPowers.map(power => {
+    const mType = motorTypeNames[power] || 'Standard';
+    return {
+      id: power,
+      label: `${power} HP (${t(`motorType.${mType}`)})`
+    };
+  });
 
   const status = getMoistureStatus(soilMoisture);
 
-  // Render dropdown item
   const renderDropdownItem = ({ item, selected, onSelect }: any) => (
     <TouchableOpacity
       style={[
@@ -434,557 +282,254 @@ const CropSoilScreen: React.FC = () => {
   return (
     <View style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-
       <Header showLogout={false} />
 
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Title */}
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+
+        {/* 1. Title Section */}
         <View style={styles.titleContainer}>
-          <View style={styles.titleIcon}>
-            <Text style={styles.titleIconText}>🌱</Text>
-          </View>
-          <Text style={[styles.title, isDark && styles.titleDark]}>
-            {t('soil.title')}
-          </Text>
-          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>
-            {t('soil.smartIrrigation')}
-          </Text>
+          <View style={styles.titleIcon}><Text style={styles.titleIconText}>🌱</Text></View>
+          <Text style={[styles.title, isDark && styles.titleDark]}>{t('soil.title')}</Text>
+          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>{t('soil.smartIrrigation')}</Text>
         </View>
 
-        {/* Input Form */}
+        {/* 2. Input Form Card */}
         <View style={[styles.card, isDark && styles.cardDark]}>
-          <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}>
-            🌾 {t('soil.farmDetails')}
-          </Text>
+          <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}>🌾 {t('soil.farmDetails')}</Text>
 
           <View style={styles.selectionContainer}>
-            {/* District Selection */}
+            {/* District */}
             <View style={styles.selectionItem}>
-              <Text style={[styles.label, isDark && styles.labelDark]}>
-                {t('soil.district')}
-              </Text>
-              <TouchableOpacity
-                style={[
-                  styles.dropdownButton,
-                  isDark && styles.dropdownButtonDark,
-                  showDistrictDropdown && styles.dropdownButtonOpen
-                ]}
-                onPress={() => setShowDistrictDropdown(!showDistrictDropdown)}
-              >
-                <Text style={[
-                  styles.dropdownButtonText,
-                  isDark && styles.dropdownButtonTextDark
-                ]}>
-                  {selectedDistrict}
+              <Text style={[styles.label, isDark && styles.labelDark]}>{t('soil.district')}</Text>
+              <TouchableOpacity style={[styles.dropdownButton, isDark && styles.dropdownButtonDark]} onPress={() => setShowDistrictDropdown(true)}>
+                <Text style={[styles.dropdownButtonText, isDark && styles.dropdownButtonTextDark]}>
+                  {t(`district.${selectedDistrict.toLowerCase()}`)}
                 </Text>
-                <Text style={styles.dropdownArrow}>
-                  {showDistrictDropdown ? '⌃' : '⌄'}
-                </Text>
+                <Text style={styles.dropdownArrow}>⌄</Text>
               </TouchableOpacity>
             </View>
 
-            {/* Crop Selection */}
+            {/* Crop */}
             <View style={styles.selectionItem}>
-              <Text style={[styles.label, isDark && styles.labelDark]}>
-                {t('soil.cropType')}
-              </Text>
-              <TouchableOpacity
-                style={[
-                  styles.dropdownButton,
-                  isDark && styles.dropdownButtonDark,
-                  showCropDropdown && styles.dropdownButtonOpen
-                ]}
-                onPress={() => setShowCropDropdown(!showCropDropdown)}
-              >
-                <Text style={[
-                  styles.dropdownButtonText,
-                  isDark && styles.dropdownButtonTextDark
-                ]}>
-                  {cropOptions.find(c => c.id === selectedCrop)?.label}
+              <Text style={[styles.label, isDark && styles.labelDark]}>{t('soil.cropType')}</Text>
+              <TouchableOpacity style={[styles.dropdownButton, isDark && styles.dropdownButtonDark]} onPress={() => setShowCropDropdown(true)}>
+                <Text style={[styles.dropdownButtonText, isDark && styles.dropdownButtonTextDark]}>
+                  {t(`soil.${selectedCrop.toLowerCase()}`)}
                 </Text>
-                <Text style={styles.dropdownArrow}>
-                  {showCropDropdown ? '⌃' : '⌄'}
-                </Text>
+                <Text style={styles.dropdownArrow}>⌄</Text>
               </TouchableOpacity>
             </View>
 
-            {/* Soil Selection */}
+            {/* Soil */}
             <View style={styles.selectionItem}>
-              <Text style={[styles.label, isDark && styles.labelDark]}>
-                {t('soil.soilType')}
-              </Text>
-              <TouchableOpacity
-                style={[
-                  styles.dropdownButton,
-                  isDark && styles.dropdownButtonDark,
-                  showSoilDropdown && styles.dropdownButtonOpen
-                ]}
-                onPress={() => setShowSoilDropdown(!showSoilDropdown)}
-              >
-                <Text style={[
-                  styles.dropdownButtonText,
-                  isDark && styles.dropdownButtonTextDark
-                ]}>
-                  {soilOptions.find(s => s.id === selectedSoil)?.label}
+              <Text style={[styles.label, isDark && styles.labelDark]}>{t('soil.soilType')}</Text>
+              <TouchableOpacity style={[styles.dropdownButton, isDark && styles.dropdownButtonDark]} onPress={() => setShowSoilDropdown(true)}>
+                <Text style={[styles.dropdownButtonText, isDark && styles.dropdownButtonTextDark]}>
+                  {t(`soil.${selectedSoil.toLowerCase()}`)}
                 </Text>
-                <Text style={styles.dropdownArrow}>
-                  {showSoilDropdown ? '⌃' : '⌄'}
-                </Text>
+                <Text style={styles.dropdownArrow}>⌄</Text>
               </TouchableOpacity>
             </View>
 
-            {/* Field Area Input */}
+            {/* Area */}
             <View style={styles.selectionItem}>
-              <Text style={[styles.label, isDark && styles.labelDark]}>
-                {t('soil.fieldArea')} (hectares)
-              </Text>
-              <View style={[
-                styles.inputContainer,
-                isDark && styles.inputContainerDark
-              ]}>
+              <Text style={[styles.label, isDark && styles.labelDark]}>{t('soil.fieldArea')} (ha)</Text>
+              <View style={[styles.inputContainer, isDark && styles.inputContainerDark]}>
                 <Text style={styles.inputPrefix}>📏</Text>
                 <TextInput
-                  style={[
-                    styles.input,
-                    isDark && styles.inputDark
-                  ]}
+                  style={[styles.input, isDark && styles.inputDark]}
                   value={fieldArea}
                   onChangeText={setFieldArea}
-                  placeholder={language === 'ur' ? 'رقبہ درج کریں' : 'Enter area'}
+                  placeholder="Enter area"
                   keyboardType="numeric"
                   placeholderTextColor={isDark ? '#9ca3af' : '#6b7280'}
                 />
-                <Text style={styles.inputSuffix}>ha</Text>
               </View>
             </View>
 
-            {/* Motor Power Selection */}
+            {/* Motor Power */}
             <View style={styles.selectionItem}>
-              <Text style={[styles.label, isDark && styles.labelDark]}>
-                {t('soil.motorPower')}
-              </Text>
-              <TouchableOpacity
-                style={[
-                  styles.dropdownButton,
-                  isDark && styles.dropdownButtonDark,
-                  showMotorDropdown && styles.dropdownButtonOpen
-                ]}
-                onPress={() => setShowMotorDropdown(!showMotorDropdown)}
-              >
-                <Text style={[
-                  styles.dropdownButtonText,
-                  isDark && styles.dropdownButtonTextDark
-                ]}>
-                  {motorOptions.find(m => m.id === motorPower)?.label}
+              <Text style={[styles.label, isDark && styles.labelDark]}>{t('soil.motorPower')}</Text>
+              <TouchableOpacity style={[styles.dropdownButton, isDark && styles.dropdownButtonDark]} onPress={() => setShowMotorDropdown(true)}>
+                <Text style={[styles.dropdownButtonText, isDark && styles.dropdownButtonTextDark]}>
+                  {motorOptions.find(m => m.id === motorPower)?.label || motorPower}
                 </Text>
-                <Text style={styles.dropdownArrow}>
-                  {showMotorDropdown ? '⌃' : '⌄'}
-                </Text>
+                <Text style={styles.dropdownArrow}>⌄</Text>
               </TouchableOpacity>
             </View>
 
             {/* Generate Button */}
-            <TouchableOpacity
-              style={[styles.generateButton, loading && styles.generateButtonDisabled]}
-              onPress={generateRecommendation}
-              disabled={loading}
-            >
-              {loading ? (
-                <ActivityIndicator color="#ffffff" />
-              ) : (
+            <TouchableOpacity style={[styles.generateButton, loading && styles.generateButtonDisabled]} onPress={generateRecommendation} disabled={loading}>
+              {loading ? <ActivityIndicator color="#ffffff" /> : (
                 <>
                   <Text style={styles.generateButtonIcon}>🤖</Text>
-                  <Text style={styles.generateButtonText}>
-                    {t('soil.generateRecommendation')}
-                  </Text>
+                  <Text style={styles.generateButtonText}>{t('soil.generateRecommendation')}</Text>
                 </>
               )}
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Soil Moisture Card */}
-        <View style={[styles.card, isDark && styles.cardDark]}>
-          <View style={styles.moistureHeader}>
-            <View style={styles.moistureIcon}>
-              <Text style={styles.moistureIconText}>💧</Text>
+        {/* 3. Recommendation Result (MOVED UP) */}
+        {recommendation && (
+          <View style={[styles.card, isDark && styles.cardDark]}>
+            <View style={styles.aiHeader}>
+              <View style={styles.aiIcon}><Text style={styles.aiIconText}>💧</Text></View>
+              <View>
+                <Text style={[styles.aiTitle, isDark && styles.aiTitleDark]}>{language === 'ur' ? 'آبپاشی کی سفارش' : 'Recommendation'}</Text>
+                <Text style={[styles.aiDescription, isDark && styles.aiDescriptionDark]}>{language === 'ur' ? `موسم کا اثر: ${recommendation.weather_impact}` : `Impact: ${recommendation.weather_impact}`}</Text>
+              </View>
             </View>
-            <View>
-              <Text style={[styles.moistureTitle, isDark && styles.moistureTitleDark]}>
-                {t('soil.moisture')}
-              </Text>
-              <View style={[styles.statusBadge, { backgroundColor: status.bg }]}>
-                <Text style={[styles.statusText, { color: status.color }]}>
-                  {status.text}
+
+            {/* Green Box with Water & Time */}
+            <View style={[styles.recommendationBox, { backgroundColor: '#d1fae5', flexDirection: 'column', alignItems: 'flex-start', paddingVertical: 15 }]}>
+              <View style={[styles.recommendationContent, { marginBottom: 8 }]}>
+                <Text style={styles.recommendationIcon}>💧</Text>
+                <Text style={[styles.recommendationText, { color: '#065f46' }]}>
+                  {language === 'ur'
+                    ? `پانی: ${recommendation.water_needed_liters.toLocaleString()} لیٹر`
+                    : `Water: ${recommendation.water_needed_liters.toLocaleString()} Liters`}
+                </Text>
+              </View>
+              <View style={styles.recommendationContent}>
+                <Text style={styles.recommendationIcon}>⏱️</Text>
+                <Text style={[styles.recommendationText, { color: '#065f46' }]}>
+                  {language === 'ur'
+                    ? `دورانیہ: ${recommendation.duration_hours} گھنٹے`
+                    : `Duration: ${recommendation.duration_hours} Hours`}
                 </Text>
               </View>
             </View>
-          </View>
 
-          {/* Moisture Progress */}
+            <View style={styles.waterContainer}>
+              <View style={styles.detailsGrid}>
+                <View style={[styles.detailItem, isDark && styles.detailItemDark]}>
+                  <Text style={styles.detailIcon}>⚡</Text>
+                  <View style={styles.detailContent}>
+                    <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>Motor</Text>
+                    <Text style={[styles.detailValue, isDark && styles.detailValueDark]}>{recommendation.motor_power_hp} HP</Text>
+                  </View>
+                </View>
+                <View style={[styles.detailItem, isDark && styles.detailItemDark]}>
+                  <Text style={styles.detailIcon}>🌊</Text>
+                  <View style={styles.detailContent}>
+                    <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>Flow</Text>
+                    <Text style={[styles.detailValue, isDark && styles.detailValueDark]}>{recommendation.flow_rate_lpm} L/min</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        )}
+
+        {/* 4. Soil Moisture (MOVED DOWN) */}
+        <View style={[styles.card, isDark && styles.cardDark]}>
+          <View style={styles.moistureHeader}>
+            <View style={styles.moistureIcon}><Text style={styles.moistureIconText}>💧</Text></View>
+            <View>
+              <Text style={[styles.moistureTitle, isDark && styles.moistureTitleDark]}>{t('soil.moisture')}</Text>
+              <View style={[styles.statusBadge, { backgroundColor: status.bg }]}>
+                <Text style={[styles.statusText, { color: status.color }]}>{status.text}</Text>
+              </View>
+            </View>
+          </View>
           <View style={styles.moistureContainer}>
             <View style={styles.moistureInfo}>
-              <Text style={[styles.moistureLabel, isDark && styles.moistureLabelDark]}>
-                {t('soil.moistureLevel')}
-              </Text>
-              <Text style={[styles.moistureValue, isDark && styles.moistureValueDark]}>
-                {soilMoisture}%
-              </Text>
+              <Text style={[styles.moistureLabel, isDark && styles.moistureLabelDark]}>{t('soil.moistureLevel')}</Text>
+              <Text style={[styles.moistureValue, isDark && styles.moistureValueDark]}>{soilMoisture}%</Text>
             </View>
             <View style={[styles.progressBar, isDark && styles.progressBarDark]}>
-              <View
-                style={[
-                  styles.progressFill,
-                  {
-                    width: `${soilMoisture}%`,
-                    backgroundColor: soilMoisture < 30 ? '#ef4444' : soilMoisture < 60 ? '#f59e0b' : '#10b981'
-                  }
-                ]}
-              />
-            </View>
-            <View style={styles.progressLabels}>
-              <Text style={[styles.progressLabel, isDark && styles.progressLabelDark]}>0%</Text>
-              <Text style={[styles.progressLabel, isDark && styles.progressLabelDark]}>50%</Text>
-              <Text style={[styles.progressLabel, isDark && styles.progressLabelDark]}>100%</Text>
+              <View style={[styles.progressFill, { width: `${soilMoisture}%`, backgroundColor: status.color }]} />
             </View>
           </View>
         </View>
 
-        {/* Recommendations Display */}
-        {recommendation && (
-          <>
-            {/* Main Recommendation Card */}
-            <View style={[styles.card, isDark && styles.cardDark]}>
-              <View style={styles.aiHeader}>
-                <View style={styles.aiIcon}>
-                  <Text style={styles.aiIconText}>💧</Text>
-                </View>
-                <View>
-                  <Text style={[styles.aiTitle, isDark && styles.aiTitleDark]}>
-                    {language === 'ur' ? 'آبپاشی کی سفارش' : 'Irrigation \nRecommendation'}
-                  </Text>
-                  <Text style={[styles.aiDescription, isDark && styles.aiDescriptionDark]}>
-                    {language === 'ur'
-                      ? `موسم کا اثر: ${recommendation.weather_impact}`
-                      : `Weather impact: ${recommendation.weather_impact}`
-                    }
-                  </Text>
-                </View>
-              </View>
-
-              <View style={[styles.recommendationBox, { backgroundColor: '#d1fae5' }]}>
-                <View style={styles.recommendationContent}>
-                  <Text style={styles.recommendationIcon}>⏱️</Text>
-                  <Text style={[
-                    styles.recommendationText,
-                    {
-                      color: '#065f46',
-                      fontSize: 16,
-                      textAlign: 'center', // 
-                      flexWrap: 'wrap' // نئے سٹائل
-                    }
-                  ]}>
-                    {language === 'ur'
-                      ? `دورانیہ: ${recommendation.duration_hours} گھنٹے`
-                      : `Duration: ${recommendation.duration_hours} hours`
-                    }
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.waterContainer}>
-                <View style={[styles.waterInfo, { paddingVertical: 12 }]}>
-                  <Text style={[styles.waterLabel, isDark && styles.waterLabelDark, { fontSize: 16 }]}>
-                    {language === 'ur' ? 'پانی کی ضرورت' : 'Water Required'}
-                  </Text>
-                  <Text style={[styles.waterValue, isDark && styles.waterValueDark, { fontSize: 24 }]}>
-                    {recommendation.water_needed_liters.toLocaleString()} L
-                  </Text>
-                </View>
-
-                <View style={styles.detailsGrid}>
-                  <View style={[styles.detailItem, isDark && styles.detailItemDark]}>
-                    <Text style={styles.detailIcon}>⚡</Text>
-                    <View style={styles.detailContent}>
-                      <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>
-                        {language === 'ur' ? 'موٹر پاور' : 'Motor Power'}
-                      </Text>
-                      <Text style={[styles.detailValue, isDark && styles.detailValueDark]}>
-                        {recommendation.motor_power_hp} HP
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={[styles.detailItem, isDark && styles.detailItemDark]}>
-                    <Text style={styles.detailIcon}>💧</Text>
-                    <View style={styles.detailContent}>
-                      <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>
-                        {language === 'ur' ? 'پانی کی رفتار' : 'Flow Rate'}
-                      </Text>
-                      <Text style={[styles.detailValue, isDark && styles.detailValueDark]}>
-                        {recommendation.flow_rate_lpm} L/min
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </>
-        )}
-
-        {/* Live Weather Information */}
+        {/* 5. Weather Section */}
         <View style={[styles.card, isDark && styles.cardDark]}>
           <View style={styles.weatherHeader}>
             <View>
-              <Text style={[styles.weatherTitle, isDark && styles.weatherTitleDark]}>
-                🌤️ {t('soil.currentWeather')}
-              </Text>
-              {lastUpdated && (
-                <Text style={[styles.lastUpdated, isDark && styles.lastUpdatedDark]}>
-                  {language === 'ur'
-                    ? `آخری اپ ڈیٹ: ${lastUpdated}`
-                    : `Last updated: ${lastUpdated}`
-                  }
-                </Text>
-              )}
+              <Text style={[styles.weatherTitle, isDark && styles.weatherTitleDark]}>🌤️ {t('soil.currentWeather')}</Text>
+              {lastUpdated && <Text style={[styles.lastUpdated, isDark && styles.lastUpdatedDark]}>Update: {lastUpdated}</Text>}
             </View>
             <TouchableOpacity onPress={refreshWeather} disabled={weatherLoading}>
-              {weatherLoading ? (
-                <ActivityIndicator size="small" color={isDark ? '#60a5fa' : '#3b82f6'} />
-              ) : (
-                <Text style={[styles.refreshIcon, isDark && styles.refreshIconDark]}>
-                  🔄
-                </Text>
-              )}
+              {weatherLoading ? <ActivityIndicator size="small" color="#3b82f6" /> : <Text style={styles.refreshIcon}>🔄</Text>}
             </TouchableOpacity>
           </View>
-
           {weatherData ? (
             <>
-              {/* Current Weather Summary */}
               <View style={styles.currentWeatherContainer}>
                 <View style={styles.conditionContainer}>
-                  <Text style={styles.weatherIconLarge}>
-                    {getWeatherIcon(weatherData.condition)}
-                  </Text>
+                  <Text style={styles.weatherIconLarge}>{getWeatherIcon(weatherData.condition)}</Text>
                   <View>
-                    <Text style={[styles.tempLarge, isDark && styles.tempLargeDark]}>
-                      {weatherData.temp}°C
-                    </Text>
-                    <Text style={[styles.conditionText, isDark && styles.conditionTextDark]}>
-                      {weatherData.condition}
-                    </Text>
+                    <Text style={[styles.tempLarge, isDark && styles.tempLargeDark]}>{weatherData.temp}°C</Text>
+                    <Text style={[styles.conditionText, isDark && styles.conditionTextDark]}>{weatherData.condition}</Text>
                   </View>
                 </View>
-
                 <View style={styles.weatherDetails}>
-                  <View style={styles.detailRow}>
-                    <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>
-                      {language === 'ur' ? 'محسوس ہوتا ہے' : 'Feels like'}
-                    </Text>
-                    <Text style={[styles.detailValue, isDark && styles.detailValueDark]}>
-                      {weatherData.feelsLike}°C
-                    </Text>
-                  </View>
-                  <View style={styles.detailRow}>
-                    <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>
-                      {t('soil.humidity')}
-                    </Text>
-                    <Text style={[styles.detailValue, isDark && styles.detailValueDark]}>
-                      {weatherData.humidity}%
-                    </Text>
-                  </View>
-                  <View style={styles.detailRow}>
-                    <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>
-                      {t('soil.rainfall')}
-                    </Text>
-                    <Text style={[styles.detailValue, isDark && styles.detailValueDark]}>
-                      {weatherData.rainfall} mm
-                    </Text>
-                  </View>
-                  <View style={styles.detailRow}>
-                    <Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>
-                      {language === 'ur' ? 'ہوا کی رفتار' : 'Wind Speed'}
-                    </Text>
-                    <Text style={[styles.detailValue, isDark && styles.detailValueDark]}>
-                      {weatherData.windSpeed} km/h
-                    </Text>
-                  </View>
+                  <View style={styles.detailRow}><Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>{t('soil.humidity')}</Text><Text style={[styles.detailValue, isDark && styles.detailValueDark]}>{weatherData.humidity}%</Text></View>
+                  <View style={styles.detailRow}><Text style={[styles.detailLabel, isDark && styles.detailLabelDark]}>{t('soil.rainfall')}</Text><Text style={[styles.detailValue, isDark && styles.detailValueDark]}>{weatherData.rainfall}mm</Text></View>
                 </View>
               </View>
-
-              {/* 5-Day Forecast */}
               {forecastData.length > 0 && (
-                <View style={styles.forecastContainer}>
-                  <Text style={[styles.forecastTitle, isDark && styles.forecastTitleDark]}>
-                    📅 {language === 'ur' ? 'اگلے 5 دن' : 'Next 5 Days'}
-                  </Text>
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {forecastData.map((day, index) => (
-                      <View key={index} style={[styles.forecastItem, isDark && styles.forecastItemDark]}>
-                        <Text style={[styles.forecastDay, isDark && styles.forecastDayDark]}>
-                          {day.date}
-                        </Text>
-                        <Text style={styles.forecastIcon}>
-                          {getWeatherIcon(day.condition)}
-                        </Text>
-                        <Text style={[styles.forecastTemp, isDark && styles.forecastTempDark]}>
-                          {day.temp}°C
-                        </Text>
-                        <Text style={[styles.forecastRain, isDark && styles.forecastRainDark]}>
-                          {day.rainfall > 0 ? `🌧️ ${day.rainfall}mm` : '🌤️'}
-                        </Text>
-                      </View>
-                    ))}
-                  </ScrollView>
-                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.forecastContainer}>
+                  {forecastData.map((day, index) => (
+                    <View key={index} style={[styles.forecastItem, isDark && styles.forecastItemDark]}>
+                      <Text style={[styles.forecastDay, isDark && styles.forecastDayDark]}>{day.date}</Text>
+                      <Text style={styles.forecastIcon}>{getWeatherIcon(day.condition)}</Text>
+                      <Text style={[styles.forecastTemp, isDark && styles.forecastTempDark]}>{day.temp}°C</Text>
+                    </View>
+                  ))}
+                </ScrollView>
               )}
             </>
           ) : (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color={isDark ? '#60a5fa' : '#3b82f6'} />
-              <Text style={[styles.loadingText, isDark && styles.loadingTextDark]}>
-                {weatherLoading ? t('common.loading') : language === 'ur' ? 'موسم کی معلومات لوڈ ہو رہی ہے' : 'Loading weather data...'}
-              </Text>
-            </View>
+            <View style={styles.loadingContainer}><Text style={[styles.loadingText, isDark && styles.loadingTextDark]}>Loading Weather...</Text></View>
           )}
         </View>
+
       </ScrollView>
 
-      {/* Dropdown Modals */}
+      {/* Modals */}
       {showDistrictDropdown && (
-        <Modal
-          transparent={true}
-          animationType="fade"
-          visible={showDistrictDropdown}
-          onRequestClose={() => setShowDistrictDropdown(false)}
-        >
-          <TouchableOpacity
-            style={styles.dropdownOverlay}
-            activeOpacity={1}
-            onPress={() => setShowDistrictDropdown(false)}
-          >
+        <Modal transparent visible={showDistrictDropdown} animationType="fade" onRequestClose={() => setShowDistrictDropdown(false)}>
+          <TouchableOpacity style={styles.dropdownOverlay} onPress={() => setShowDistrictDropdown(false)}>
             <View style={[styles.dropdownModal, isDark && styles.dropdownModalDark]}>
-              <FlatList
-                data={districtOptions}
-                renderItem={({ item }) => renderDropdownItem({
-                  item,
-                  selected: selectedDistrict,
-                  onSelect: (id: string) => {
-                    setSelectedDistrict(id);
-                    setShowDistrictDropdown(false);
-                  }
-                })}
-                keyExtractor={(item) => item.id}
-                style={styles.dropdownList}
-                showsVerticalScrollIndicator={false}
-              />
+              <FlatList data={districtOptions} renderItem={({ item }) => renderDropdownItem({ item, selected: selectedDistrict, onSelect: (id: string) => { setSelectedDistrict(id); setShowDistrictDropdown(false); } })} keyExtractor={item => item.id} />
             </View>
           </TouchableOpacity>
         </Modal>
       )}
 
       {showCropDropdown && (
-        <Modal
-          transparent={true}
-          animationType="fade"
-          visible={showCropDropdown}
-          onRequestClose={() => setShowCropDropdown(false)}
-        >
-          <TouchableOpacity
-            style={styles.dropdownOverlay}
-            activeOpacity={1}
-            onPress={() => setShowCropDropdown(false)}
-          >
+        <Modal transparent visible={showCropDropdown} animationType="fade" onRequestClose={() => setShowCropDropdown(false)}>
+          <TouchableOpacity style={styles.dropdownOverlay} onPress={() => setShowCropDropdown(false)}>
             <View style={[styles.dropdownModal, isDark && styles.dropdownModalDark]}>
-              <FlatList
-                data={cropOptions}
-                renderItem={({ item }) => renderDropdownItem({
-                  item,
-                  selected: selectedCrop,
-                  onSelect: (id: string) => {
-                    setSelectedCrop(id);
-                    setShowCropDropdown(false);
-                  }
-                })}
-                keyExtractor={(item) => item.id}
-                style={styles.dropdownList}
-                showsVerticalScrollIndicator={false}
-              />
+              <FlatList data={cropOptions} renderItem={({ item }) => renderDropdownItem({ item, selected: selectedCrop, onSelect: (id: string) => { setSelectedCrop(id); setShowCropDropdown(false); } })} keyExtractor={item => item.id} />
             </View>
           </TouchableOpacity>
         </Modal>
       )}
 
       {showSoilDropdown && (
-        <Modal
-          transparent={true}
-          animationType="fade"
-          visible={showSoilDropdown}
-          onRequestClose={() => setShowSoilDropdown(false)}
-        >
-          <TouchableOpacity
-            style={styles.dropdownOverlay}
-            activeOpacity={1}
-            onPress={() => setShowSoilDropdown(false)}
-          >
+        <Modal transparent visible={showSoilDropdown} animationType="fade" onRequestClose={() => setShowSoilDropdown(false)}>
+          <TouchableOpacity style={styles.dropdownOverlay} onPress={() => setShowSoilDropdown(false)}>
             <View style={[styles.dropdownModal, isDark && styles.dropdownModalDark]}>
-              <FlatList
-                data={soilOptions}
-                renderItem={({ item }) => renderDropdownItem({
-                  item,
-                  selected: selectedSoil,
-                  onSelect: (id: string) => {
-                    setSelectedSoil(id);
-                    setShowSoilDropdown(false);
-                  }
-                })}
-                keyExtractor={(item) => item.id}
-                style={styles.dropdownList}
-                showsVerticalScrollIndicator={false}
-              />
+              <FlatList data={soilOptions} renderItem={({ item }) => renderDropdownItem({ item, selected: selectedSoil, onSelect: (id: string) => { setSelectedSoil(id); setShowSoilDropdown(false); } })} keyExtractor={item => item.id} />
             </View>
           </TouchableOpacity>
         </Modal>
       )}
 
       {showMotorDropdown && (
-        <Modal
-          transparent={true}
-          animationType="fade"
-          visible={showMotorDropdown}
-          onRequestClose={() => setShowMotorDropdown(false)}
-        >
-          <TouchableOpacity
-            style={styles.dropdownOverlay}
-            activeOpacity={1}
-            onPress={() => setShowMotorDropdown(false)}
-          >
+        <Modal transparent visible={showMotorDropdown} animationType="fade" onRequestClose={() => setShowMotorDropdown(false)}>
+          <TouchableOpacity style={styles.dropdownOverlay} onPress={() => setShowMotorDropdown(false)}>
             <View style={[styles.dropdownModal, isDark && styles.dropdownModalDark]}>
-              <FlatList
-                data={motorOptions}
-                renderItem={({ item }) => renderDropdownItem({
-                  item,
-                  selected: motorPower,
-                  onSelect: (id: string) => {
-                    setMotorPower(id);
-                    setShowMotorDropdown(false);
-                  }
-                })}
-                keyExtractor={(item) => item.id}
-                style={styles.dropdownList}
-                showsVerticalScrollIndicator={false}
-              />
+              <FlatList data={motorOptions} renderItem={({ item }) => renderDropdownItem({ item, selected: motorPower, onSelect: (id: string) => { setMotorPower(id); setShowMotorDropdown(false); } })} keyExtractor={item => item.id} />
             </View>
           </TouchableOpacity>
         </Modal>
       )}
 
-      {/* Bottom Navigation */}
       <BottomNavBar activeTab={activeTab} onTabPress={handleTabPress} />
     </View>
   );

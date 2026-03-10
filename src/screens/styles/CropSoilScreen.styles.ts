@@ -1,7 +1,19 @@
 // src/screens/styles/CropSoilScreen.styles.ts
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform, PixelRatio } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+// Responsive Helper: Screen width ke hisaab se size calculate karega
+const scale = SCREEN_WIDTH / 375;
+
+const normalize = (size: number) => {
+  const newSize = size * scale;
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
+};
 
 export const styles = StyleSheet.create({
   container: {
@@ -15,24 +27,24 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
-    paddingBottom: 100,
+    padding: normalize(16),
+    paddingBottom: normalize(100),
   },
   
   // Title Section
   titleContainer: {
     alignItems: 'center',
-    marginBottom: 24,
-    marginTop: 10,
+    marginBottom: normalize(24),
+    marginTop: normalize(10),
   },
   titleIcon: {
-    width: 80,
-    height: 80,
+    width: normalize(70),
+    height: normalize(70),
     backgroundColor: '#10b981',
-    borderRadius: 24,
+    borderRadius: normalize(20),
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: normalize(12),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -40,10 +52,10 @@ export const styles = StyleSheet.create({
     elevation: 8,
   },
   titleIconText: {
-    fontSize: 32,
+    fontSize: normalize(30),
   },
   title: {
-    fontSize: 28,
+    fontSize: normalize(26),
     fontWeight: 'bold',
     color: '#065f46',
     textAlign: 'center',
@@ -52,9 +64,9 @@ export const styles = StyleSheet.create({
     color: '#d1fae5',
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#047857',
-    marginTop: 4,
+    marginTop: normalize(4),
     textAlign: 'center',
   },
   subtitleDark: {
@@ -64,23 +76,23 @@ export const styles = StyleSheet.create({
   // Card Styles
   card: {
     backgroundColor: '#ffffff',
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 16,
+    borderRadius: normalize(16),
+    padding: normalize(18),
+    marginBottom: normalize(16),
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 6,
+    shadowRadius: 8,
+    elevation: 5,
   },
   cardDark: {
     backgroundColor: '#262626',
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: normalize(18),
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: normalize(18),
     color: '#1f2937',
   },
   cardTitleDark: {
@@ -89,16 +101,17 @@ export const styles = StyleSheet.create({
   
   // Selection Container
   selectionContainer: {
-    gap: 16,
+    gap: normalize(16),
   },
   selectionItem: {
-    gap: 8,
+    gap: normalize(6),
   },
   label: {
-    fontSize: 14,
+    fontSize: normalize(14),
     fontWeight: '600',
     color: '#374151',
-    marginBottom: 6,
+    marginBottom: normalize(4),
+    marginLeft: normalize(4), // Thoda indent text alignment ke liye
   },
   labelDark: {
     color: '#d1d5db',
@@ -109,13 +122,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingVertical: normalize(12),
+    paddingHorizontal: normalize(16),
     backgroundColor: '#f8fafc',
-    borderRadius: 12,
+    borderRadius: normalize(12),
     borderWidth: 1,
     borderColor: '#e5e7eb',
-    height: 48,
+    height: normalize(50),
   },
   dropdownButtonDark: {
     backgroundColor: '#374151',
@@ -126,7 +139,7 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
   },
   dropdownButtonText: {
-    fontSize: 15,
+    fontSize: normalize(15),
     fontWeight: '500',
     color: '#1f2937',
     flex: 1,
@@ -135,9 +148,9 @@ export const styles = StyleSheet.create({
     color: '#f9fafb',
   },
   dropdownArrow: {
-    fontSize: 18,
+    fontSize: normalize(16),
     color: '#6b7280',
-    marginLeft: 8,
+    marginLeft: normalize(8),
   },
   
   // Input Field Styles
@@ -145,11 +158,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f8fafc',
-    borderRadius: 12,
+    borderRadius: normalize(12),
     borderWidth: 1,
     borderColor: '#e5e7eb',
-    paddingHorizontal: 16,
-    height: 48,
+    paddingHorizontal: normalize(16),
+    height: normalize(50),
   },
   inputContainerDark: {
     backgroundColor: '#374151',
@@ -157,35 +170,35 @@ export const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 15,
+    fontSize: normalize(15),
     color: '#1f2937',
-    paddingHorizontal: 12,
+    paddingHorizontal: normalize(10),
     height: '100%',
   },
   inputDark: {
     color: '#f9fafb',
   },
   inputPrefix: {
-    fontSize: 16,
-    marginRight: 8,
+    fontSize: normalize(16),
+    marginRight: normalize(8),
     color: '#6b7280',
   },
   inputSuffix: {
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#6b7280',
-    marginLeft: 8,
+    marginLeft: normalize(8),
     fontWeight: '500',
   },
   
   // Generate Button
   generateButton: {
     backgroundColor: '#10b981',
-    borderRadius: 12,
-    paddingVertical: 16,
+    borderRadius: normalize(12),
+    paddingVertical: normalize(16),
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    marginTop: 12,
+    marginTop: normalize(12),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -197,12 +210,12 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
   },
   generateButtonIcon: {
-    fontSize: 20,
-    marginRight: 10,
+    fontSize: normalize(20),
+    marginRight: normalize(10),
   },
   generateButtonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: normalize(16),
     fontWeight: '600',
   },
   
@@ -215,9 +228,9 @@ export const styles = StyleSheet.create({
   },
   dropdownModal: {
     backgroundColor: '#ffffff',
-    borderRadius: 16,
-    width: width * 0.85,
-    maxHeight: height * 0.6,
+    borderRadius: normalize(16),
+    width: SCREEN_WIDTH * 0.85,
+    maxHeight: SCREEN_HEIGHT * 0.6,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -228,11 +241,11 @@ export const styles = StyleSheet.create({
     backgroundColor: '#262626',
   },
   dropdownList: {
-    borderRadius: 16,
+    borderRadius: normalize(16),
   },
   dropdownItem: {
-    paddingVertical: 16,
-    paddingHorizontal: 20,
+    paddingVertical: normalize(16),
+    paddingHorizontal: normalize(20),
     borderBottomWidth: 1,
     borderBottomColor: '#f3f4f6',
   },
@@ -246,7 +259,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#065f46',
   },
   dropdownItemText: {
-    fontSize: 15,
+    fontSize: normalize(15),
     color: '#374151',
   },
   dropdownItemTextDark: {
@@ -261,47 +274,47 @@ export const styles = StyleSheet.create({
   moistureHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: normalize(20),
   },
   moistureIcon: {
-    width: 60,
-    height: 60,
+    width: normalize(55),
+    height: normalize(55),
     backgroundColor: '#3b82f6',
-    borderRadius: 16,
+    borderRadius: normalize(14),
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: normalize(16),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
     elevation: 6,
   },
   moistureIconText: {
-    fontSize: 24,
+    fontSize: normalize(22),
     color: '#ffffff',
   },
   moistureTitle: {
-    fontSize: 18,
+    fontSize: normalize(18),
     fontWeight: 'bold',
     color: '#1f2937',
-    marginBottom: 6,
+    marginBottom: normalize(6),
   },
   moistureTitleDark: {
     color: '#f9fafb',
   },
   statusBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
+    paddingHorizontal: normalize(12),
+    paddingVertical: normalize(6),
+    borderRadius: normalize(12),
     alignSelf: 'flex-start',
   },
   statusText: {
-    fontSize: 12,
+    fontSize: normalize(12),
     fontWeight: '600',
   },
   moistureContainer: {
-    gap: 12,
+    gap: normalize(12),
   },
   moistureInfo: {
     flexDirection: 'row',
@@ -309,14 +322,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   moistureLabel: {
-    fontSize: 15,
+    fontSize: normalize(15),
     color: '#6b7280',
   },
   moistureLabelDark: {
     color: '#9ca3af',
   },
   moistureValue: {
-    fontSize: 28,
+    fontSize: normalize(26),
     fontWeight: 'bold',
     color: '#3b82f6',
   },
@@ -324,9 +337,9 @@ export const styles = StyleSheet.create({
     color: '#60a5fa',
   },
   progressBar: {
-    height: 16,
+    height: normalize(16),
     backgroundColor: '#e5e7eb',
-    borderRadius: 8,
+    borderRadius: normalize(8),
     overflow: 'hidden',
   },
   progressBarDark: {
@@ -334,126 +347,94 @@ export const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    borderRadius: 8,
-  },
-  progressLabels: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  progressLabel: {
-    fontSize: 12,
-    color: '#6b7280',
-  },
-  progressLabelDark: {
-    color: '#9ca3af',
+    borderRadius: normalize(8),
   },
   
   // AI Recommendation Section
   aiHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: normalize(20),
   },
   aiIcon: {
-    width: 60,
-    height: 60,
+    width: normalize(55),
+    height: normalize(55),
     backgroundColor: '#10b981',
-    borderRadius: 16,
+    borderRadius: normalize(14),
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: normalize(16),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
     elevation: 6,
   },
   aiIconText: {
-    fontSize: 24,
+    fontSize: normalize(22),
     color: '#ffffff',
   },
   aiTitle: {
-    fontSize: 20,
+    fontSize: normalize(19),
     fontWeight: 'bold',
     color: '#1f2937',
-    marginBottom: 4,
+    marginBottom: normalize(4),
   },
   aiTitleDark: {
     color: '#f9fafb',
   },
   aiDescription: {
-    fontSize: 14,
+    fontSize: normalize(13),
     color: '#6b7280',
+    flexShrink: 1, // Text wrap ke liye zaroori hai
   },
   aiDescriptionDark: {
     color: '#9ca3af',
   },
   recommendationBox: {
-  padding: 15,
-  borderRadius: 16,
-  marginBottom: 15,
-  minHeight: 70,
-  justifyContent: 'center',
-  borderWidth: 2,
-  borderColor: '#10b981',
-},
+    padding: normalize(16),
+    borderRadius: normalize(16),
+    marginBottom: normalize(16),
+    minHeight: normalize(70),
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#10b981',
+  },
 
   recommendationContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    width: '100%', // Full width ensure karne ke liye
+    marginVertical: normalize(4),
   },
   recommendationIcon: {
-    fontSize: 24,
-    marginRight: 12,
+    fontSize: normalize(20),
+    marginRight: normalize(12),
     flexShrink: 0,
   },
   recommendationText: {
-    fontSize: 16, // 18 سے 16 کر دیں
+    fontSize: normalize(16),
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',
-    lineHeight: 20, // 24 سے 20 کر دیں
-    textAlign: 'center', // نئی لائن شامل کریں
-    paddingHorizontal: 8, // نئی لائن شامل کریں (دائیں/بائیں پڈنگ)
-},
+    lineHeight: normalize(22),
+    textAlign: 'left', // Center ki bajaye left zayada readable hota hai lists main
+    paddingRight: normalize(8),
+  },
   
   // Water Requirement Details
   waterContainer: {
-    gap: 20,
-  },
-  waterInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  waterLabel: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#374151',
-  },
-  waterLabelDark: {
-    color: '#d1d5db',
-  },
-  waterValue: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1d4ed8',
-  },
-  waterValueDark: {
-    color: '#60a5fa',
+    gap: normalize(20),
   },
   detailsGrid: {
-    gap: 16,
+    gap: normalize(12),
   },
   detailItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: normalize(14),
     backgroundColor: '#f8fafc',
-    borderRadius: 14,
+    borderRadius: normalize(14),
     borderWidth: 1,
     borderColor: '#e5e7eb',
   },
@@ -462,24 +443,24 @@ export const styles = StyleSheet.create({
     borderColor: '#4b5563',
   },
   detailIcon: {
-    fontSize: 24,
-    marginRight: 16,
-    width: 40,
+    fontSize: normalize(22),
+    marginRight: normalize(16),
+    width: normalize(30),
     textAlign: 'center',
   },
   detailContent: {
     flex: 1,
   },
   detailLabel: {
-    fontSize: 13,
+    fontSize: normalize(13),
     color: '#6b7280',
-    marginBottom: 4,
+    marginBottom: normalize(2),
   },
   detailLabelDark: {
     color: '#9ca3af',
   },
   detailValue: {
-    fontSize: 16,
+    fontSize: normalize(16),
     fontWeight: '600',
     color: '#1f2937',
   },
@@ -488,58 +469,14 @@ export const styles = StyleSheet.create({
   },
   
   // Weather Grid
-  weatherGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginTop: 12,
-  },
-  weatherItem: {
-    alignItems: 'center',
-    backgroundColor: '#f0f9ff',
-    borderRadius: 16,
-    padding: 20,
-    width: '48%',
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#e0f2fe',
-  },
-  weatherItemDark: {
-    backgroundColor: '#1e3a8a',
-    borderColor: '#1e40af',
-  },
-  weatherIcon: {
-    fontSize: 32,
-    marginBottom: 12,
-  },
-  weatherValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 6,
-  },
-  weatherValueDark: {
-    color: '#f9fafb',
-  },
-  weatherLabel: {
-    fontSize: 14,
-    color: '#6b7280',
-    textAlign: 'center',
-  },
-  weatherLabelDark: {
-    color: '#93c5fd',
-  },
-
-
-  // Weather Header Styles
   weatherHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: normalize(16),
   },
   weatherTitle: {
-    fontSize: 18,
+    fontSize: normalize(18),
     fontWeight: 'bold',
     color: '#1f2937',
   },
@@ -547,16 +484,17 @@ export const styles = StyleSheet.create({
     color: '#f9fafb',
   },
   lastUpdated: {
-    fontSize: 12,
+    fontSize: normalize(11),
     color: '#6b7280',
-    marginTop: 2,
+    marginTop: normalize(2),
   },
   lastUpdatedDark: {
     color: '#9ca3af',
   },
   refreshIcon: {
-    fontSize: 20,
+    fontSize: normalize(20),
     color: '#3b82f6',
+    padding: normalize(4), // Touch area increase
   },
   refreshIconDark: {
     color: '#60a5fa',
@@ -564,19 +502,19 @@ export const styles = StyleSheet.create({
   
   // Current Weather Styles
   currentWeatherContainer: {
-    marginBottom: 24,
+    marginBottom: normalize(24),
   },
   conditionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: normalize(20),
   },
   weatherIconLarge: {
-    fontSize: 48,
-    marginRight: 16,
+    fontSize: normalize(44),
+    marginRight: normalize(16),
   },
   tempLarge: {
-    fontSize: 36,
+    fontSize: normalize(34),
     fontWeight: 'bold',
     color: '#1f2937',
   },
@@ -584,9 +522,9 @@ export const styles = StyleSheet.create({
     color: '#f9fafb',
   },
   conditionText: {
-    fontSize: 18,
+    fontSize: normalize(16),
     color: '#6b7280',
-    marginTop: 4,
+    marginTop: normalize(4),
   },
   conditionTextDark: {
     color: '#9ca3af',
@@ -595,8 +533,8 @@ export const styles = StyleSheet.create({
   // Weather Details Styles
   weatherDetails: {
     backgroundColor: '#f8fafc',
-    borderRadius: 12,
-    padding: 16,
+    borderRadius: normalize(12),
+    padding: normalize(16),
     borderWidth: 1,
     borderColor: '#e5e7eb',
   },
@@ -608,7 +546,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: normalize(10),
     borderBottomWidth: 1,
     borderBottomColor: '#e5e7eb',
   },
@@ -618,24 +556,15 @@ export const styles = StyleSheet.create({
   
   // Forecast Styles
   forecastContainer: {
-    marginTop: 24,
-  },
-  forecastTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 12,
-  },
-  forecastTitleDark: {
-    color: '#f9fafb',
+    marginTop: normalize(16),
   },
   forecastItem: {
     alignItems: 'center',
     backgroundColor: '#f0f9ff',
-    borderRadius: 12,
-    padding: 16,
-    marginRight: 12,
-    width: 100,
+    borderRadius: normalize(12),
+    padding: normalize(14),
+    marginRight: normalize(12),
+    width: normalize(90),
     borderWidth: 1,
     borderColor: '#e0f2fe',
   },
@@ -644,45 +573,38 @@ export const styles = StyleSheet.create({
     borderColor: '#1e40af',
   },
   forecastDay: {
-    fontSize: 12,
+    fontSize: normalize(12),
     fontWeight: '600',
     color: '#374151',
-    marginBottom: 8,
+    marginBottom: normalize(8),
     textAlign: 'center',
   },
   forecastDayDark: {
     color: '#f9fafb',
   },
   forecastIcon: {
-    fontSize: 24,
-    marginBottom: 8,
+    fontSize: normalize(22),
+    marginBottom: normalize(8),
   },
   forecastTemp: {
-    fontSize: 16,
+    fontSize: normalize(15),
     fontWeight: 'bold',
     color: '#1f2937',
-    marginBottom: 4,
+    marginBottom: normalize(4),
   },
   forecastTempDark: {
     color: '#f9fafb',
-  },
-  forecastRain: {
-    fontSize: 12,
-    color: '#3b82f6',
-  },
-  forecastRainDark: {
-    color: '#60a5fa',
   },
   
   // Loading Styles
   loadingContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 40,
+    padding: normalize(40),
   },
   loadingText: {
-    marginTop: 12,
-    fontSize: 14,
+    marginTop: normalize(12),
+    fontSize: normalize(14),
     color: '#6b7280',
     textAlign: 'center',
   },
@@ -690,6 +612,3 @@ export const styles = StyleSheet.create({
     color: '#9ca3af',
   },
 });
-
-
-

@@ -1,5 +1,5 @@
 // src/screens/HomeScreen.tsx
-import React, { useState,  useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,26 +9,27 @@ import {
   StatusBar,
   Alert,
   BackHandler,
+  Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore'; 
+import firestore from '@react-native-firebase/firestore';
 import LinearGradient from 'react-native-linear-gradient';
 import { useLanguage } from '../contexts/LanguageContext';
 import BottomNavBar from '../components/BottomNavBar';
 import { styles } from './styles/HomeScreen.styles';
-import { useTheme } from '../contexts/ThemeContext'; 
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import { useTheme } from '../contexts/ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen: React.FC = () => {
   const user = auth().currentUser;
   const { language, toggleLanguage, t } = useLanguage();
-  const { isDark, toggleTheme } = useTheme(); 
+  const { isDark, toggleTheme } = useTheme();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState('home');
   const [motorOn, setMotorOn] = useState(false);
   const [autoMode, setAutoMode] = useState(false);
-  
+
 
   // Mock data
   const voltage = 220;
@@ -64,37 +65,37 @@ const HomeScreen: React.FC = () => {
     return () => backHandler.remove();
   }, [t]);
 
-const onSignOut = () => {
-  Alert.alert(
-    t('common.logout'),
-    t('common.logoutConfirm'),
-    [
-      {
-        text: t('common.cancel'),
-        style: 'cancel',
-      },
-      {
-        text: t('common.logout'),
-        onPress: async () => {
-          try {
-            console.log('Logging out...');
-            await auth().signOut();
-            console.log('Logout successful');
-            
-            // Navigation to Login
-            navigation.navigate('Login' as never);
-            
-          } catch (error) {
-            console.error('Logout error:', error);
-            Alert.alert('Error', 'Failed to sign out');
-          }
+  const onSignOut = () => {
+    Alert.alert(
+      t('common.logout'),
+      t('common.logoutConfirm'),
+      [
+        {
+          text: t('common.cancel'),
+          style: 'cancel',
         },
-        style: 'destructive',
-      },
-    ],
-    { cancelable: true }
-  );
-};
+        {
+          text: t('common.logout'),
+          onPress: async () => {
+            try {
+              console.log('Logging out...');
+              await auth().signOut();
+              console.log('Logout successful');
+
+              // Navigation to Login
+              navigation.navigate('Login' as never);
+
+            } catch (error) {
+              console.error('Logout error:', error);
+              Alert.alert('Error', 'Failed to sign out');
+            }
+          },
+          style: 'destructive',
+        },
+      ],
+      { cancelable: true }
+    );
+  };
 
   const handleTabPress = (tab: string) => {
     setActiveTab(tab);
@@ -109,77 +110,85 @@ const onSignOut = () => {
     // 2. CHANGE LISTENER LOGIC
     // We listen to collection 'iot_data', document 'relay'
     const unsubscribe = firestore()
-      .collection('iot_data') 
+      .collection('iot_data')
       .doc('relay')
       .onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists()) {
           const data = documentSnapshot.data();
           // Assuming the field name is 'state'
-          const value = data?.state; 
-          console.log('Firestore value received:', value); 
+          const value = data?.state;
+          console.log('Firestore value received:', value);
           setMotorOn(value === 'on');
         } else {
-            console.log("Document does not exist yet");
+          console.log("Document does not exist yet");
         }
       }, error => {
-          console.error("Firestore Read Error:", error);
+        console.error("Firestore Read Error:", error);
       });
 
     // Unsubscribe on unmount
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, []);
 
   return (
-    <View style={[styles.container, isDark && styles.containerDark]}> 
-      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} /> 
-      
+    <View style={[styles.container, isDark && styles.containerDark]}>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+
       {/* Header */}
-      <View style={[styles.header, isDark && styles.headerDark]}> 
+      <View style={[styles.header, isDark && styles.headerDark]}>
         <View style={styles.headerLeft}>
-          <Text style={[styles.title, isDark && styles.titleDark]}> 
+          <Text style={[styles.title, isDark && styles.titleDark]}>
             {t('header.title')}
           </Text>
-          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}> 
+          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>
             {t('header.subtitle')}
           </Text>
         </View>
-        
+
         <View style={styles.headerRight}>
           {/* Language Toggle */}
           <TouchableOpacity
-            style={[styles.headerButton, isDark && styles.headerButtonDark]} 
+            style={[styles.headerButton, isDark && styles.headerButtonDark]}
             onPress={toggleLanguage}
           >
-            <Text style={[styles.headerButtonText, isDark && styles.headerButtonTextDark]}> 
+            <Text style={[styles.headerButtonText, isDark && styles.headerButtonTextDark]}>
               {language === 'en' ? 'اردو' : 'English'}
             </Text>
           </TouchableOpacity>
 
           {/* Dark Mode Toggle */}
           <TouchableOpacity
-            style={[styles.headerButton, isDark && styles.headerButtonDark]} 
+            style={[styles.headerButton, isDark && styles.headerButtonDark]}
             onPress={toggleTheme}
           >
             <Text style={styles.headerButtonText}>
-              {isDark ? '🌙' : '☀️'} 
+              {isDark ? '🌙' : '☀️'}
             </Text>
           </TouchableOpacity>
 
           {/* Logout Button */}
           <TouchableOpacity
-            style={[styles.logoutButton, isDark && styles.logoutButtonDark]} 
+            style={[styles.logoutButton, isDark && styles.logoutButtonDark]}
             onPress={onSignOut}
           >
-            <Text style={styles.logoutButtonText}>🚪</Text>
+            {/* require wale method se icon use karein */}
+            <Image
+              source={require('../assets/icons/logout.png')}
+              style={{
+                width: 24,
+                height: 24,
+              }}
+              resizeMode="contain"
+            />
           </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        
+
         {/* Motor Control Card */}
-        <View style={[styles.card, isDark && styles.cardDark]}> 
-          <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}> 
+        <View style={[styles.card, isDark && styles.cardDark]}>
+          <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}>
             {t('motor.status')}
           </Text>
 
@@ -187,9 +196,9 @@ const onSignOut = () => {
           <View style={styles.modeToggleContainer}>
             {/*Toggle UI remains same*/}
             <View style={[styles.modeToggle, isDark && styles.modeToggleDark]}>
-                <Text style={[styles.modeText, !autoMode && styles.modeTextActive, isDark && styles.modeTextDark]}>{t('motor.manual')}</Text>
-                <Switch value={autoMode} onValueChange={setAutoMode} trackColor={{ false: '#d1d5db', true: '#10b981' }} thumbColor={isDark ? '#f3f4f6' : '#ffffff'} />
-                <Text style={[styles.modeText, autoMode && styles.modeTextActive, isDark && styles.modeTextDark]}>{t('motor.auto')}</Text>
+              <Text style={[styles.modeText, !autoMode && styles.modeTextActive, isDark && styles.modeTextDark]}>{t('motor.manual')}</Text>
+              <Switch value={autoMode} onValueChange={setAutoMode} trackColor={{ false: '#d1d5db', true: '#10b981' }} thumbColor={isDark ? '#f3f4f6' : '#ffffff'} />
+              <Text style={[styles.modeText, autoMode && styles.modeTextActive, isDark && styles.modeTextDark]}>{t('motor.auto')}</Text>
             </View>
           </View>
 
@@ -199,7 +208,7 @@ const onSignOut = () => {
               style={[
                 styles.powerButton,
                 motorOn && styles.powerButtonOn,
-                isDark && styles.powerButtonDark, 
+                isDark && styles.powerButtonDark,
                 autoMode && styles.powerButtonDisabled
               ]}
               onPress={() => {
@@ -219,9 +228,9 @@ const onSignOut = () => {
                     })
                     .then(() => console.log('Firestore write OK'))
                     .catch(err => {
-                        console.log('Firestore write ERR', err);
-                        // Revert state if error
-                        setMotorOn(!newMotorState);
+                      console.log('Firestore write ERR', err);
+                      // Revert state if error
+                      setMotorOn(!newMotorState);
                     });
                 }
               }}
@@ -249,42 +258,42 @@ const onSignOut = () => {
         </View>
 
         <View style={styles.statusRow}>
-             <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
-                 <LinearGradient colors={isDark ? ['#1e40af', '#1d4ed8'] : ['#3b82f6', '#2563eb']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>⚡</Text></LinearGradient>
-                 <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.voltage')}</Text>
-                 <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>{voltage}V</Text>
-             </View>
-             <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
-                 <LinearGradient colors={isDark ? ['#ea580c', '#dc2626'] : ['#f97316', '#ea580c']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>🔌</Text></LinearGradient>
-                 <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.current')}</Text>
-                 <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>{current}A</Text>
-             </View>
+          <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
+            <LinearGradient colors={isDark ? ['#1e40af', '#1d4ed8'] : ['#3b82f6', '#2563eb']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>⚡</Text></LinearGradient>
+            <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.voltage')}</Text>
+            <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>{voltage}V</Text>
+          </View>
+          <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
+            <LinearGradient colors={isDark ? ['#ea580c', '#dc2626'] : ['#f97316', '#ea580c']} style={styles.statusIconContainer}><Text style={styles.statusIcon}>🔌</Text></LinearGradient>
+            <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.current')}</Text>
+            <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>{current}A</Text>
+          </View>
         </View>
 
         <View style={[styles.weatherCard, isDark && styles.weatherCardDark]}>
-             <View style={styles.weatherHeader}>
-                 <Text style={styles.weatherIcon}>☀️</Text>
-                 <View><Text style={[styles.weatherTitle, isDark && styles.weatherTitleDark]}>{t('measurements.weather')}</Text><Text style={[styles.weatherSubtitle, isDark && styles.weatherSubtitleDark]}>{t('measurements.temperature')}</Text></View>
-             </View>
-             <View style={styles.weatherInfo}>
-                 <Text style={[styles.temperature, isDark && styles.temperatureDark]}>{temperature}°C</Text>
-                 <View style={styles.humidityContainer}><Text style={styles.humidityIcon}>💧</Text><Text style={[styles.humidity, isDark && styles.humidityDark]}>{humidity}%</Text></View>
-             </View>
+          <View style={styles.weatherHeader}>
+            <Text style={styles.weatherIcon}>☀️</Text>
+            <View><Text style={[styles.weatherTitle, isDark && styles.weatherTitleDark]}>{t('measurements.weather')}</Text><Text style={[styles.weatherSubtitle, isDark && styles.weatherSubtitleDark]}>{t('measurements.temperature')}</Text></View>
+          </View>
+          <View style={styles.weatherInfo}>
+            <Text style={[styles.temperature, isDark && styles.temperatureDark]}>{temperature}°C</Text>
+            <View style={styles.humidityContainer}><Text style={styles.humidityIcon}>💧</Text><Text style={[styles.humidity, isDark && styles.humidityDark]}>{humidity}%</Text></View>
+          </View>
         </View>
 
         <View style={styles.actionsGrid}>
-            <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('schedule')}>
-                <Text style={styles.actionIcon}>⏰</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.schedule')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('soil')}>
-                <Text style={styles.actionIcon}>🌱</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.soil')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('billing')}>
-                <Text style={styles.actionIcon}>💰</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.billing')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('alerts')}>
-                <Text style={styles.actionIcon}>⚠️</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.alerts')}</Text>
-            </TouchableOpacity>
+          <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('schedule')}>
+            <Text style={styles.actionIcon}>⏰</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.schedule')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('soil')}>
+            <Text style={styles.actionIcon}>🌱</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.soil')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('billing')}>
+            <Text style={styles.actionIcon}>💰</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.billing')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('alerts')}>
+            <Text style={styles.actionIcon}>⚠️</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.alerts')}</Text>
+          </TouchableOpacity>
         </View>
 
       </ScrollView>

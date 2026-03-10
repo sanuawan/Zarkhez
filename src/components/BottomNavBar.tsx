@@ -1,6 +1,6 @@
 // src/components/BottomNavBar.tsx
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -14,11 +14,11 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onTabPress }) =>
   const { isDark } = useTheme();
 
   const tabs = [
-    { id: 'home', label: t('nav.home'), icon: '🏠' },
-    { id: 'schedule', label: t('nav.schedule'), icon: '⏰' },
-    { id: 'soil', label: t('nav.soil'), icon: '🌱' },
-    { id: 'billing', label: t('nav.billing'), icon: '💰' },
-    { id: 'alerts', label: t('nav.alerts'), icon: '⚠️' },
+    { id: 'home', label: t('nav.home'), iconSource: require('../assets/icons/home.png') },
+    { id: 'schedule', label: t('nav.schedule'), iconSource: require('../assets/icons/schedule.png') },
+    { id: 'soil', label: t('nav.soil'), icon: '🌱' }, // Soil icon untouched
+    { id: 'billing', label: t('nav.billing'), iconSource: require('../assets/icons/billing.png') },
+    { id: 'alerts', label: t('nav.alerts'), icon: '🔔' },
   ];
 
   return (
@@ -32,7 +32,19 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onTabPress }) =>
           ]}
           onPress={() => onTabPress(tab.id)}
         >
-          <Text style={[styles.icon, isDark && styles.iconDark]}>{tab.icon}</Text>
+          {tab.iconSource ? (
+            <Image 
+              source={tab.iconSource}
+              style={[
+                styles.iconImage,
+                // Tint color se image ka color active (green) aur inactive (grey) hoga
+                { tintColor: activeTab === tab.id ? (isDark ? '#34d399' : '#00a676') : (isDark ? '#9ca3af' : '#6b7280') }
+              ]}
+              resizeMode="contain"
+            />
+          ) : (
+            <Text style={[styles.icon, isDark && styles.iconDark]}>{tab.icon}</Text>
+          )}
           <Text style={[
             styles.label,
             isDark && styles.labelDark,
@@ -72,10 +84,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   activeTab: {
-    backgroundColor: '#10b981',
+    backgroundColor: '#ebfcf5', // Light green background (reference image jaisa)
   },
   activeTabDark: {
-    backgroundColor: '#059669',
+    backgroundColor: '#064e3b', // Dark mode ke liye active background
   },
   icon: {
     fontSize: 20,
@@ -87,17 +99,22 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     fontWeight: '500',
-    color: '#6b7280',
+    color: '#6b7280', // Inactive text ka color grey
   },
   labelDark: {
     color: '#9ca3af',
   },
   activeLabel: {
-    color: '#ffffff',
+    color: '#00a676', // Active text ka color green
     fontWeight: '600',
   },
   activeLabelDark: {
-    color: '#ffffff',
+    color: '#34d399',
+  },
+  iconImage: {
+    width: 24,
+    height: 24,
+    marginBottom: 4,
   },
 });
 

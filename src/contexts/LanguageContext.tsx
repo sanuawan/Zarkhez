@@ -74,6 +74,27 @@ const translations: Record<Language, Record<string, string>> = {
     'soil.sugarcane': 'Sugarcane',
     'soil.potato': 'Potato',
     'soil.gram': 'Gram',
+
+     // Districts
+    'district.faisalabad': 'Faisalabad',
+    'district.multan': 'Multan',
+    'district.sargodha': 'Sargodha',
+    'district.bahawalpur': 'Bahawalpur',
+    'district.lahore': 'Lahore',
+    'district.sukkur': 'Sukkur',
+    'district.hyderabad': 'Hyderabad',
+
+    // Motor Types
+    'motorType.Medium': 'Medium',
+    'motorType.Medium Plus': 'Medium Plus',
+    'motorType.Large': 'Large',
+    'motorType.Large Plus': 'Large Plus',
+    'motorType.Heavy': 'Heavy',
+    'motorType.Heavy Plus': 'Heavy Plus',
+    'motorType.Extra Heavy': 'Extra Heavy',
+    'motorType.Mega': 'Mega',
+    'motorType.Ultra': 'Ultra',
+    'motorType.Standard': 'Standard',
     
     
     'soil.sandy': 'Sandy',
@@ -202,6 +223,28 @@ const translations: Record<Language, Record<string, string>> = {
     'schedule.cancelled': 'منسوخ', 
     'schedule.irrigationComplete': 'آبپاشی مکمل', 
     'schedule.completeMessage': 'آبپاشی کا شیڈول مکمل ہو گیا ہے', 
+
+
+    // Districts
+    'district.faisalabad': 'فیصل آباد',
+    'district.multan': 'ملتان',
+    'district.sargodha': 'سرگودھا',
+    'district.bahawalpur': 'بہاولپور',
+    'district.lahore': 'لاہور',
+    'district.sukkur': 'سکھر',
+    'district.hyderabad': 'حیدرآباد',
+
+    // Motor Types
+    'motorType.Medium': 'درمیانی',
+    'motorType.Medium Plus': 'درمیانی پلس',
+    'motorType.Large': 'بڑی',
+    'motorType.Large Plus': 'بڑی پلس',
+    'motorType.Heavy': 'بھاری',
+    'motorType.Heavy Plus': 'بھاری پلس',
+    'motorType.Extra Heavy': 'اضافی بھاری',
+    'motorType.Mega': 'میگا',
+    'motorType.Ultra': 'الٹرا',
+    'motorType.Standard': 'معیاری',
 
     'soil.title': 'فصل اور مٹی کا تجزیہ',
     'soil.cropSoilInfo': 'فصل اور مٹی کی معلومات',
