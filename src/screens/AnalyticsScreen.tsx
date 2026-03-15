@@ -1,4 +1,3 @@
-// src/screens/AnalyticsScreen.tsx
 import React, { useState } from 'react';
 import {
   View,
@@ -10,6 +9,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AreaChart from '../components/charts/AreaChart';
 import BarChart from '../components/charts/BarChart';
 import LineChart from '../components/charts/LineChart';
@@ -114,6 +114,7 @@ const statsCards = [
 
 const AnalyticsScreen = () => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets(); // ← status bar height ke liye
   const [filter, setFilter] = useState<'weekly' | 'monthly'>('weekly');
   const [monthIdx, setMonthIdx] = useState(0);
   const selectedMonth = monthOrder[monthIdx];
@@ -127,7 +128,7 @@ const AnalyticsScreen = () => {
           colors={['#1F7A63', '#2a9d82']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={styles.header}
+          style={[styles.header, { paddingTop: insets.top + 16 }]} // ← dynamic top padding
         >
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Text style={styles.backIcon}>←</Text>

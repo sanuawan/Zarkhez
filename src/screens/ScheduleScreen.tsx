@@ -235,7 +235,7 @@ const ScheduleScreen: React.FC = () => {
     if (tab === 'home') navigation.navigate('Home' as never);
     if (tab === 'soil') navigation.navigate('CropSoil' as never);
     if (tab === 'billing') navigation.navigate('Billing' as never);
-    if (tab === 'alerts') navigation.navigate('Alerts' as never);
+    if (tab === 'settings') navigation.navigate('Alerts' as never);
   };
 
   // ========== TIME PICKERS ==========

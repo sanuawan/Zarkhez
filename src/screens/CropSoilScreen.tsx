@@ -19,7 +19,7 @@ import Header from '../components/Header';
 import BottomNavBar from '../components/BottomNavBar';
 import weatherService, { WeatherData, ForecastData } from '../services/weatherService';
 import { styles } from './styles/CropSoilScreen.styles';
-
+import firestore from '@react-native-firebase/firestore';
 const CropSoilScreen: React.FC = () => {
   const { t, language } = useLanguage();
   const { isDark } = useTheme();
@@ -74,7 +74,7 @@ const CropSoilScreen: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [recommendation, setRecommendation] = useState<any>(null);
-  const [soilMoisture] = useState(45);
+  const [soilMoisture, setSoilMoisture] = useState<number>(0);
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [forecastData, setForecastData] = useState<ForecastData[]>([]);
   const [lastUpdated, setLastUpdated] = useState<string>('');
@@ -94,7 +94,7 @@ const CropSoilScreen: React.FC = () => {
     if (tab === 'home') navigation.navigate('Home' as never);
     if (tab === 'schedule') navigation.navigate('Schedule' as never);
     if (tab === 'billing') navigation.navigate('Billing' as never);
-    if (tab === 'alerts') navigation.navigate('Alerts' as never);
+    if (tab === 'settings') navigation.navigate('Alerts' as never);
   };
 
   // Fetch Weather on District Change
@@ -103,7 +103,21 @@ const CropSoilScreen: React.FC = () => {
       fetchWeatherData(selectedDistrict);
     }
   }, [selectedDistrict]);
+  // 🔥 Live Soil Moisture Sync from Hardware
+  useEffect(() => {
+    const unsubscribeSensors = firestore()
+      .collection('iot_data')
+      .doc('sensors')
+      .onSnapshot(documentSnapshot => {
+        if (documentSnapshot.exists()) {
+          const data = documentSnapshot.data();
+          // Update the UI with the live soil moisture from the ESP32
+          setSoilMoisture(data?.soilMoisture ?? 0);
+        }
+      });
 
+    return () => unsubscribeSensors();
+  }, []);
   const fetchWeatherData = async (district: string) => {
     setWeatherLoading(true);
     try {

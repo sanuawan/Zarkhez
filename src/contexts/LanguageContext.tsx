@@ -36,7 +36,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.schedule': 'Schedule',
     'nav.soil': 'Soil',
     'nav.billing': 'Billing',
-    'nav.alerts': 'Alerts',
+    'nav.settings': 'Settings',
 
     'schedule.waterSchedule': 'Water Schedule',
     'schedule.scheduleType': 'Schedule Type',
@@ -200,7 +200,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.schedule': 'شیڈول',
     'nav.soil': 'مٹی',
     'nav.billing': 'بلنگ',
-    'nav.alerts': 'الرٹس',
+    'nav.settings': 'ترتیبات',
 
     'schedule.waterSchedule': 'پانی کا شیڈول',
     'schedule.scheduleType': 'شیڈول کی قسم',

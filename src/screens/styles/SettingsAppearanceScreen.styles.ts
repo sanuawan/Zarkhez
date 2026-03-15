@@ -1,0 +1,27 @@
+// src/screens/styles/SettingsAppearanceScreen.styles.ts
+import { StyleSheet } from 'react-native';
+export const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F4F7F6' },
+  header: { paddingHorizontal: 20, paddingBottom: 24, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 },
+  backButton: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
+  backIcon: { fontSize: 18, color: '#FFFFFF', marginRight: 8 },
+  backText: { fontSize: 14, color: '#FFFFFF', fontWeight: '500' },
+  mainTitle: { fontSize: 22, fontWeight: '700', color: '#FFFFFF', marginBottom: 4 },
+  subtitle: { fontSize: 14, color: 'rgba(255,255,255,0.65)' },
+  content: { padding: 16, gap: 16 },
+  sectionLabel: { fontSize: 12, fontWeight: '600', color: '#8aabb3', letterSpacing: 0.5, marginBottom: 4 },
+  themeCard: { backgroundColor: '#FFFFFF', borderRadius: 16, overflow: 'hidden', shadowColor: '#1F7A63', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2 },
+  selectedCard: { shadowColor: '#1F7A63', shadowOpacity: 0.15, shadowRadius: 12, borderWidth: 2, borderColor: '#1F7A63' },
+  themePreview: { height: 100, backgroundColor: '#F4F7F6', padding: 16 },
+  lightPreview: { flex: 1, backgroundColor: '#FFFFFF', borderRadius: 8 },
+  darkPreview: { flex: 1, backgroundColor: '#1a2e28', borderRadius: 8 },
+  themeInfo: { flexDirection: 'row', alignItems: 'center', padding: 16, gap: 12 },
+  themeIconContainer: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#E8F3F0', justifyContent: 'center', alignItems: 'center' },
+  themeIcon: { fontSize: 20 },
+  themeTexts: { flex: 1 },
+  themeTitle: { fontSize: 14, fontWeight: '600', color: '#1a2e28', marginBottom: 2 },
+  themeDescription: { fontSize: 12, color: '#8aabb3' },
+  checkmark: { width: 24, height: 24, borderRadius: 12, backgroundColor: '#1F7A63', justifyContent: 'center', alignItems: 'center' },
+  checkmarkIcon: { fontSize: 14, color: '#FFFFFF', fontWeight: 'bold' },
+  note: { fontSize: 12, color: '#b0c8c2', textAlign: 'center', marginTop: 16 },
+});

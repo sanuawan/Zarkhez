@@ -1,8 +1,6 @@
-// src/components/TimelineItem.tsx
 import React from 'react';
 import { View, Text } from 'react-native';
 import { styles } from '../screens/styles/UserDetailScreen.styles';
-
 interface Props {
   session: {
     date: string;

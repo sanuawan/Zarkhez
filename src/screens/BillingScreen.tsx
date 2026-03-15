@@ -1,5 +1,6 @@
 // src/screens/BillingScreen.tsx
-import React from 'react';
+import React, { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   View,
   Text,
@@ -11,6 +12,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles/BillingScreen.styles';
+import BottomNavBar from '../components/BottomNavBar';
 
 // Static data (from your web component)
 const users = [
@@ -22,20 +24,38 @@ const users = [
 ];
 
 const BillingScreen = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const [activeTab, setActiveTab] = useState('billing');
+
+  const handleTabPress = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === 'home') navigation.navigate('Home' as never);
+    if (tab === 'schedule') navigation.navigate('Schedule' as never);
+    if (tab === 'soil') navigation.navigate('CropSoil' as never);
+    if (tab === 'settings') navigation.navigate('Alerts' as never);
+    // Billing is current screen – no navigation needed for 'billing'
+  };
+
   const totalRevenue = users.reduce((sum, u) => sum + u.total, 0);
   const totalHours = users.reduce((sum, u) => sum + u.hours, 0);
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1F7A63" />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
         {/* Gradient Header */}
         <LinearGradient
           colors={['#1F7A63', '#2a9d82']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={styles.header}
+          style={[
+            styles.header,
+            { paddingTop: insets.top + 20 } // ← status bar height + extra spacing
+          ]}
         >
           <View style={styles.headerTop}>
             <View style={styles.logoContainer}>
@@ -46,7 +66,8 @@ const BillingScreen = () => {
             </View>
             <TouchableOpacity
               style={styles.analyticsButton}
-              onPress={() => (navigation as any).navigate('Analytics')}            >
+              onPress={() => (navigation as any).navigate('Analytics')}
+            >
               <Text style={styles.analyticsButtonText}>View Analytics</Text>
             </TouchableOpacity>
           </View>
@@ -86,7 +107,7 @@ const BillingScreen = () => {
           </View>
 
           {/* User Rows */}
-          {users.map((user, index) => (
+          {users.map((user) => (
             <View key={user.id} style={styles.userRowContainer}>
               <View style={styles.userRow}>
                 <View style={styles.userInfo}>
@@ -101,7 +122,8 @@ const BillingScreen = () => {
               </View>
               <TouchableOpacity
                 style={styles.detailsButton}
-                onPress={() => (navigation as any).navigate('UserDetail', { userId: user.id })}              >
+                onPress={() => (navigation as any).navigate('UserDetail', { userId: user.id })}
+              >
                 <Text style={styles.detailsButtonText}>View Details</Text>
                 <Text style={styles.chevron}>›</Text>
               </TouchableOpacity>
@@ -109,6 +131,9 @@ const BillingScreen = () => {
           ))}
         </View>
       </ScrollView>
+
+      {/* Bottom Navigation Bar */}
+      <BottomNavBar activeTab={activeTab} onTabPress={handleTabPress} />
     </SafeAreaView>
   );
 };
