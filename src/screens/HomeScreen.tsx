@@ -40,8 +40,10 @@ const HomeScreen: React.FC = () => {
   const [activeUser, setActiveUser] = useState<string | null>(null);
 
   // Mock data
-  const voltage = 220;
-  const current = 5.2;
+  // Live Sensor States
+  const [voltage, setVoltage] = useState<number>(0);
+  const [current, setCurrent] = useState<number>(0);
+
   const temperature = 28;
   const humidity = 65;
 
@@ -88,7 +90,7 @@ const HomeScreen: React.FC = () => {
     if (tab === 'schedule') navigation.navigate('Schedule' as never);
     if (tab === 'soil') navigation.navigate('CropSoil' as never);
     if (tab === 'billing') navigation.navigate('Billing' as never);
-    if (tab === 'alerts') navigation.navigate('Alerts' as never);
+    if (tab === 'settings') navigation.navigate('Alerts' as never);
   };
 
   // 🔥 Firestore Sync
@@ -105,6 +107,21 @@ const HomeScreen: React.FC = () => {
         }
       });
     return () => unsubscribe();
+  }, []);
+  // 🔥 Live Sensor Sync
+  useEffect(() => {
+    const unsubscribeSensors = firestore()
+      .collection('iot_data')
+      .doc('sensors')
+      .onSnapshot(documentSnapshot => {
+        if (documentSnapshot.exists()) {
+          const data = documentSnapshot.data();
+          setVoltage(data?.voltage ?? 0);
+          setCurrent(data?.current ?? 0);
+        }
+      });
+
+    return () => unsubscribeSensors();
   }, []);
 
   // 🔥 Confirm Start
@@ -168,7 +185,7 @@ const HomeScreen: React.FC = () => {
       </View>
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-        
+
         {/* Motor Control Card */}
         <View style={[styles.card, isDark && styles.cardDark]}>
           <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}>
@@ -178,8 +195,8 @@ const HomeScreen: React.FC = () => {
           <View style={styles.modeToggleContainer}>
             <View style={[styles.modeToggle, isDark && styles.modeToggleDark]}>
               <Text style={[styles.modeText]}>{t('motor.manual')}</Text>
-              <Switch 
-                value={autoMode} 
+              <Switch
+                value={autoMode}
                 onValueChange={(val) => {
                   firestore()
                     .collection('iot_data')
@@ -187,7 +204,7 @@ const HomeScreen: React.FC = () => {
                     .set({
                       mode: val ? 'auto' : 'manual'
                     }, { merge: true });
-                }} 
+                }}
               />
               <Text style={[styles.modeText]}>{t('motor.auto')}</Text>
             </View>
@@ -249,13 +266,14 @@ const HomeScreen: React.FC = () => {
         </View>
 
         {/* BAQI UI SAME — Voltage, Weather, Grid */}
+
         <View style={styles.statusRow}>
           <View style={[styles.statusCard]}>
             <LinearGradient colors={['#3b82f6', '#2563eb']} style={styles.statusIconContainer}>
               <Text style={styles.statusIcon}>⚡</Text>
             </LinearGradient>
             <Text style={styles.statusLabel}>{t('measurements.voltage')}</Text>
-            <Text style={styles.statusValue}>{voltage}V</Text>
+            <Text style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>{voltage.toFixed(2)}V</Text>
           </View>
 
           <View style={[styles.statusCard]}>
@@ -263,18 +281,18 @@ const HomeScreen: React.FC = () => {
               <Text style={styles.statusIcon}>🔌</Text>
             </LinearGradient>
             <Text style={styles.statusLabel}>{t('measurements.current')}</Text>
-            <Text style={styles.statusValue}>{current}A</Text>
+            <Text style={styles.statusValue}>{current.toFixed(2)}A</Text>
           </View>
         </View>
-                <View style={[styles.weatherCard, isDark && styles.weatherCardDark]}>
-             <View style={styles.weatherHeader}>
-                 <Text style={styles.weatherIcon}>☀️</Text>
-                 <View><Text style={[styles.weatherTitle, isDark && styles.weatherTitleDark]}>{t('measurements.weather')}</Text><Text style={[styles.weatherSubtitle, isDark && styles.weatherSubtitleDark]}>{t('measurements.temperature')}</Text></View>
-             </View>
-             <View style={styles.weatherInfo}>
-                 <Text style={[styles.temperature, isDark && styles.temperatureDark]}>{temperature}°C</Text>
-                 <View style={styles.humidityContainer}><Text style={styles.humidityIcon}>💧</Text><Text style={[styles.humidity, isDark && styles.humidityDark]}>{humidity}%</Text></View>
-             </View>
+        <View style={[styles.weatherCard, isDark && styles.weatherCardDark]}>
+          <View style={styles.weatherHeader}>
+            <Text style={styles.weatherIcon}>☀️</Text>
+            <View><Text style={[styles.weatherTitle, isDark && styles.weatherTitleDark]}>{t('measurements.weather')}</Text><Text style={[styles.weatherSubtitle, isDark && styles.weatherSubtitleDark]}>{t('measurements.temperature')}</Text></View>
+          </View>
+          <View style={styles.weatherInfo}>
+            <Text style={[styles.temperature, isDark && styles.temperatureDark]}>{temperature}°C</Text>
+            <View style={styles.humidityContainer}><Text style={styles.humidityIcon}>💧</Text><Text style={[styles.humidity, isDark && styles.humidityDark]}>{humidity}%</Text></View>
+          </View>
         </View>
 
         <View style={styles.actionsGrid}>
@@ -287,8 +305,8 @@ const HomeScreen: React.FC = () => {
           <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('billing')}>
             <Text style={styles.actionIcon}>💰</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.billing')}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('alerts')}>
-            <Text style={styles.actionIcon}>⚠️</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.alerts')}</Text>
+          <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('settings')}>
+            <Text style={styles.actionIcon}>⚠️</Text><Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.settings')}</Text>
           </TouchableOpacity>
         </View>
 

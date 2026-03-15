@@ -1,0 +1,27 @@
+// src/screens/styles/SettingsAlertsScreen.styles.ts
+import { StyleSheet } from 'react-native';
+export const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F4F7F6' },
+  header: { paddingHorizontal: 20, paddingBottom: 24, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 },
+  backButton: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
+  backIcon: { fontSize: 18, color: '#FFFFFF', marginRight: 8 },
+  backText: { fontSize: 14, color: '#FFFFFF', fontWeight: '500' },
+  mainTitle: { fontSize: 22, fontWeight: '700', color: '#FFFFFF', marginBottom: 4 },
+  subtitle: { fontSize: 14, color: 'rgba(255,255,255,0.65)', marginBottom: 12 },
+  attentionBanner: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,209,102,0.2)', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 12, alignSelf: 'flex-start' },
+  attentionIcon: { fontSize: 14, color: '#FFD166', marginRight: 8 },
+  attentionText: { fontSize: 12, color: '#FFD166', fontWeight: '500' },
+  content: { padding: 16, gap: 12 },
+  alertCard: { backgroundColor: '#FFFFFF', borderRadius: 16, padding: 16, shadowColor: '#1F7A63', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2 },
+  activeAlertCard: { shadowColor: '#FFD166', shadowOpacity: 0.25, shadowRadius: 16, borderWidth: 1.5, borderColor: '#FFD166' },
+  alertRow: { flexDirection: 'row', gap: 12 },
+  alertIcon: { width: 40, height: 40, borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
+  alertIconText: { fontSize: 18 },
+  alertContent: { flex: 1 },
+  alertHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 },
+  alertTitle: { fontSize: 14, fontWeight: '600', color: '#1a2e28' },
+  activeBadge: { backgroundColor: '#FFD166', paddingHorizontal: 6, paddingVertical: 2, borderRadius: 10 },
+  activeBadgeText: { fontSize: 10, fontWeight: '600', color: '#1F7A63' },
+  alertDescription: { fontSize: 12, color: '#4a6b64', marginBottom: 6 },
+  alertTime: { fontSize: 11, color: '#b0c8c2' },
+});

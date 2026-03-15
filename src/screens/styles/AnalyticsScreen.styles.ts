@@ -19,14 +19,14 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   backIcon: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#FFFFFF',
     marginRight: 8,
   },
   backText: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#FFFFFF',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   mainTitle: {
     fontSize: 22,

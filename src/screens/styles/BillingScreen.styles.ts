@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingTop: 12,
+    // paddingTop: 20,
     paddingBottom: 24,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12, // keep as is, but ensure top padding is correct
   },
   logoContainer: {
     flexDirection: 'row',
@@ -191,6 +191,9 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
     color: '#1F7A63',
+  },
+  scrollContent: {
+    paddingBottom: 80, // height of BottomNavBar
   },
   chevron: {
     fontSize: 14,
