@@ -2,7 +2,7 @@
   "name": "zarkheez",
   "version": "0.0.1",
   "private": true,
-    "overrides": {
+  "overrides": {
     "react-native-svg": "15.15.3"
   },
   "scripts": {
