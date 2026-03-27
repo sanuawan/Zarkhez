@@ -38,6 +38,8 @@ const HomeScreen: React.FC = () => {
   const [enteredName, setEnteredName] = useState('');
   const [inputError, setInputError] = useState(false);
   const [activeUser, setActiveUser] = useState<string | null>(null);
+  const [sessionData, setSessionData] = useState<{ time: number; user: string } | null>(null);
+  const [currentRate, setCurrentRate] = useState<number>(200);
 
   // Mock data
   // Live Sensor States
@@ -108,22 +110,79 @@ const HomeScreen: React.FC = () => {
       });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const unsubscribeConfig = firestore()
+      .collection('settings')
+      .doc('billing_config')
+      .onSnapshot(doc => {
+        if (doc.exists) {
+          setCurrentRate(doc.data()?.currentRate ?? 200);
+        }
+      });
+    return () => unsubscribeConfig();
+  }, []);
+
   // 🔥 Live Sensor Sync
+  // 🔥 Live Sensor Sync (FIXED: State-based Name Persistence + Popup)
   useEffect(() => {
     const unsubscribeSensors = firestore()
       .collection('iot_data')
       .doc('sensors')
-      .onSnapshot(documentSnapshot => {
+      .onSnapshot((documentSnapshot) => {
         if (documentSnapshot.exists()) {
           const data = documentSnapshot.data();
+          const liveCurrent = data?.current ?? 0;
           setVoltage(data?.voltage ?? 0);
-          setCurrent(data?.current ?? 0);
+          setCurrent(liveCurrent);
+
+          setSessionData((prevSession) => {
+            // 1. START LOGIC: Jab motor chali
+            if (liveCurrent > 0.15 && prevSession === null) {
+              console.log("!!! SESSION STARTED !!!");
+              // Yahan humne naam ko "freeze" kar diya hamesha ke liye
+              return { time: Date.now(), user: activeUser || "Manual User" };
+            }
+
+            // 2. STOP LOGIC: Jab motor band hui
+            if (liveCurrent < 0.10 && prevSession !== null) {
+              const endTime = Date.now();
+              const { time: startTime, user: sessionUser } = prevSession; // Freezer se naam nikala
+
+              const durationMinutes = (endTime - startTime) / (1000 * 60);
+              const totalBill = (durationMinutes / 60) * currentRate;
+
+              // Database mein wahi "Session User" jayega jo start pe tha
+              firestore()
+                .collection('billing_history')
+                .add({
+                  userName: sessionUser,
+                  duration: durationMinutes.toFixed(4),
+                  billAmount: totalBill.toFixed(2),
+                  rateApplied: currentRate,
+                  startTime: firestore.Timestamp.fromMillis(startTime),
+                  endTime: firestore.Timestamp.fromMillis(endTime),
+                  timestamp: firestore.FieldValue.serverTimestamp(),
+                })
+                .then(() => {
+                  Alert.alert(
+                    "Billing Summary",
+                    `User: ${sessionUser}\n` +
+                    `Duration: ${durationMinutes.toFixed(2)} mins\n` +
+                    `Amount: Rs. ${totalBill.toFixed(2)}`,
+                    [{ text: "OK" }]
+                  );
+                })
+                .catch(err => console.log("Save Error:", err));
+
+              return null; // Session khatam
+            }
+            return prevSession;
+          });
         }
       });
-
     return () => unsubscribeSensors();
-  }, []);
-
+  }, [currentRate, activeUser]);
   // 🔥 Confirm Start
   const confirmStartMotor = () => {
     if (!enteredName.trim()) {
@@ -131,21 +190,25 @@ const HomeScreen: React.FC = () => {
       return;
     }
 
+    const userName = enteredName.trim(); // Variable mein save kiya
     setInputError(false);
     setModalVisible(false);
 
+    // 1. Local state update karein taake billing logic ko foran mil jaye
+    setActiveUser(userName);
+
+    // 2. Firestore update karein
     firestore()
       .collection('iot_data')
       .doc('relay')
       .set({
         state: 'on',
-        activeUser: enteredName.trim(),
+        activeUser: userName,
         mode: 'manual'
-      });
+      }, { merge: true });
 
     setEnteredName('');
   };
-
   return (
     <View style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
