@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingTop: 12,
+    paddingTop: 40,
     paddingBottom: 24,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
@@ -24,9 +24,9 @@ export const styles = StyleSheet.create({
     marginRight: 8,
   },
   backText: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#FFFFFF',
-    fontWeight: '500',
+    fontWeight: '700',
   },
   userHeader: {
     flexDirection: 'row',
@@ -157,10 +157,12 @@ export const styles = StyleSheet.create({
     color: '#1a2e28',
   },
   timeSeparator: {
-    width: 24,
+    width: 20,
     height: 2,
     backgroundColor: '#6ED3B5',
-    marginHorizontal: 8,
+    marginHorizontal: 12,
+    alignSelf: 'center', 
+    marginTop: 10,
   },
   durationBadge: {
     flexDirection: 'row',
