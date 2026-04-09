@@ -29,6 +29,41 @@ import { ThemeProvider } from './src/contexts/ThemeContext';
 import { UserProvider } from './src/contexts/UserContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+
+import notifee, { AndroidImportance } from '@notifee/react-native';
+
+// 🔔 Function: Notification + Firestore Entry
+const sendAlert = async (title: string, message: string, type: 'safety' | 'soil' | 'system') => {
+  try {
+    // 1. Phone Notification
+    await notifee.requestPermission();
+    const channelId = await notifee.createChannel({
+      id: 'alerts',
+      name: 'Zarkhez Alerts',
+      importance: AndroidImportance.HIGH,
+    });
+
+    await notifee.displayNotification({
+      title: `<b>${title}</b>`,
+      body: message,
+      android: { channelId, importance: AndroidImportance.HIGH, pressAction: { id: 'default' } },
+    });
+
+    // 2. Save to Firestore 'notifications' collection (Alerts Page ke liye)
+    await firestore().collection('notifications').add({
+      title: title,
+      message: message,
+      type: type, // e.g., 'safety'
+      timestamp: firestore.FieldValue.serverTimestamp(),
+      read: false // Taake Alerts page pe "New" badge dikha saken
+    });
+
+  } catch (error) {
+    console.error("Alert Error:", error);
+  }
+};
+
+
 enableScreens();
 
 // Global Variables
@@ -110,6 +145,12 @@ const App: React.FC = () => {
 
               // Turn off motor
               await firestore().collection('iot_data').doc('relay').update({ command: 'off' });
+
+              sendAlert(
+                "⚠️ MOTOR STOPPED",
+                `Safety Shutdown: ${reason}`,
+                'safety'
+              );
 
               // Save Safety Event Log
               await firestore().collection('events').add({
@@ -206,8 +247,8 @@ const App: React.FC = () => {
                 );
               }, 3500);
 
-            } catch (err) { 
-              console.error("Billing Error:", err); 
+            } catch (err) {
+              console.error("Billing Error:", err);
               safetyTriggered = false;
             }
           } else {

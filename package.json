@@ -2,9 +2,6 @@
   "name": "zarkheez",
   "version": "0.0.1",
   "private": true,
-  "overrides": {
-    "react-native-svg": "15.15.3"
-  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -13,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@notifee/react-native": "^9.1.8",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-native-community/datetimepicker": "^8.5.1",
     "@react-native-firebase/app": "^23.5.0",
