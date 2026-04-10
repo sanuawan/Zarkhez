@@ -1,3 +1,6 @@
+import irrigationLogic from '../services/irrigationLogic';
+import IrrigationNotificationCard from '../components/IrrigationNotificationCard';
+import { IrrigationDecision } from '../services/irrigationLogic';
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -79,6 +82,8 @@ const CropSoilScreen: React.FC = () => {
   const [forecastData, setForecastData] = useState<ForecastData[]>([]);
   const [lastUpdated, setLastUpdated] = useState<string>('');
 
+  const [irrigationDecision, setIrrigationDecision] = useState<IrrigationDecision | null>(null);
+
   // Back Handler
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -151,6 +156,25 @@ const CropSoilScreen: React.FC = () => {
     if (weather.humidity < 30) return language === 'ur' ? 'خشک ہوا کی وجہ سے زیادہ' : 'Increased due to dry air';
     return language === 'ur' ? 'معمول' : 'Normal';
   };
+
+  // In CropSoilScreen.tsx - This useEffect remains the same
+  useEffect(() => {
+    if (weatherData && forecastData) {
+      // Check if rain expected in next 2 days
+      const rainNext2Days = forecastData.slice(0, 2).some(day => day.rainfall > 5);
+
+      const decision = irrigationLogic.decide(
+        soilMoisture,
+        weatherData.temp,
+        weatherData.condition,
+        weatherData.rainfall,
+        rainNext2Days,
+        weatherData.humidity,
+        weatherData.windSpeed
+      );
+      setIrrigationDecision(decision);
+    }
+  }, [soilMoisture, weatherData, forecastData]);
 
   // --- 3. MAIN RECOMMENDATION FUNCTION (API CALL) ---
   const generateRecommendation = async () => {
@@ -457,6 +481,11 @@ const CropSoilScreen: React.FC = () => {
             </View>
           </View>
         </View>
+
+        {/* 4.5 Irrigation Notification Card - NEW */}
+        {irrigationDecision && (
+          <IrrigationNotificationCard decision={irrigationDecision} />
+        )}
 
         {/* 5. Weather Section */}
         <View style={[styles.card, isDark && styles.cardDark]}>
