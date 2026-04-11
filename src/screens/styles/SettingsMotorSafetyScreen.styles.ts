@@ -256,6 +256,89 @@ export const styles = StyleSheet.create({
   },
   savedButton: { backgroundColor: '#6ED3B5' },
   saveButtonText: { fontSize: 14, fontWeight: '600', color: '#FFFFFF' },
+
+
+  modeContainer: { flexDirection: 'row', gap: 12, marginBottom: 16 },
+  modeButton: { 
+    flex: 1, padding: 15, borderRadius: 16, backgroundColor: '#f0f4f3', 
+    alignItems: 'center', borderWidth: 1, borderColor: '#e0e0e0' 
+  },
+  modeButtonActive: { backgroundColor: '#1F7A63', borderColor: '#1F7A63' },
+  modeIconCircle: { 
+    width: 36, height: 36, borderRadius: 18, backgroundColor: '#fff', 
+    justifyContent: 'center', alignItems: 'center', marginBottom: 8 
+  },
+  modeButtonText: { fontSize: 13, fontWeight: 'bold', color: '#8aabb3' },
+  modeDescriptionBanner: { 
+    backgroundColor: '#E8F3F0', padding: 12, borderRadius: 12, marginTop: 10 
+  },
+  modeDescriptionText: { color: '#1F7A63', fontSize: 12, textAlign: 'center' },
+
+  // SettingsMotorSafetyScreen.styles.js mein yeh add karein:
+
+mergedRow: {
+  marginBottom: 24,
+},
+mergedLabel: {
+  fontSize: 14,
+  fontWeight: '600',
+  color: '#374151',
+  marginBottom: 8,
+},
+mergedSubLabel: {
+  fontSize: 13,
+  fontWeight: '700',
+  color: '#374151',
+  marginTop: 4,
+  marginBottom: 12,
+  letterSpacing: 0.5,
+},
+divider: {
+  height: 1,
+  backgroundColor: '#E5E7EB',
+  marginVertical: 16,
+},
+sliderHeader: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: 8,
+},
+valueBox: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: '#F3F4F6',
+  paddingHorizontal: 12,
+  paddingVertical: 6,
+  borderRadius: 8,
+  borderWidth: 1,
+  width: 70,
+  borderColor: '#E5E7EB',
+},
+valueText: {
+  fontSize: 16,
+  fontWeight: '600',
+  color: '#1F2937',
+  minWidth: 45,
+  textAlign: 'center',
+  padding: 0, 
+  width: 35, 
+},
+unitText: {
+  fontSize: 14,
+  fontWeight: '600',
+  color: '#6B7280',
+  marginLeft: 4,
+},
+rangeLabels: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginTop: 4,
+},
+labelSmall: {
+  fontSize: 11,
+  color: '#9CA3AF',
+},
 });
 
 

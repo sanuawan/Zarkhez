@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -15,20 +15,24 @@ import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
+import Slider from '@react-native-community/slider';
 import { styles } from './styles/SettingsMotorSafetyScreen.styles';
 import motorRuntimeService, { MotorRuntimeData } from '../services/motorRuntimeService';
+import { useRef } from 'react';
 
 const SettingsMotorSafetyScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+
+  // States
+  const [controlMode, setControlMode] = useState<'auto' | 'manual'>('auto');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-
-  // Voltage & Current States
   const [minV, setMinV] = useState(190.0);
   const [maxV, setMaxV] = useState(240.0);
   const [maxA, setMaxA] = useState(12.0);
+  const notificationSentRef = useRef(false);
 
   // Motor Service States
   const [runningHours, setRunningHours] = useState(0);
@@ -38,10 +42,9 @@ const SettingsMotorSafetyScreen = () => {
   const [serviceProgress, setServiceProgress] = useState(0);
 
   const formatDuration = (totalHours: number) => {
-    const totalMinutes = Math.round(totalHours * 60); 
+    const totalMinutes = Math.round(totalHours * 60);
     const h = Math.floor(totalMinutes / 60);
     const m = totalMinutes % 60;
-
     if (h === 0) return `${m} mins`;
     return `${h} hrs ${m} mins`;
   };
@@ -58,6 +61,9 @@ const SettingsMotorSafetyScreen = () => {
           setMaxA(d.maxA ?? 12.0);
           if (d.serviceLimit) {
             setServiceLimitInput(d.serviceLimit.toString());
+          }
+          if (d.controlMode) {
+            setControlMode(d.controlMode);
           }
         }
       }
@@ -82,29 +88,46 @@ const SettingsMotorSafetyScreen = () => {
     loadData();
   }, []);
 
-  // Real-time listener
-  useEffect(() => {
-    const unsubscribe = motorRuntimeService.subscribe((data: MotorRuntimeData) => {
-      console.log('📡 Real-time update received:', data.totalHours, 'hours');
-      setRunningHours(data.totalHours);
+// Real-time listener: Sirf aik dafa notification jayega jab tak RESET na ho
+useEffect(() => {
+  const unsubscribe = motorRuntimeService.subscribe(async (data: MotorRuntimeData) => {
+    const currentHours = data.totalHours;
+    const limit = parseInt(serviceLimitInput);
+    
+    setRunningHours(currentHours);
+    const exceeded = currentHours >= limit;
+    setServiceExceeded(exceeded);
+    setServiceProgress(Math.min((currentHours / limit) * 100, 100));
 
-      const limit = parseInt(serviceLimitInput);
-      const exceeded = data.totalHours >= limit;
-      setServiceExceeded(exceeded);
-      setServiceProgress(Math.min((data.totalHours / limit) * 100, 100));
+    // 🚀 THE ULTIMATE FIX:
+    // Hum check kar rahe hain ke kya is session mein AIK BHI DAFA notification gaya?
+    // Agar gaya hai (ref.current true hai), to limit barhane par bhi ye IF nahi chalega.
+    if (exceeded && !notificationSentRef.current && currentHours > 0) {
+      notificationSentRef.current = true; // Lock laga diya (Ye refresh nahi hoga)
 
-      if (exceeded && data.totalHours > 0 && data.totalHours - 0.1 < limit) {
-        Alert.alert(
-          "⚠️ Service Required",
-          `Motor has exceeded ${limit} hours of operation.\nCurrent runtime: ${formatDuration(data.totalHours)}.\nPlease schedule maintenance.`,
-          [{ text: "OK" }]
-        );
+      try {
+        await firestore().collection('notifications').add({
+          title: "🔧 SERVICE REQUIRED",
+          message: `Motor service due at ${limit} hours. Current: ${formatDuration(currentHours)}`,
+          type: "service",
+          read: false,
+          timestamp: firestore.FieldValue.serverTimestamp(),
+        });
+        console.log("✅ One-time notification sent!");
+      } catch (err) {
+        console.error("❌ Error:", err);
+        notificationSentRef.current = false; 
       }
-    });
+    }
 
-    return () => unsubscribe();
-  }, [serviceLimitInput]);
+    // Sirf tab lock kholna jab user waqai RESET button dabaye (hours 0 ho jayein)
+    if (currentHours === 0) {
+      notificationSentRef.current = false;
+    }
+  });
 
+  return () => unsubscribe();
+}, [serviceLimitInput]);
   // Reset service counter
   const handleResetService = async () => {
     try {
@@ -134,6 +157,7 @@ const SettingsMotorSafetyScreen = () => {
         minV: parseFloat(minV.toString()),
         maxV: parseFloat(maxV.toString()),
         maxA: parseFloat(maxA.toString()),
+        controlMode: controlMode,
         serviceLimit: parseInt(serviceLimitInput),
         updatedAt: firestore.FieldValue.serverTimestamp()
       }, { merge: true });
@@ -156,31 +180,136 @@ const SettingsMotorSafetyScreen = () => {
     setSaving(false);
   };
 
-  const CounterInput = ({ label, value, onChange, step, unit }: any) => (
+  // MERGED CARD - Smart Control Mode + Slider UI for Voltage & Current
+  const MergedCard = () => (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>{label}</Text>
-      <View style={styles.counterContainer}>
+      <Text style={styles.sectionTitle}>SMART MOTOR CONTROL</Text>
+
+      {/* Smart Control Mode */}
+      <Text style={styles.mergedSubLabel}>CONTROL MODE</Text>
+      <View style={styles.modeContainer}>
         <TouchableOpacity
-          onPress={() => onChange(parseFloat((value - step).toFixed(2)))}
-          style={[styles.counterButton, { backgroundColor: '#e05353' }]}>
-          <Text style={styles.counterButtonText}>−</Text>
+          style={[styles.modeButton, controlMode === 'auto' && styles.modeButtonActive]}
+          onPress={() => setControlMode('auto')}>
+          <View style={styles.modeIconCircle}><Text>⚡</Text></View>
+          <Text style={[styles.modeButtonText, controlMode === 'auto' && { color: '#fff' }]}>Auto Mode</Text>
         </TouchableOpacity>
 
-        <View style={styles.counterValueContainer}>
-          <TextInput
-            style={styles.counterInput}
-            value={value.toString()}
-            keyboardType="numeric"
-            onChangeText={(txt) => onChange(parseFloat(txt) || 0)}
-          />
-          <Text style={styles.counterUnit}>{unit}</Text>
+        <TouchableOpacity
+          style={[styles.modeButton, controlMode === 'manual' && styles.modeButtonActive]}
+          onPress={() => setControlMode('manual')}>
+          <View style={styles.modeIconCircle}><Text>📈</Text></View>
+          <Text style={[styles.modeButtonText, controlMode === 'manual' && { color: '#fff' }]}>Manual Mode</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.modeDescriptionBanner}>
+        <Text style={styles.modeDescriptionText}>
+          🛡️ {controlMode === 'auto' ? "Motor stops automatically when limits are exceeded." : "You receive up to 3 notifications before motor auto-stops."}
+        </Text>
+      </View>
+
+      <View style={styles.divider} />
+
+      {/* Voltage & Current Limits with Slider UI */}
+      <Text style={styles.mergedSubLabel}>VOLTAGE & CURRENT LIMITS</Text>
+
+      {/* Minimum Voltage */}
+      <View style={styles.mergedRow}>
+        <View style={styles.sliderHeader}>
+          <Text style={styles.mergedLabel}>Minimum Voltage</Text>
+          <View style={styles.valueBox}>
+            <TextInput
+              style={styles.valueText}
+              defaultValue={minV.toString()} // 'value' ki jagah 'defaultValue'
+              maxLength={3}
+              keyboardType="numeric"
+              onEndEditing={(e) => setMinV(parseFloat(e.nativeEvent.text) || 0)}
+            />
+            <Text style={styles.unitText}>V</Text>
+          </View>
         </View>
+        <Slider
+          style={{ width: '100%', height: 40 }}
+          minimumValue={0}
+          maximumValue={220}
+          step={0.5}
+          value={minV}
+          // isko khatam kr dein: onValueChange={(val) => setMinV(parseFloat(val.toFixed(1)))}
+          onSlidingComplete={(val) => setMinV(parseFloat(val.toFixed(1)))} // Sirf ye add karein
+          minimumTrackTintColor="#FFD066"
+          maximumTrackTintColor="#E5E7EB"
+          thumbTintColor="#FFD066"
+        />
 
-        <TouchableOpacity
-          onPress={() => onChange(parseFloat((value + step).toFixed(2)))}
-          style={[styles.counterButton, { backgroundColor: '#1F7A63' }]}>
-          <Text style={styles.counterButtonText}>+</Text>
-        </TouchableOpacity>
+        <View style={styles.rangeLabels}>
+          <Text style={styles.labelSmall}>0 V</Text>
+          <Text style={styles.labelSmall}>220 V</Text>
+        </View>
+      </View>
+
+      {/* Maximum Voltage */}
+      <View style={styles.mergedRow}>
+        <View style={styles.sliderHeader}>
+          <Text style={styles.mergedLabel}>Maximum Voltage</Text>
+          <View style={[styles.valueBox, { borderColor: '#FEE2E2' }]}>
+            <TextInput
+              style={styles.valueText}
+              defaultValue={maxV.toString()} // 'value' ki jagah 'defaultValue'
+              maxLength={3}
+              keyboardType="numeric"
+              onEndEditing={(e) => setMaxV(parseFloat(e.nativeEvent.text) || 0)}
+            />
+            <Text style={[styles.unitText, { color: '#EF4444' }]}>V</Text>
+          </View>
+        </View>
+        <Slider
+          style={{ width: '100%', height: 40 }}
+          minimumValue={0}
+          maximumValue={240}
+          step={0.5}
+          value={maxV}
+          onSlidingComplete={(val) => setMaxV(parseFloat(val.toFixed(1)))} // Ye line change karein
+          minimumTrackTintColor="#EF4444"
+          maximumTrackTintColor="#E5E7EB"
+          thumbTintColor="#EF4444"
+        />
+        <View style={styles.rangeLabels}>
+          <Text style={styles.labelSmall}>0 V</Text>
+          <Text style={styles.labelSmall}>240 V</Text>
+        </View>
+      </View>
+
+      {/* Maximum Current */}
+      <View style={styles.mergedRow}>
+        <View style={styles.sliderHeader}>
+          <Text style={styles.mergedLabel}>Maximum Current</Text>
+          <View style={[styles.valueBox, { borderColor: '#FEE2E2' }]}>
+            <TextInput
+              style={styles.valueText}
+              defaultValue={maxA.toString()} // 'value' ki jagah 'defaultValue'
+              maxLength={3}
+              keyboardType="numeric"
+              onEndEditing={(e) => setMaxA(parseFloat(e.nativeEvent.text) || 0)}
+            />
+            <Text style={[styles.unitText, { color: '#EF4444' }]}>A</Text>
+          </View>
+        </View>
+        <Slider
+          style={{ width: '100%', height: 40 }}
+          minimumValue={0}
+          maximumValue={20}
+          step={0.1}
+          value={maxA}
+          onSlidingComplete={(val) => setMaxA(parseFloat(val.toFixed(1)))} // Ye line change karein
+          minimumTrackTintColor="#EF4444"
+          maximumTrackTintColor="#E5E7EB"
+          thumbTintColor="#EF4444"
+        />
+        <View style={styles.rangeLabels}>
+          <Text style={styles.labelSmall}>0 A</Text>
+          <Text style={styles.labelSmall}>20 A</Text>
+        </View>
       </View>
     </View>
   );
@@ -189,7 +318,6 @@ const SettingsMotorSafetyScreen = () => {
     const formatRemainingTime = (remainingHours: number) => {
       const hours = Math.floor(remainingHours);
       const minutes = Math.round((remainingHours - hours) * 60);
-
       if (hours === 0 && minutes === 0) return '0 hrs';
       if (hours === 0) return `${minutes} mins`;
       if (minutes === 0) return `${hours} hrs`;
@@ -347,16 +475,10 @@ const SettingsMotorSafetyScreen = () => {
         </LinearGradient>
 
         <View style={styles.content}>
-          <View style={styles.infoBanner}>
-            <Text style={styles.infoText}>🛡️ Motor will auto-cut if thresholds are exceeded.</Text>
-          </View>
+          {/* MERGED CARD - Smart Control + Slider UI for Voltage & Current */}
+          <MergedCard />
 
-          {/* Voltage & Current Cards (Moved UP) */}
-          <CounterInput label="MIN VOLTAGE" value={minV} onChange={setMinV} step={0.5} unit="Volts" />
-          <CounterInput label="MAX VOLTAGE" value={maxV} onChange={setMaxV} step={0.5} unit="Volts" />
-          <CounterInput label="MAX CURRENT" value={maxA} onChange={setMaxA} step={0.1} unit="Amperes" />
-
-          {/* Motor Service Card (Moved DOWN) */}
+          {/* Motor Service Card */}
           <MotorServiceCard />
 
           <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={saving}>

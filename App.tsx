@@ -29,13 +29,18 @@ import { ThemeProvider } from './src/contexts/ThemeContext';
 import { UserProvider } from './src/contexts/UserContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-
 import notifee, { AndroidImportance } from '@notifee/react-native';
+
+enableScreens();
+
+// Global variables (Outside component to persist)
+let manualNotifCount = 0;
+let safetyTriggered = false;
+let activeSessionId: number | null = null;
 
 // 🔔 Function: Notification + Firestore Entry
 const sendAlert = async (title: string, message: string, type: 'safety' | 'soil' | 'system') => {
   try {
-    // 1. Phone Notification
     await notifee.requestPermission();
     const channelId = await notifee.createChannel({
       id: 'alerts',
@@ -49,26 +54,18 @@ const sendAlert = async (title: string, message: string, type: 'safety' | 'soil'
       android: { channelId, importance: AndroidImportance.HIGH, pressAction: { id: 'default' } },
     });
 
-    // 2. Save to Firestore 'notifications' collection (Alerts Page ke liye)
     await firestore().collection('notifications').add({
       title: title,
       message: message,
-      type: type, // e.g., 'safety'
+      type: type,
       timestamp: firestore.FieldValue.serverTimestamp(),
-      read: false // Taake Alerts page pe "New" badge dikha saken
+      read: false
     });
 
   } catch (error) {
     console.error("Alert Error:", error);
   }
 };
-
-
-enableScreens();
-
-// Global Variables
-let activeSessionId: number | null = null;
-let safetyTriggered = false; // ✅ 1. Flag to prevent double logs
 
 export type RootStackParamList = {
   Login: undefined; Signup: undefined; Home: undefined; Schedule: undefined;
@@ -86,7 +83,7 @@ const App: React.FC = () => {
 
   const liveSensorsRef = useRef({ voltage: 0, current: 0 });
   const sessionRef = useRef<{ startTime: number; userName: string; mode: string; } | null>(null);
-  const safetySettingsRef = useRef({ minV: 0, maxV: 250, maxA: 20 });
+  const safetySettingsRef = useRef({ minV: 0, maxV: 250, maxA: 20, controlMode: 'auto' });
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged((user) => {
@@ -103,71 +100,80 @@ const App: React.FC = () => {
       .collection('settings')
       .doc('safety_config')
       .onSnapshot(doc => {
-        if (doc.exists) {
+        if (doc.exists()) {
           const data = doc.data();
           safetySettingsRef.current = {
-            minV: data?.minV ?? 0,
+            minV: data?.minV ?? 190,
             maxV: data?.maxV ?? 250,
-            maxA: data?.maxA ?? 20
+            maxA: data?.maxA ?? 20,
+            controlMode: data?.controlMode ?? 'auto'
           };
         }
       });
     return () => unsubSafety();
   }, [isAuthenticated]);
 
-  // 📡 2. SENSORS LISTENER (Safety Logic)
+  // 📡 2. SENSORS LISTENER (Safety Logic with Manual/Auto Mode)
   useEffect(() => {
     if (!isAuthenticated) return;
     const unsubSensors = firestore()
       .collection('iot_data')
       .doc('sensors')
       .onSnapshot(async (doc) => {
-        if (!doc.exists) return;
+        if (!doc.exists || activeSessionId === null) return;
 
         const sData = doc.data();
         const liveV = sData?.voltage ?? 0;
         const liveA = sData?.current ?? 0;
         liveSensorsRef.current = { voltage: liveV, current: liveA };
 
-        if (activeSessionId !== null) {
-          const { minV, maxV, maxA } = safetySettingsRef.current;
-          const secondsRunning = (Date.now() - activeSessionId) / 1000;
+        const { minV, maxV, maxA, controlMode } = safetySettingsRef.current;
+        const secondsRunning = (Date.now() - activeSessionId) / 1000;
 
-          // Check for voltage/current safety
-          if (secondsRunning > 10 && liveV > 0.5) {
-            let reason = "";
-            if (liveV < minV) reason = `Low Voltage (${liveV}V)`;
-            else if (liveV > maxV) reason = `High Voltage (${liveV}V)`;
-            else if (liveA > maxA) reason = `Overload Current (${liveA}A)`;
+        // Check after 10 seconds to avoid startup fluctuations
+        if (secondsRunning > 10 && liveV > 0.5) {
+          let reason = "";
+          if (liveV < minV) reason = `Low Voltage (${liveV}V)`;
+          else if (liveV > maxV) reason = `High Voltage (${liveV}V)`;
+          else if (liveA > maxA) reason = `Overload (${liveA}A)`;
 
-            if (reason !== "") {
-              safetyTriggered = true; // ✅ Mark safety as triggered
-
-              // Turn off motor
+          if (reason !== "") {
+            if (controlMode === 'auto') {
+              safetyTriggered = true;
               await firestore().collection('iot_data').doc('relay').update({ command: 'off' });
-
-              sendAlert(
-                "⚠️ MOTOR STOPPED",
-                `Safety Shutdown: ${reason}`,
-                'safety'
-              );
-
-              // Save Safety Event Log
+              sendAlert("⚠️ AUTO STOPPED", `Safety Shutdown: ${reason}`, 'safety');
+              
               await firestore().collection('events').add({
                 type: 'MOTOR_OFF',
-                message: `Safety Shutdown: ${reason}`,
+                message: `Safety Shutdown (Auto): ${reason}`,
                 timestamp: firestore.FieldValue.serverTimestamp(),
                 userName: sessionRef.current?.userName || 'System'
               });
 
-              // Show Safety Alert
-              Alert.alert(
-                "⚠️ MOTOR STOPPED",
-                `Reason: ${reason}`,
-                [{ text: "OK" }],
-                { cancelable: false }
-              );
+              Alert.alert("⚠️ AUTO STOPPED", `Reason: ${reason}`);
+            } else {
+              // MANUAL MODE: 3 Warnings
+              if (manualNotifCount < 2) {
+                manualNotifCount++;
+                sendAlert(`⚠️ WARNING (${manualNotifCount}/3)`, `Critical: ${reason}. Please turn off motor!`, 'safety');
+              } else {
+                safetyTriggered = true;
+                await firestore().collection('iot_data').doc('relay').update({ command: 'off' });
+                sendAlert("🛑 FORCED STOP", "Motor stopped after 3 ignored warnings.", 'safety');
+                
+                await firestore().collection('events').add({
+                  type: 'MOTOR_OFF',
+                  message: `Safety Shutdown (Forced): ${reason}`,
+                  timestamp: firestore.FieldValue.serverTimestamp(),
+                  userName: sessionRef.current?.userName || 'System'
+                });
+
+                Alert.alert("🛑 FORCED STOP", "Stopped after 3 warnings.");
+                manualNotifCount = 0;
+              }
             }
+          } else {
+            manualNotifCount = 0; // Reset if conditions become normal
           }
         }
       });
@@ -188,11 +194,11 @@ const App: React.FC = () => {
         const status = data?.status;
         const activeUser = data?.activeUser || 'Manual User';
 
-        // MOTOR ON LOGIC
         if (status === 'on' && activeSessionId === null) {
           activeSessionId = Date.now();
           sessionRef.current = { startTime: activeSessionId, userName: activeUser, mode: data?.mode || 'manual' };
-          safetyTriggered = false; // Reset flag on start
+          safetyTriggered = false;
+          manualNotifCount = 0;
 
           await firestore().collection('events').add({
             type: 'MOTOR_ON',
@@ -202,7 +208,6 @@ const App: React.FC = () => {
           });
         }
 
-        // MOTOR OFF LOGIC
         if (status === 'off' && activeSessionId !== null) {
           const sessionData = { ...sessionRef.current };
           const duration = (Date.now() - (sessionData.startTime || Date.now())) / (1000 * 60);
@@ -210,7 +215,6 @@ const App: React.FC = () => {
           activeSessionId = null;
           sessionRef.current = null;
 
-          // ✅ 2. Prevent Double Log: Skip if already logged by Safety
           if (!safetyTriggered) {
             await firestore().collection('events').add({
               type: 'MOTOR_OFF',
@@ -220,7 +224,6 @@ const App: React.FC = () => {
             });
           }
 
-          // BILLING LOGIC
           if (duration > 0.05) {
             try {
               const rateDoc = await firestore().collection('settings').doc('billing_config').get();
@@ -237,22 +240,17 @@ const App: React.FC = () => {
                 timestamp: firestore.FieldValue.serverTimestamp()
               });
 
-              // ✅ 3. Delay Billing Pop-up: Taake Safety Alert ke baad aaye
               setTimeout(() => {
                 Alert.alert(
                   "💰 BILL GENERATED",
                   `User: ${sessionData.userName}\nDuration: ${duration.toFixed(2)} mins\nBill: Rs. ${bill.toFixed(2)}`,
-                  [{ text: "OK", onPress: () => { safetyTriggered = false; } }],
-                  { cancelable: false }
+                  [{ text: "OK", onPress: () => { safetyTriggered = false; } }]
                 );
               }, 3500);
 
             } catch (err) {
               console.error("Billing Error:", err);
-              safetyTriggered = false;
             }
-          } else {
-            safetyTriggered = false;
           }
         }
       });
