@@ -44,7 +44,7 @@ const BillingScreen = () => {
       .collection('settings')
       .doc('billing_config')
       .onSnapshot(doc => {
-        if (doc.exists) {
+        if (doc.exists()) {
           const rate = doc.data()?.currentRate ?? 200;
           setGlobalRate(rate.toString());
           currentRateRef.current = rate;
