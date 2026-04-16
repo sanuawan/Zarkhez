@@ -312,7 +312,7 @@ valueBox: {
   paddingVertical: 6,
   borderRadius: 8,
   borderWidth: 1,
-  width: 70,
+  width: 80,
   borderColor: '#E5E7EB',
 },
 valueText: {
