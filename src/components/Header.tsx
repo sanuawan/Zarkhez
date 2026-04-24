@@ -4,30 +4,14 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Alert,
-  Image,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { headerStyles } from './Header.styles';
-import { styles } from '../screens/styles/HomeScreen.styles';
 
-interface HeaderProps {
-  showLogout?: boolean;
-}
-
-const Header: React.FC<HeaderProps> = ({ showLogout = true }) => {
+const Header: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const { isDark, toggleTheme } = useTheme();
-
-  const onSignOut = async () => {
-    try {
-      await auth().signOut();
-    } catch (error) {
-      Alert.alert('Error', 'Failed to sign out');
-    }
-  };
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'ur' : 'en');
@@ -42,45 +26,6 @@ const Header: React.FC<HeaderProps> = ({ showLogout = true }) => {
         <Text style={[headerStyles.subtitle, isDark && headerStyles.subtitleDark]}>
           {t('header.subtitle')}
         </Text>
-      </View>
-
-      <View style={headerStyles.headerRight}>
-        {/* Language Toggle */}
-        <TouchableOpacity
-          style={[headerStyles.headerButton, isDark && headerStyles.headerButtonDark]}
-          onPress={toggleLanguage}
-        >
-          <Text style={[headerStyles.headerButtonText, isDark && headerStyles.headerButtonTextDark]}>
-            {language === 'en' ? 'اردو' : 'English'}
-          </Text>
-        </TouchableOpacity>
-
-        {/* Dark Mode Toggle */}
-        <TouchableOpacity
-          style={[headerStyles.headerButton, isDark && headerStyles.headerButtonDark]}
-          onPress={toggleTheme}
-        >
-          <Text style={headerStyles.headerButtonText}>
-            {isDark ? '🌙' : '☀️'}
-          </Text>
-        </TouchableOpacity>
-
-        {/* Logout Button */}
-        {showLogout && (
-          <TouchableOpacity
-            style={[styles.logoutButton, isDark && styles.logoutButtonDark]}
-            onPress={onSignOut}
-          >
-            <Image
-              source={require('../assets/icons/logout.png')}
-              style={{
-                width: 24,
-                height: 24,
-              }}
-              resizeMode="contain" 
-            />
-          </TouchableOpacity>
-        )}
       </View>
     </View>
   );

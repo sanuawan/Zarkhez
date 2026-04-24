@@ -20,6 +20,7 @@ import SettingsAlertsScreen from './src/screens/SettingsAlertsScreen';
 import SettingsActivityLogScreen from './src/screens/SettingsActivityLogScreen';
 import SettingsMotorSafetyScreen from './src/screens/SettingsMotorSafetyScreen';
 import SettingsAppearanceScreen from './src/screens/SettingsAppearanceScreen';
+import SettingsLanguageScreen from './src/screens/SettingsLanguageScreen';
 import UserDetailScreen from './src/screens/UserDetailScreen';
 import AnalyticsScreen from './src/screens/AnalyticsScreen';
 
@@ -73,6 +74,7 @@ export type RootStackParamList = {
   UserDetail: { userName: string }; Analytics: undefined;
   SettingsAlerts: undefined; SettingsActivity: undefined;
   SettingsSafety: undefined; SettingsAppearance: undefined;
+  SettingsLanguage: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -142,7 +144,7 @@ const App: React.FC = () => {
               safetyTriggered = true;
               await firestore().collection('iot_data').doc('relay').update({ command: 'off' });
               sendAlert("⚠️ AUTO STOPPED", `Safety Shutdown: ${reason}`, 'safety');
-              
+
               await firestore().collection('events').add({
                 type: 'MOTOR_OFF',
                 message: `Safety Shutdown (Auto): ${reason}`,
@@ -160,7 +162,7 @@ const App: React.FC = () => {
                 safetyTriggered = true;
                 await firestore().collection('iot_data').doc('relay').update({ command: 'off' });
                 sendAlert("🛑 FORCED STOP", "Motor stopped after 3 ignored warnings.", 'safety');
-                
+
                 await firestore().collection('events').add({
                   type: 'MOTOR_OFF',
                   message: `Safety Shutdown (Forced): ${reason}`,
@@ -282,6 +284,11 @@ const App: React.FC = () => {
                 <Stack.Screen name="SettingsActivity" component={SettingsActivityLogScreen} />
                 <Stack.Screen name="SettingsSafety" component={SettingsMotorSafetyScreen} />
                 <Stack.Screen name="SettingsAppearance" component={SettingsAppearanceScreen} />
+                <Stack.Screen
+                  name="SettingsLanguage"
+                  component={SettingsLanguageScreen}
+                  options={{ headerShown: false }}
+                />
               </Stack.Navigator>
             </NavigationContainer>
           </UserProvider>

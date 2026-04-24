@@ -15,10 +15,9 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
     paddingBottom: 20,
   },
-  
+
   // Header Styles
   header: {
     flexDirection: 'row',
@@ -92,7 +91,7 @@ export const styles = StyleSheet.create({
   logoutButtonText: {
     fontSize: 16,
   },
-  
+
   // Card Styles
   card: {
     backgroundColor: '#ffffff',
@@ -118,7 +117,7 @@ export const styles = StyleSheet.create({
   cardTitleDark: {
     color: '#f9fafb',
   },
-  
+
   // Mode Toggle
   modeToggleContainer: {
     alignItems: 'center',
@@ -146,7 +145,7 @@ export const styles = StyleSheet.create({
   modeTextActive: {
     color: '#ffffff',
   },
-  
+
   // Power Button
   powerContainer: {
     alignItems: 'center',
@@ -212,7 +211,7 @@ export const styles = StyleSheet.create({
   autoModeDescriptionDark: {
     color: '#9ca3af',
   },
-  
+
   // Status Cards
   statusRow: {
     flexDirection: 'row',
@@ -262,7 +261,7 @@ export const styles = StyleSheet.create({
   statusValueDark: {
     color: '#f9fafb',
   },
-  
+
   // Weather Card
   weatherCard: {
     backgroundColor: '#ffffff',
@@ -330,7 +329,7 @@ export const styles = StyleSheet.create({
   humidityDark: {
     color: '#60a5fa',
   },
-  
+
   // Actions Grid
   actionsGrid: {
     flexDirection: 'row',
@@ -365,4 +364,47 @@ export const styles = StyleSheet.create({
   actionLabelDark: {
     color: '#f3f4f6',
   },
+
+  
+ // HomeScreen Header Styles (matching BillingScreen)
+homeHeader: {
+  borderBottomLeftRadius: 24,
+  borderBottomRightRadius: 24,
+  paddingHorizontal: 20,
+  paddingBottom: 24,
+},
+homeHeaderTop: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: 20,
+},
+logoContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+logoIcon: {
+  width: 32,
+  height: 32,
+  borderRadius: 16,
+  backgroundColor: 'rgba(255,255,255,0.2)',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginRight: 8,
+},
+logoIconText: {
+  fontSize: 16,
+  color: '#fff',
+},
+logoText: {
+  fontSize: 16,
+  fontWeight: '600',
+  color: '#fff',
+},
+homeMainTitle: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  color: '#fff',
+  marginBottom: 4,
+},
 });

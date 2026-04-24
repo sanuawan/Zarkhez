@@ -8,6 +8,7 @@ import {
   StatusBar,
   TextInput,
   ActivityIndicator,
+  BackHandler,
   Alert,
   RefreshControl,
 } from 'react-native';
@@ -18,21 +19,28 @@ import firestore from '@react-native-firebase/firestore';
 import Slider from '@react-native-community/slider';
 import { styles } from './styles/SettingsMotorSafetyScreen.styles';
 import motorRuntimeService, { MotorRuntimeData } from '../services/motorRuntimeService';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { useRef } from 'react';
 
 const SettingsMotorSafetyScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const handleBack = () => navigation.goBack();
+
+  const scrollViewRef = useRef<ScrollView>(null);
+  const customLimitInputRef = useRef<TextInput>(null);
 
   // States
   const [controlMode, setControlMode] = useState<'auto' | 'manual'>('auto');
   const [loading, setLoading] = useState(true);
+
   const [saving, setSaving] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [minV, setMinV] = useState(190.0);
   const [maxV, setMaxV] = useState(240.0);
   const [maxA, setMaxA] = useState(12.0);
   const notificationSentRef = useRef(false);
+  const [defaultLimit, setDefaultLimit] = useState("500");
 
   // Motor Service States
   const [runningHours, setRunningHours] = useState(0);
@@ -61,6 +69,7 @@ const SettingsMotorSafetyScreen = () => {
           setMaxA(d.maxA ?? 12.0);
           if (d.serviceLimit) {
             setServiceLimitInput(d.serviceLimit.toString());
+            setDefaultLimit(d.serviceLimit.toString());   // ✅ add this
           }
           if (d.controlMode) {
             setControlMode(d.controlMode);
@@ -69,7 +78,7 @@ const SettingsMotorSafetyScreen = () => {
       }
 
       const runtimeData = await motorRuntimeService.getRuntimeData();
-      setRunningHours(runtimeData.totalHours);
+      setRunningHours(runtimeData?.totalHours ?? 0);
 
       const limit = parseInt(serviceLimitInput);
       const exceeded = runtimeData.totalHours >= limit;
@@ -88,46 +97,46 @@ const SettingsMotorSafetyScreen = () => {
     loadData();
   }, []);
 
-// Real-time listener: Sirf aik dafa notification jayega jab tak RESET na ho
-useEffect(() => {
-  const unsubscribe = motorRuntimeService.subscribe(async (data: MotorRuntimeData) => {
-    const currentHours = data.totalHours;
-    const limit = parseInt(serviceLimitInput);
-    
-    setRunningHours(currentHours);
-    const exceeded = currentHours >= limit;
-    setServiceExceeded(exceeded);
-    setServiceProgress(Math.min((currentHours / limit) * 100, 100));
+  // Real-time listener: Sirf aik dafa notification jayega jab tak RESET na ho
+  useEffect(() => {
+    const unsubscribe = motorRuntimeService.subscribe(async (data: MotorRuntimeData) => {
+      const currentHours = data.totalHours;
+      const limit = parseInt(serviceLimitInput);
 
-    // 🚀 THE ULTIMATE FIX:
-    // Hum check kar rahe hain ke kya is session mein AIK BHI DAFA notification gaya?
-    // Agar gaya hai (ref.current true hai), to limit barhane par bhi ye IF nahi chalega.
-    if (exceeded && !notificationSentRef.current && currentHours > 0) {
-      notificationSentRef.current = true; // Lock laga diya (Ye refresh nahi hoga)
+      setRunningHours(currentHours);
+      const exceeded = currentHours >= limit;
+      setServiceExceeded(exceeded);
+      setServiceProgress(Math.min((currentHours / limit) * 100, 100));
 
-      try {
-        await firestore().collection('notifications').add({
-          title: "🔧 SERVICE REQUIRED",
-          message: `Motor service due at ${limit} hours. Current: ${formatDuration(currentHours)}`,
-          type: "service",
-          read: false,
-          timestamp: firestore.FieldValue.serverTimestamp(),
-        });
-        console.log("✅ One-time notification sent!");
-      } catch (err) {
-        console.error("❌ Error:", err);
-        notificationSentRef.current = false; 
+      // 🚀 THE ULTIMATE FIX:
+      // Hum check kar rahe hain ke kya is session mein AIK BHI DAFA notification gaya?
+      // Agar gaya hai (ref.current true hai), to limit barhane par bhi ye IF nahi chalega.
+      if (exceeded && !notificationSentRef.current && currentHours > 0) {
+        notificationSentRef.current = true; // Lock laga diya (Ye refresh nahi hoga)
+
+        try {
+          await firestore().collection('notifications').add({
+            title: "🔧 SERVICE REQUIRED",
+            message: `Motor service due at ${limit} hours. Current: ${formatDuration(currentHours)}`,
+            type: "service",
+            read: false,
+            timestamp: firestore.FieldValue.serverTimestamp(),
+          });
+          console.log("✅ One-time notification sent!");
+        } catch (err) {
+          console.error("❌ Error:", err);
+          notificationSentRef.current = false;
+        }
       }
-    }
 
-    // Sirf tab lock kholna jab user waqai RESET button dabaye (hours 0 ho jayein)
-    if (currentHours === 0) {
-      notificationSentRef.current = false;
-    }
-  });
+      // Sirf tab lock kholna jab user waqai RESET button dabaye (hours 0 ho jayein)
+      if (currentHours === 0) {
+        notificationSentRef.current = false;
+      }
+    });
 
-  return () => unsubscribe();
-}, [serviceLimitInput]);
+    return () => unsubscribe();
+  }, [serviceLimitInput]);
   // Reset service counter
   const handleResetService = async () => {
     try {
@@ -324,7 +333,8 @@ useEffect(() => {
       return `${hours} hrs ${minutes} mins`;
     };
 
-    const remaining = Math.max(0, parseInt(serviceLimitInput) - runningHours);
+    const limitNum = parseInt(serviceLimitInput) || 500;
+    const remaining = Math.max(0, limitNum - (runningHours || 0));
 
     return (
       <View style={styles.serviceCard}>
@@ -377,7 +387,7 @@ useEffect(() => {
           <View style={styles.statCard}>
             <Text style={styles.statLabel}>Service Limit</Text>
             <Text style={[styles.statValue, { color: '#1F7A63' }]}>
-              {serviceLimitInput} <Text style={styles.statUnit}>hrs</Text>
+              {serviceLimitInput || "500"} <Text style={styles.statUnit}>hrs</Text>
             </Text>
           </View>
         </View>
@@ -402,6 +412,7 @@ useEffect(() => {
           <Text style={styles.customLimitLabel}>Custom Service Limit</Text>
           <View style={styles.customLimitInputContainer}>
             <TextInput
+              ref={customLimitInputRef}
               style={styles.customLimitInput}
               value={serviceLimitInput}
               onChangeText={(text) => {
@@ -413,6 +424,8 @@ useEffect(() => {
               keyboardType="numeric"
               placeholder="500"
               placeholderTextColor="#9CA3AF"
+              returnKeyType="done"
+              blurOnSubmit={false}        // ✅ ye rakhna important hai
             />
             <View style={styles.customLimitUnit}>
               <Text style={styles.customLimitUnitText}>hours</Text>
@@ -461,31 +474,37 @@ useEffect(() => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1F7A63" />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#1F7A63"]} />
-        }>
-        <LinearGradient colors={['#1F7A63', '#2a9d82']} style={[styles.header, { paddingTop: insets.top + 16 }]}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Text style={styles.backText}>← Settings</Text>
-          </TouchableOpacity>
-          <Text style={styles.mainTitle}>Safety Guard</Text>
-          <Text style={styles.subtitle}>Protect your motor with smart monitoring</Text>
-        </LinearGradient>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}>
+        <ScrollView
+          ref={scrollViewRef}
+          showsVerticalScrollIndicator={false}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#1F7A63"]} />}
+          keyboardShouldPersistTaps="handled"
+        >
 
-        <View style={styles.content}>
-          {/* MERGED CARD - Smart Control + Slider UI for Voltage & Current */}
-          <MergedCard />
+          <LinearGradient colors={['#1F7A63', '#2a9d82']} style={[styles.header, { paddingTop: insets.top + 16 }]}>
+            <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+              <Text style={styles.backText}>← Settings</Text>
+            </TouchableOpacity>
+            <Text style={styles.mainTitle}>Safety Guard</Text>
+            <Text style={styles.subtitle}>Protect your motor with smart monitoring</Text>
+          </LinearGradient>
 
-          {/* Motor Service Card */}
-          <MotorServiceCard />
+          <View style={[styles.content, { paddingBottom: insets.bottom + 40 }]}>
+            {/* MERGED CARD - Smart Control + Slider UI for Voltage & Current */}
+            <MergedCard />
 
-          <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={saving}>
-            {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.saveButtonText}>Apply Changes</Text>}
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            {/* Motor Service Card */}
+            <MotorServiceCard />
+
+            <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={saving}>
+              {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.saveButtonText}>Apply Changes</Text>}
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

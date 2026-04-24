@@ -16,6 +16,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,6 +27,7 @@ import { useTheme } from '../contexts/ThemeContext';
 
 const HomeScreen: React.FC = () => {
   const { language, toggleLanguage, t } = useLanguage();
+  const insets = useSafeAreaInsets();
   const { isDark, toggleTheme } = useTheme();
   const navigation = useNavigation();
 
@@ -237,42 +239,50 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, isDark && styles.containerDark]}>
-      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
 
-      {/* Header */}
-      <View style={[styles.header, isDark && styles.headerDark]}>
-        <View style={styles.headerLeft}>
-          <Text style={[styles.title, isDark && styles.titleDark]}>{t('header.title')}</Text>
-          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>{t('header.subtitle')}</Text>
-        </View>
-        <View style={styles.headerRight}>
-          <TouchableOpacity
-            style={[styles.headerButton, isDark && styles.headerButtonDark]}
-            onPress={toggleLanguage}>
-            <Text style={[styles.headerButtonText, isDark && styles.headerButtonTextDark]}>
-              {language === 'en' ? 'اردو' : 'English'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.headerButton, isDark && styles.headerButtonDark]}
-            onPress={toggleTheme}>
-            <Text>{isDark ? '🌙' : '☀️'}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.logoutButton, isDark && styles.logoutButtonDark]}
-            onPress={onSignOut}>
-            <Text style={styles.logoutButtonText}>🚪</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
 
+        {/* Stylish Header - with curves and shadow */}
+        <LinearGradient
+          colors={['#1F7A63', '#2a9d82']}
+          style={{
+            paddingTop: insets.top + 10, // StatusBar se nechy karne ke liye
+            paddingHorizontal: 20,
+            paddingBottom: 30,
+            borderBottomLeftRadius: 30,
+            borderBottomRightRadius: 30,
+            width: '100%', // Ye sides ka gap khatam karega
+            alignSelf: 'stretch',
+          }}
+        >
+          <View style={styles.homeHeaderTop}>
+            <View style={styles.logoContainer}>
+              <View style={styles.logoIcon}>
+                <Text style={styles.logoIconText}>💧</Text>
+              </View>
+              <Text style={styles.logoText}>Zarkhez</Text>
+            </View>
+            {/* No button on HomeScreen */}
+          </View>
+          <Text style={styles.homeMainTitle}>Smart Farming</Text>
+        </LinearGradient>
+
         {/* Motor Control Card */}
-        <View style={[styles.card, isDark && styles.cardDark]}>
-          <Text style={[styles.cardTitle, isDark && styles.cardTitleDark]}>
-            {t('motor.status')}
-          </Text>
+        {/* Motor Control Card */}
+        <View style={[
+          styles.card,
+          isDark && styles.cardDark,
+          {
+            marginTop: 20, // Header aur card mein gap
+            marginHorizontal: 16 // Card ko sides se push karne ke liye
+          }
+        ]}>
 
           <View style={styles.modeToggleContainer}>
             <View style={[styles.modeToggle, isDark && styles.modeToggleDark]}>
@@ -353,7 +363,7 @@ const HomeScreen: React.FC = () => {
         </View>
 
         {/* Voltage & Current */}
-        <View style={styles.statusRow}>
+        <View style={[styles.statusRow, { marginHorizontal: 16 }]}>
           <View style={[styles.statusCard]}>
             <LinearGradient colors={['#3b82f6', '#2563eb']} style={styles.statusIconContainer}>
               <Text style={styles.statusIcon}>⚡</Text>
@@ -371,7 +381,7 @@ const HomeScreen: React.FC = () => {
         </View>
 
         {/* Weather */}
-        <View style={[styles.weatherCard, isDark && styles.weatherCardDark]}>
+        <View style={[styles.weatherCard, isDark && styles.weatherCardDark, { marginHorizontal: 16 }]}>
           <View style={styles.weatherHeader}>
             <Text style={styles.weatherIcon}>☀️</Text>
             <View>
@@ -389,7 +399,7 @@ const HomeScreen: React.FC = () => {
         </View>
 
         {/* Actions Grid */}
-        <View style={styles.actionsGrid}>
+        <View style={[styles.actionsGrid, { marginHorizontal: 16 }]}>
           <TouchableOpacity style={[styles.actionButton, isDark && styles.actionButtonDark]} onPress={() => handleTabPress('schedule')}>
             <Text style={styles.actionIcon}>⏰</Text>
             <Text style={[styles.actionLabel, isDark && styles.actionLabelDark]}>{t('nav.schedule')}</Text>

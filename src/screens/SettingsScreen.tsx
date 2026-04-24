@@ -1,5 +1,7 @@
 // src/screens/SettingsScreen.tsx
 import React, { useState } from 'react';
+import auth from '@react-native-firebase/auth';
+import { Alert } from 'react-native';
 import {
   View,
   Text,
@@ -40,6 +42,14 @@ const settingsItems = [
     iconColor: '#e05353',
   },
   {
+    key: 'language',
+    label: 'Language',
+    description: 'English / اردو',
+    icon: '🌐',
+    iconBg: '#E6F7FF',
+    iconColor: '#1890FF',
+  },
+  {
     key: 'appearance',
     label: 'Appearance',
     description: 'Light / Dark mode',
@@ -54,6 +64,11 @@ const SettingsScreen = () => {
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState('settings');
 
+  // 🔥 Firebase se current user nikalein
+  const user = auth().currentUser;
+  const displayName = user?.displayName || user?.email?.split('@')[0] || 'User';
+  const userEmail = user?.email || 'No email found';
+
   const handleTabPress = (tab: string) => {
     setActiveTab(tab);
     if (tab === 'home') navigation.navigate('Home' as never);
@@ -61,6 +76,35 @@ const SettingsScreen = () => {
     if (tab === 'billing') navigation.navigate('Billing' as never);
     if (tab === 'soil') navigation.navigate('CropSoil' as never);
     // settings tab is current screen, do nothing
+  };
+  const handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Logout',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await auth().signOut();
+              // Logout hote hi foran Login par bhej do
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' as never }],
+              });
+            } catch (error) {
+              // Agar koi error aaye bhi (jaise no user found), tab bhi login par bhej do
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' as never }],
+              });
+            }
+          }
+        },
+      ]
+    );
   };
 
   const navigateToSubScreen = (key: string) => {
@@ -76,6 +120,9 @@ const SettingsScreen = () => {
         break;
       case 'appearance':
         navigation.navigate('SettingsAppearance' as never);
+        break;
+      case 'language':
+        navigation.navigate('SettingsLanguage' as never);
         break;
     }
   };
@@ -107,17 +154,21 @@ const SettingsScreen = () => {
 
         <View style={styles.content}>
           {/* User card */}
+          {/* User card */}
           <View style={styles.userCard}>
             <View style={styles.userAvatar}>
+              {/* Agar user ki photo hai to wo bhi dikha sakte hain, abhi icon hi rehne dete hain */}
               <Text style={styles.userAvatarText}>👤</Text>
             </View>
             <View style={styles.userInfo}>
-              <Text style={styles.userName}>user_ali_01</Text>
+              {/* 🔥 Yahan dynamic naam aayega */}
+              <Text style={styles.userName}>{displayName}</Text>
               <View style={styles.userBadgeRow}>
                 <View style={styles.farmerBadge}>
                   <Text style={styles.farmerBadgeText}>Farmer</Text>
                 </View>
-                <Text style={styles.loggedInText}>Logged in</Text>
+                {/* Email choti si niche dikhani ho to dikha sakte hain */}
+                <Text style={styles.loggedInText}>{user?.email ? 'Logged in' : 'Guest'}</Text>
               </View>
             </View>
             <View style={styles.onlineDot} />
@@ -150,7 +201,7 @@ const SettingsScreen = () => {
           </View>
 
           {/* Logout button */}
-          <TouchableOpacity style={styles.logoutButton}>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutIcon}>🚪</Text>
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>

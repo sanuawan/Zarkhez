@@ -24,43 +24,38 @@ export const getStyles = (isDark: boolean) => StyleSheet.create({
     letterSpacing: 0.5, 
     marginBottom: 4 
   },
-  themeCard: { 
+  langCard: { 
     backgroundColor: isDark ? '#1e1e1e' : '#FFFFFF', 
     borderRadius: 16, 
-    overflow: 'hidden', 
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
     elevation: 2,
     borderWidth: 2,
-    borderColor: 'transparent'
+    borderColor: 'transparent',
+    marginBottom: 12
   },
   selectedCard: { 
     borderColor: '#1F7A63',
     elevation: 4 
   },
-  themePreview: { 
-    height: 100, 
-    backgroundColor: isDark ? '#252525' : '#F4F7F6', 
-    padding: 16 
-  },
-  lightPreview: { flex: 1, backgroundColor: '#FFFFFF', borderRadius: 8 },
-  darkPreview: { flex: 1, backgroundColor: '#1a2e28', borderRadius: 8 },
-  themeInfo: { flexDirection: 'row', alignItems: 'center', padding: 16, gap: 12 },
-  themeIconContainer: { 
-    width: 40, 
-    height: 40, 
-    borderRadius: 20, 
+  langIconContainer: { 
+    width: 45, 
+    height: 45, 
+    borderRadius: 22.5, 
     backgroundColor: isDark ? '#333' : '#E8F3F0', 
     justifyContent: 'center', 
-    alignItems: 'center' 
+    alignItems: 'center',
+    marginRight: 15
   },
-  themeIcon: { fontSize: 20 },
-  themeTexts: { flex: 1 },
-  themeTitle: { 
-    fontSize: 14, 
+  langIcon: { fontSize: 22 },
+  langTexts: { flex: 1 },
+  langTitle: { 
+    fontSize: 16, 
     fontWeight: '600', 
-    color: isDark ? '#fff' : '#1a2e28', 
-    marginBottom: 2 
+    color: isDark ? '#fff' : '#1a2e28' 
   },
-  themeDescription: { 
+  langSubtitle: { 
     fontSize: 12, 
     color: isDark ? '#aaa' : '#8aabb3' 
   },
@@ -73,10 +68,4 @@ export const getStyles = (isDark: boolean) => StyleSheet.create({
     alignItems: 'center' 
   },
   checkmarkIcon: { fontSize: 14, color: '#FFFFFF', fontWeight: 'bold' },
-  note: { 
-    fontSize: 12, 
-    color: isDark ? '#666' : '#b0c8c2', 
-    textAlign: 'center', 
-    marginTop: 16 
-  },
 });
