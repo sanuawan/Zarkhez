@@ -20,11 +20,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Firebase Auth se user lo
+  // Firebase Auth get user
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
-        // Firebase user mil gaya
+        // Firebase user
         const userData: User = {
           name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
           email: firebaseUser.email || undefined,

@@ -5,12 +5,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import firestore from '@react-native-firebase/firestore'; 
 import TimelineItem from '../components/TimelineItem';
 import { styles } from './styles/UserDetailScreen.styles';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const UserDetailScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { userName } = route.params as { userName: string }; 
   const [sessions, setSessions] = useState<any[]>([]);
+  const { t } = useLanguage();
 
   const formatDuration = (totalMinutes: number) => {
     if (totalMinutes === 0) return '0s';
@@ -79,18 +81,18 @@ const UserDetailScreen = () => {
             <View style={styles.largeAvatar}><Text style={styles.largeAvatarText}>{userName[0]}</Text></View>
             <View>
               <Text style={styles.userName}>{userName}</Text>
-              <Text style={styles.userSubtitle}>Usage History · Zarkhez</Text>
+              <Text style={styles.userSubtitle}>{t('userDetail.usageHistory')}</Text>
             </View>
           </View>
 
           <View style={styles.summaryRow}>
             <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Sessions</Text>
+              <Text style={styles.summaryLabel}>{t('userDetail.sessions')}</Text>
               <Text style={styles.summaryValue}>{sessions.length}</Text>
             </View>
             {/* Wapis Green Card */}
             <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Total Bill</Text>
+              <Text style={styles.summaryLabel}>{t('userDetail.totalBill')}</Text>
               <Text style={styles.summaryValue}>Rs {totalBill.toFixed(1)}</Text>
             </View>
           </View>
@@ -102,10 +104,10 @@ const UserDetailScreen = () => {
             onPress={handlePayAll}
             style={{ backgroundColor: '#38A38B', marginVertical: 15, padding: 12, borderRadius: 10, alignItems: 'center', elevation: 3 }}
           >
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>Settle Total Bill (Mark All Paid)</Text>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>{t('userDetail.settleBill')}</Text>
           </TouchableOpacity>
 
-          <Text style={styles.timelineTitle}>Motor Usage Timeline</Text>
+          <Text style={styles.timelineTitle}>{t('userDetail.timelineTitle')}</Text>
           <View style={[styles.timeline, { borderLeftWidth: 0 }]}> 
             {/* 👆 Grey Line hatane ke liye borderLeftWidth 0 kar di */}
             {sessions.map((session) => (

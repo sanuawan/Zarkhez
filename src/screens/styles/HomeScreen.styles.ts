@@ -366,45 +366,49 @@ export const styles = StyleSheet.create({
   },
 
   
- // HomeScreen Header Styles (matching BillingScreen)
-homeHeader: {
-  borderBottomLeftRadius: 24,
-  borderBottomRightRadius: 24,
-  paddingHorizontal: 20,
-  paddingBottom: 24,
-},
-homeHeaderTop: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginBottom: 20,
-},
-logoContainer: {
-  flexDirection: 'row',
-  alignItems: 'center',
-},
-logoIcon: {
-  width: 32,
-  height: 32,
-  borderRadius: 16,
-  backgroundColor: 'rgba(255,255,255,0.2)',
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginRight: 8,
-},
-logoIconText: {
-  fontSize: 16,
-  color: '#fff',
-},
-logoText: {
-  fontSize: 16,
-  fontWeight: '600',
-  color: '#fff',
-},
-homeMainTitle: {
-  fontSize: 24,
-  fontWeight: 'bold',
-  color: '#fff',
-  marginBottom: 4,
-},
+ // HomeScreen Header Styles (100% Settings Jaisa)
+  homeHeader: {
+    paddingHorizontal: 20,
+    paddingBottom: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+  },
+  homeHeaderTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(110,211,181,0.25)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  logoIconText: {
+    fontSize: 14,
+    color: '#6ED3B5',
+  },
+  logoText: {
+    fontSize: 12, // Zarkhez ka chota size
+    color: '#6ED3B5', // Settings wala exact green color
+    fontWeight: '500',
+  },
+  homeMainTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  homeSubtitle: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.65)', // Halki white (faded) subtitle
+  },
 });

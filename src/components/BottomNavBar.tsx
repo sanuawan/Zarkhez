@@ -2,10 +2,9 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useLanguage } from '../contexts/LanguageContext';  // ← path sahi kiya
-import { useTheme } from '../contexts/ThemeContext';        // ← path sahi kiya
+import { useLanguage } from '../contexts/LanguageContext'; 
+import { useTheme } from '../contexts/ThemeContext';      
 
-// Agar direct import red dikhaye to require() use karo (yeh safely kaam karega)
 const HomeIcon = require('../assets/icons/home.png');
 const ScheduleIcon = require('../assets/icons/schedule.png');
 const SoilIcon = require('../assets/icons/soil.png');

@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F4F8F7' },
-  // Header ko thora niche laya hoon aur spacing di hai
   header: { 
     paddingTop: 50, 
     paddingHorizontal: 20, 

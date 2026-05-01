@@ -6,12 +6,15 @@ import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { styles } from './styles/BillingScreen.styles';
 import BottomNavBar from '../components/BottomNavBar';
+import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const BillingScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState('billing');
-
+  const { t } = useLanguage();
+  const { isDark } = useTheme();
   const [usersData, setUsersData] = useState<any[]>([]);
   const [globalRate, setGlobalRate] = useState<string>('');
   const [isEditingRate, setIsEditingRate] = useState(false);
@@ -90,14 +93,14 @@ const BillingScreen = () => {
 
   const handleUpdateRate = () => {
     const rateNum = parseFloat(globalRate);
-    if (isNaN(rateNum)) return Alert.alert('Error', 'Invalid Rate');
+    if (isNaN(rateNum)) return Alert.alert(t('billing.error'), t('billing.invalidRate'));
     firestore()
       .collection('settings')
       .doc('billing_config')
       .update({ currentRate: rateNum })
       .then(() => {
         setIsEditingRate(false);
-        Alert.alert('Success', 'Rate Updated!');
+        Alert.alert(t('billing.success'), t('billing.rateUpdated'));
       });
   };
 
@@ -113,7 +116,7 @@ const BillingScreen = () => {
   const totalMin = usersData.reduce((sum, u) => sum + u.totalMinutes, 0);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle="light-content" backgroundColor="#1F7A63" />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 
@@ -124,103 +127,123 @@ const BillingScreen = () => {
               <Text style={styles.logoText}>Zarkhez</Text>
             </View>
             <TouchableOpacity style={styles.analyticsButton} onPress={() => navigation.navigate('Analytics' as never)}>
-              <Text style={styles.analyticsButtonText}>View Analytics</Text>
+              <Text style={styles.analyticsButtonText}>{t('billing.viewAnalytics')}</Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.mainTitle}>Billing Dashboard</Text>
-          <Text style={styles.subtitle}>Shared Tube-Well System</Text>
+          <Text style={styles.mainTitle}>{t('billing.dashboardTitle')}</Text>
+          <Text style={styles.subtitle}>{t('billing.subtitle')}</Text>
 
           <View style={styles.summaryRow}>
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Total Revenue</Text>
-              <Text style={styles.summaryValue}>Rs {totalRevenue.toFixed(1)}</Text>
+            <View style={[styles.summaryCard, isDark && styles.cardDark]}>
+              <Text style={[styles.summaryLabel, isDark && styles.textMutedDark]}>{t('billing.totalRevenue')}</Text>
+              <Text style={[styles.summaryValue, isDark && styles.textDark]}>Rs {totalRevenue.toFixed(1)}</Text>
             </View>
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Total Duration</Text>
-              <Text style={styles.summaryValue}>{formatDuration(totalMin)}</Text>
+            <View style={[styles.summaryCard, isDark && styles.cardDark]}>
+              <Text style={[styles.summaryLabel, isDark && styles.textMutedDark]}>{t('billing.totalDuration')}</Text>
+              <Text style={[styles.summaryValue, isDark && styles.textDark]}>{formatDuration(totalMin)}</Text>
             </View>
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Users</Text>
-              <Text style={styles.summaryValue}>{usersData.length}</Text>
+            <View style={[styles.summaryCard, isDark && styles.cardDark]}>
+              <Text style={[styles.summaryLabel, isDark && styles.textMutedDark]}>{t('billing.users')}</Text>
+              <Text style={[styles.summaryValue, isDark && styles.textDark]}>{usersData.length}</Text>
             </View>
           </View>
         </LinearGradient>
 
         <View style={styles.content}>
           {/* Rate Card */}
-          <View style={{ backgroundColor: '#fff', padding: 15, borderRadius: 12, marginBottom: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', elevation: 2, borderWidth: 1, borderColor: '#e0e0e0' }}>
+          <View style={[styles.rateCard, isDark && styles.rateCardDark]}>
             <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 12, color: '#666' }}>Default Rate (Per Hour)</Text>
+              <Text style={{ fontSize: 12, color: isDark ? '#9ca3af' : '#666' }}>{t('billing.defaultRate')}</Text>
               {isEditingRate ? (
                 <TextInput
-                  style={{ fontSize: 20, fontWeight: 'bold', color: '#1F7A63', padding: 0, borderBottomWidth: 1, borderBottomColor: '#1F7A63' }}
+                  style={[styles.rateInput, isDark && styles.rateInputDark]}
                   value={globalRate}
                   onChangeText={setGlobalRate}
                   keyboardType="numeric"
                   autoFocus
                 />
               ) : (
-                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#1F7A63' }}>Rs {globalRate}</Text>
+                <Text style={[styles.rateValue, isDark && styles.rateValueDark]}>Rs {globalRate}</Text>
               )}
             </View>
             <TouchableOpacity
               onPress={() => isEditingRate ? handleUpdateRate() : setIsEditingRate(true)}
               style={{ backgroundColor: '#1F7A63', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 8 }}
             >
-              <Text style={{ color: '#fff', fontWeight: 'bold' }}>{isEditingRate ? 'SAVE' : 'EDIT'}</Text>
+              <Text style={{ color: '#fff', fontWeight: 'bold' }}>{isEditingRate ? t('billing.save') : t('billing.edit')}</Text>
             </TouchableOpacity>
           </View>
 
           {/* Filter Tabs */}
-          <View style={{ flexDirection: 'row', marginBottom: 20, backgroundColor: '#EDF2F1', borderRadius: 12, padding: 5, elevation: 1 }}>
+          <View style={[styles.tabContainer, isDark && styles.tabContainerDark]}>
             {['pending', 'paid', 'all'].map((tab) => (
               <TouchableOpacity
                 key={tab}
                 onPress={() => setFilterStatus(tab as any)}
-                style={{ flex: 1, paddingVertical: 10, alignItems: 'center', backgroundColor: filterStatus === tab ? '#1F7A63' : 'transparent', borderRadius: 10 }}
+                style={[
+                  styles.tabButton,
+                  filterStatus === tab && styles.tabButtonActive,
+                  filterStatus === tab && isDark && styles.tabButtonActiveDark
+                ]}
               >
-                <Text style={{ color: filterStatus === tab ? '#fff' : '#666', fontWeight: 'bold', textTransform: 'capitalize' }}>{tab}</Text>
+                <Text style={[
+                  styles.tabText,
+                  filterStatus === tab ? styles.tabTextActive : (isDark ? styles.tabTextInactiveDark : styles.tabTextInactive)
+                ]}>
+                  {t(`billing.tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`)}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
 
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Multi-User Billing</Text>
-            <Text style={styles.sectionDate}>March 2026</Text>
+            <Text style={[styles.sectionTitle, isDark && styles.textDark]}>{t('billing.multiUserBilling')}</Text>
+            <Text style={[styles.sectionDate, isDark && styles.textMutedDark]}>March 2026</Text>
           </View>
 
           <View style={styles.tableHeader}>
-            <Text style={[styles.tableHeaderCell, { flex: 1.5 }]}>Name</Text>
-            <Text style={[styles.tableHeaderCell, { textAlign: 'center', flex: 0.8 }]}>Sessions</Text>
-            <Text style={[styles.tableHeaderCell, { textAlign: 'center', flex: 1 }]}>Time</Text>
-            <Text style={[styles.tableHeaderCell, { textAlign: 'right', flex: 1 }]}>Bill</Text>
+            <Text style={[styles.tableHeaderCell, isDark && styles.textMutedDark, { flex: 1.5 }]}>{t('billing.tableName')}</Text>
+            <Text style={[styles.tableHeaderCell, isDark && styles.textMutedDark, { textAlign: 'center', flex: 0.8 }]}>{t('billing.tableSessions')}</Text>
+            <Text style={[styles.tableHeaderCell, isDark && styles.textMutedDark, { textAlign: 'center', flex: 1 }]}>{t('billing.tableTime')}</Text>
+            <Text style={[styles.tableHeaderCell, isDark && styles.textMutedDark, { textAlign: 'right', flex: 1 }]}>{t('billing.tableBill')}</Text>
           </View>
 
           {usersData.map((user) => (
-            <View key={user.id} style={styles.userRowContainer}>
-              <View style={{ position: 'absolute', right: 12, top: 10, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4, backgroundColor: user.status === 'paid' ? '#E8F5E9' : '#F5F5F5', zIndex: 5 }}>
-                <Text style={{ fontSize: 9, fontWeight: 'bold', color: user.status === 'paid' ? '#1F7A63' : '#9E9E9E' }}>
+            <View key={user.id} style={[styles.userRowContainer, isDark && styles.userRowContainerDark]}>
+              <View style={[
+                styles.statusBadge,
+                user.status === 'paid'
+                  ? (isDark ? styles.badgePaidDark : styles.badgePaidLight)
+                  : (isDark ? styles.badgePendingDark : styles.badgePendingLight)
+              ]}>
+                <Text style={[
+                  styles.statusBadgeText,
+                  user.status === 'paid'
+                    ? (isDark ? styles.badgePaidTextDark : styles.badgePaidTextLight)
+                    : (isDark ? styles.badgePendingTextDark : styles.badgePendingTextLight)
+                ]}>
                   {user.status ? user.status.toUpperCase() : 'PENDING'}
                 </Text>
               </View>
               <View style={styles.userRow}>
                 <View style={[styles.userInfo, { flex: 1.5, flexDirection: 'row', alignItems: 'center' }]}>
-                  <View style={styles.avatar}><Text style={styles.avatarText}>{user.name[0]}</Text></View>
+                  <View style={[styles.avatar, isDark && styles.avatarDark]}><Text style={[styles.avatarText, isDark && styles.textDark]}>{user.name[0]}</Text></View>
                   <View style={{ flex: 1, marginLeft: 8 }}>
-                    <Text style={[styles.userName, { fontSize: 13 }]} numberOfLines={2}>{user.name}</Text>
+                    <Text style={[styles.userName, { fontSize: 13 }, isDark && styles.textDark]} numberOfLines={2}>{user.name}</Text>
                   </View>
                 </View>
-                <Text style={[styles.userRate, { textAlign: 'center', flex: 0.8, fontSize: 12 }]}>{user.sessionCount}</Text>
-                <Text style={[styles.userHours, { textAlign: 'center', flex: 1, fontSize: 12 }]}>{formatDuration(user.totalMinutes)}</Text>
-                <Text style={[styles.userBill, { textAlign: 'right', flex: 1, fontSize: 12, fontWeight: 'bold' }]}>Rs {user.totalBill.toFixed(0)}</Text>
+                <Text style={[styles.userRate, { textAlign: 'center', flex: 0.8, fontSize: 12 }, isDark && styles.textMutedDark]}>{user.sessionCount}</Text>
+                <Text style={[styles.userHours, { textAlign: 'center', flex: 1, fontSize: 12 }, isDark && styles.textMutedDark]}>{formatDuration(user.totalMinutes)}</Text>
+                <Text style={[styles.userBill, { textAlign: 'right', flex: 1, fontSize: 12, fontWeight: 'bold' }, isDark && styles.textDark]}>Rs {user.totalBill.toFixed(0)}</Text>
               </View>
               <TouchableOpacity
-                style={styles.detailsButton}
+                style={[styles.detailsButton, isDark && styles.detailsButtonDark]}
                 onPress={() => (navigation as any).navigate('UserDetail', { userName: user.name })}
               >
-                <Text style={styles.detailsButtonText}>View Details</Text>
-                <Text style={styles.chevron}>›</Text>
+
+                <Text style={[styles.detailsButtonText, isDark && { color: '#6ED3B5' }]}>{t('billing.viewDetails')}</Text>
+                <Text style={[styles.chevron, isDark && styles.textMutedDark]}>›</Text>
               </TouchableOpacity>
             </View>
           ))}

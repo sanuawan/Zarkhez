@@ -3,6 +3,52 @@ import { StyleSheet, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
+  // ScheduleScreen Header Styles (100% Settings/Home Jaisa)
+  header: {
+    paddingHorizontal: 20,
+    paddingBottom: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+  },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(110,211,181,0.25)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  logoIconText: {
+    fontSize: 14,
+    color: '#6ED3B5',
+  },
+  logoText: {
+    fontSize: 12,
+    color: '#6ED3B5',
+    fontWeight: '500',
+  },
+  mainTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.65)',
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#f0fdf4',
@@ -685,7 +731,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loadingContainerDark: {
-    // add dark mode style if needed
   },
   loadingText: {
     marginTop: 12,

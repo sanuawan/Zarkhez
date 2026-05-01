@@ -14,12 +14,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import { styles } from './styles/SettingsAlertsScreen.styles';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const SettingsAlertsScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const [alerts, setAlerts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   const markAllAsRead = async (unreadList: any[]) => {
     if (unreadList.length === 0) return;
@@ -49,7 +51,7 @@ const SettingsAlertsScreen = () => {
           let icon = '⚠️';
           let iconBg = '#FFF0F0';
           let iconColor = '#e05353';
-          
+
           if (alertData.message?.includes('Voltage')) {
             icon = '⚡'; iconBg = '#FFF8E6'; iconColor = '#FFD166';
           } else if (alertData.message?.includes('Current') || alertData.message?.includes('Overload')) {
@@ -74,7 +76,7 @@ const SettingsAlertsScreen = () => {
     return () => {
       unsubscribe();
       const unread = currentAlerts.filter(a => a.read === false);
-      markAllAsRead(unread); 
+      markAllAsRead(unread);
     };
   }, []);
 
@@ -93,45 +95,45 @@ const SettingsAlertsScreen = () => {
       <StatusBar barStyle="light-content" backgroundColor="#1F7A63" />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* 🔥 Header section wapas add kar diya */}
-        <LinearGradient 
-          colors={['#1F7A63', '#2a9d82']} 
-          start={{ x: 0, y: 0 }} 
-          end={{ x: 1, y: 1 }} 
+        <LinearGradient
+          colors={['#1F7A63', '#2a9d82']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
           style={[styles.header, { paddingTop: insets.top + 16 }]}
         >
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Text style={styles.backIcon}>←</Text>
-            <Text style={styles.backText}>Settings</Text>
+            <Text style={styles.backText}>{t('alerts.settings')}</Text>
           </TouchableOpacity>
-          <Text style={styles.mainTitle}>Alerts</Text>
-          
+          <Text style={styles.mainTitle}>{t('alerts.pageTitle')}</Text>
+
           {/* Subtitle logic */}
           <Text style={styles.subtitle}>
-            {activeCount > 0 ? `${activeCount} new alert${activeCount > 1 ? 's' : ''}` : 'All systems normal'}
+            {activeCount > 0 ? `${activeCount} ${t('alerts.newAlerts')}` : t('alerts.allNormal')}
           </Text>
 
           {/* Attention Banner */}
           {activeCount > 0 && (
             <View style={styles.attentionBanner}>
               <Text style={styles.attentionIcon}>⚠️</Text>
-              <Text style={styles.attentionText}>{activeCount} alerts require attention</Text>
+              <Text style={styles.attentionText}>{activeCount} {t('alerts.requireAttention')}</Text>
             </View>
           )}
         </LinearGradient>
 
         <View style={styles.content}>
           {alerts.length === 0 ? (
-            <Text style={{ textAlign: 'center', marginTop: 50, color: 'gray' }}>No alert history found.</Text>
+            <Text style={{ textAlign: 'center', marginTop: 50, color: 'gray' }}>{t('alerts.noHistory')}</Text>
           ) : (
             alerts.map(alert => (
-              <View 
-                key={alert.id} 
+              <View
+                key={alert.id}
                 style={[
-                  styles.alertCard, 
-                  !alert.read && { 
-                    backgroundColor: '#F0F7FF', 
-                    borderColor: '#2196F3', 
-                    borderWidth: 1 
+                  styles.alertCard,
+                  !alert.read && {
+                    backgroundColor: '#F0F7FF',
+                    borderColor: '#2196F3',
+                    borderWidth: 1
                   }
                 ]}
               >
@@ -146,7 +148,7 @@ const SettingsAlertsScreen = () => {
                       </Text>
                       {!alert.read && (
                         <View style={[styles.activeBadge, { backgroundColor: '#2196F3' }]}>
-                          <Text style={styles.activeBadgeText}>New</Text>
+                          <Text style={styles.activeBadgeText}>{t('alerts.new')}</Text>
                         </View>
                       )}
                     </View>

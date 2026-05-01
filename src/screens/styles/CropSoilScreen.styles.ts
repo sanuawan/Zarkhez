@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, Platform, PixelRatio } from 'react-native';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-// Responsive Helper: Screen width ke hisaab se size calculate karega
+// Responsive Helper
 const scale = SCREEN_WIDTH / 375;
 
 const normalize = (size: number) => {
@@ -16,6 +16,55 @@ const normalize = (size: number) => {
 };
 
 export const styles = StyleSheet.create({
+  // 🔴 100% EXACT HOME SCREEN WALE STYLES 🔴
+  customHeader: {
+    paddingHorizontal: 20,
+    paddingBottom: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    width: '100%',
+  },
+  customHeaderTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  customLogoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  customLogoIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(110,211,181,0.25)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  customLogoIconText: {
+    fontSize: 14,
+    color: '#6ED3B5',
+  },
+  customLogoText: {
+    fontSize: 12,
+    color: '#6ED3B5',
+    fontWeight: '500',
+  },
+  customMainTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    marginBottom: 4,
+    textAlign: 'left', // 🔥 Is se start main aayega
+  },
+  customSubtitle: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.65)',
+    textAlign: 'left', // 🔥 Is se start main aayega
+  },
+  
   container: {
     flex: 1,
     backgroundColor: '#f0fdf4',
@@ -111,7 +160,7 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#374151',
     marginBottom: normalize(4),
-    marginLeft: normalize(4), // Thoda indent text alignment ke liye
+    marginLeft: normalize(4), // indent text alignment
   },
   labelDark: {
     color: '#d1d5db',
@@ -386,7 +435,7 @@ export const styles = StyleSheet.create({
   aiDescription: {
     fontSize: normalize(13),
     color: '#6b7280',
-    flexShrink: 1, // Text wrap ke liye zaroori hai
+    flexShrink: 1, // For text wrap
   },
   aiDescriptionDark: {
     color: '#9ca3af',
@@ -404,7 +453,7 @@ export const styles = StyleSheet.create({
   recommendationContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%', // Full width ensure karne ke liye
+    width: '100%', 
     marginVertical: normalize(4),
   },
   recommendationIcon: {
@@ -418,7 +467,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
     lineHeight: normalize(22),
-    textAlign: 'left', // Center ki bajaye left zayada readable hota hai lists main
+    textAlign: 'left', 
     paddingRight: normalize(8),
   },
   

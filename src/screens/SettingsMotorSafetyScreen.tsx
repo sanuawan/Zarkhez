@@ -21,11 +21,13 @@ import { styles } from './styles/SettingsMotorSafetyScreen.styles';
 import motorRuntimeService, { MotorRuntimeData } from '../services/motorRuntimeService';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { useRef } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const SettingsMotorSafetyScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const handleBack = () => navigation.goBack();
+  const { t } = useLanguage();
 
   const scrollViewRef = useRef<ScrollView>(null);
   const customLimitInputRef = useRef<TextInput>(null);
@@ -192,41 +194,41 @@ const SettingsMotorSafetyScreen = () => {
   // MERGED CARD - Smart Control Mode + Slider UI for Voltage & Current
   const MergedCard = () => (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>SMART MOTOR CONTROL</Text>
+      <Text style={styles.sectionTitle}>{t('safety.smartControl')}</Text>
 
       {/* Smart Control Mode */}
-      <Text style={styles.mergedSubLabel}>CONTROL MODE</Text>
+      <Text style={styles.mergedSubLabel}>{t('safety.controlMode')}</Text>
       <View style={styles.modeContainer}>
         <TouchableOpacity
           style={[styles.modeButton, controlMode === 'auto' && styles.modeButtonActive]}
           onPress={() => setControlMode('auto')}>
           <View style={styles.modeIconCircle}><Text>⚡</Text></View>
-          <Text style={[styles.modeButtonText, controlMode === 'auto' && { color: '#fff' }]}>Auto Mode</Text>
+          <Text style={[styles.modeButtonText]}>{t('safety.autoMode')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.modeButton, controlMode === 'manual' && styles.modeButtonActive]}
           onPress={() => setControlMode('manual')}>
           <View style={styles.modeIconCircle}><Text>📈</Text></View>
-          <Text style={[styles.modeButtonText, controlMode === 'manual' && { color: '#fff' }]}>Manual Mode</Text>
+          <Text style={[styles.modeButtonText]}>{t('safety.manualMode')}</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.modeDescriptionBanner}>
         <Text style={styles.modeDescriptionText}>
-          🛡️ {controlMode === 'auto' ? "Motor stops automatically when limits are exceeded." : "You receive up to 3 notifications before motor auto-stops."}
+          🛡️ {controlMode === 'auto' ? t('safety.autoDesc') : t('safety.manualDesc')}
         </Text>
       </View>
 
       <View style={styles.divider} />
 
       {/* Voltage & Current Limits with Slider UI */}
-      <Text style={styles.mergedSubLabel}>VOLTAGE & CURRENT LIMITS</Text>
+      <Text style={styles.mergedSubLabel}>{t('safety.limits')}</Text>
 
       {/* Minimum Voltage */}
       <View style={styles.mergedRow}>
         <View style={styles.sliderHeader}>
-          <Text style={styles.mergedLabel}>Minimum Voltage</Text>
+          <Text style={styles.mergedLabel}>{t('safety.minVol')}</Text>
           <View style={styles.valueBox}>
             <TextInput
               style={styles.valueText}
@@ -260,7 +262,7 @@ const SettingsMotorSafetyScreen = () => {
       {/* Maximum Voltage */}
       <View style={styles.mergedRow}>
         <View style={styles.sliderHeader}>
-          <Text style={styles.mergedLabel}>Maximum Voltage</Text>
+          <Text style={styles.mergedLabel}>{t('safety.maxVol')}</Text>
           <View style={[styles.valueBox, { borderColor: '#FEE2E2' }]}>
             <TextInput
               style={styles.valueText}
@@ -292,7 +294,7 @@ const SettingsMotorSafetyScreen = () => {
       {/* Maximum Current */}
       <View style={styles.mergedRow}>
         <View style={styles.sliderHeader}>
-          <Text style={styles.mergedLabel}>Maximum Current</Text>
+          <Text style={styles.mergedLabel}>{t('safety.maxCurr')}</Text>
           <View style={[styles.valueBox, { borderColor: '#FEE2E2' }]}>
             <TextInput
               style={styles.valueText}
@@ -338,7 +340,7 @@ const SettingsMotorSafetyScreen = () => {
 
     return (
       <View style={styles.serviceCard}>
-        <Text style={styles.cardTitle}>🔧 MOTOR SERVICE</Text>
+        <Text style={styles.cardTitle}>{t('safety.motorService')}</Text>
 
         <View style={styles.serviceStatusRow}>
           <View style={styles.serviceStatusLeft}>
@@ -346,48 +348,40 @@ const SettingsMotorSafetyScreen = () => {
               <Text style={styles.serviceIconText}>🔧</Text>
             </View>
             <View>
-              <Text style={styles.serviceStatusLabel}>Service Status</Text>
-              <Text style={[styles.serviceStatusValue, { color: serviceExceeded ? '#EF4444' : '#1F7A63' }]}>
-                {serviceExceeded ? 'Service Required' : 'Normal'}
-              </Text>
+              <Text style={styles.serviceStatusLabel}>{t('safety.serviceStatus')}</Text>
+              <Text style={[styles.serviceStatusValue]}>{serviceExceeded ? t('safety.serviceRequired') : t('safety.normal')}</Text>
             </View>
           </View>
           <View style={[styles.serviceBadge, { backgroundColor: serviceExceeded ? '#FEE2E2' : '#E8F3F0' }]}>
-            <Text style={[styles.serviceBadgeText, { color: serviceExceeded ? '#EF4444' : '#1F7A63' }]}>
-              {serviceExceeded ? '⚠️ Service Required' : '✓ Normal'}
-            </Text>
+            <Text style={[styles.serviceBadgeText]}>{serviceExceeded ? `⚠️ ${t('safety.serviceRequired')}` : `✓ ${t('safety.normal')}`}</Text>
           </View>
         </View>
 
         {serviceExceeded && (
           <View style={[styles.alertBanner, { backgroundColor: '#FEE2E2', borderColor: '#EF4444' }]}>
             <Text style={styles.alertIcon}>⚠️</Text>
-            <Text style={[styles.alertText, { color: '#EF4444' }]}>
-              Service required! Motor has exceeded {serviceLimitInput} hours.
-            </Text>
+            <Text style={[styles.alertText]}>Service required! Motor has exceeded {serviceLimitInput} {t('safety.hours')}.</Text>
           </View>
         )}
 
         {!serviceExceeded && (
           <View style={[styles.infoBannerSmall, { backgroundColor: '#E8F3F0' }]}>
             <Text style={styles.infoIcon}>✓</Text>
-            <Text style={[styles.infoTextSmall, { color: '#1F7A63' }]}>
-              Motor is in good condition. {formatRemainingTime(remaining)} remaining.
-            </Text>
+            <Text style={[styles.infoTextSmall]}>{t('safety.motorGood')} {formatRemainingTime(remaining)} {t('safety.remaining')}.</Text>
           </View>
         )}
 
         <View style={styles.statsGrid}>
           <View style={styles.statCard}>
-            <Text style={styles.statLabel}>Running Time</Text>
+            <Text style={styles.statLabel}>{t('safety.runningTime')}</Text>
             <Text style={[styles.statValue, { color: serviceExceeded ? '#EF4444' : '#1F7A63' }]}>
               {formatDuration(runningHours)}
             </Text>
           </View>
           <View style={styles.statCard}>
-            <Text style={styles.statLabel}>Service Limit</Text>
+            <Text style={styles.statLabel}>{t('safety.serviceLimit')}</Text>
             <Text style={[styles.statValue, { color: '#1F7A63' }]}>
-              {serviceLimitInput || "500"} <Text style={styles.statUnit}>hrs</Text>
+              {serviceLimitInput || "500"} <Text style={styles.statUnit}>{t('safety.hrs')}</Text>
             </Text>
           </View>
         </View>
@@ -398,7 +392,7 @@ const SettingsMotorSafetyScreen = () => {
             <Text style={[styles.progressPercent, { color: serviceExceeded ? '#EF4444' : '#1F7A63' }]}>
               {serviceProgress.toFixed(0)}%
             </Text>
-            <Text style={styles.progressLabel}>{serviceLimitInput} hrs</Text>
+            <Text style={styles.progressLabel}>{serviceLimitInput} {t('safety.hrs')}</Text>
           </View>
           <View style={styles.progressBar}>
             <View style={[styles.progressFill, {
@@ -409,7 +403,7 @@ const SettingsMotorSafetyScreen = () => {
         </View>
 
         <View style={styles.customLimitSection}>
-          <Text style={styles.customLimitLabel}>Custom Service Limit</Text>
+          <Text style={styles.customLimitLabel}>{t('safety.customLimit')}</Text>
           <View style={styles.customLimitInputContainer}>
             <TextInput
               ref={customLimitInputRef}
@@ -428,27 +422,25 @@ const SettingsMotorSafetyScreen = () => {
               blurOnSubmit={false}        // ✅ ye rakhna important hai
             />
             <View style={styles.customLimitUnit}>
-              <Text style={styles.customLimitUnitText}>hours</Text>
+              <Text style={styles.customLimitUnitText}>{t('safety.hours')}</Text>
             </View>
           </View>
         </View>
 
         {showResetConfirm ? (
           <View style={styles.resetConfirmContainer}>
-            <Text style={styles.resetConfirmText}>Reset service counter?</Text>
-            <Text style={[styles.resetConfirmText, { fontSize: 10, color: '#666' }]}>
-              Current: {formatDuration(runningHours)} will be reset to 0
-            </Text>
+            <Text style={styles.resetConfirmText}>{t('safety.resetConfirm')}</Text>
+            <Text style={[styles.resetConfirmText]}>Current: {formatDuration(runningHours)} {t('safety.willBeReset')}</Text>
             <View style={styles.resetConfirmButtons}>
               <TouchableOpacity
                 onPress={() => setShowResetConfirm(false)}
                 style={[styles.resetConfirmButton, styles.resetConfirmCancel]}>
-                <Text style={styles.resetConfirmButtonText}>Cancel</Text>
+                <Text style={styles.resetConfirmButtonText}>{t('common.cancel')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleResetService}
                 style={[styles.resetConfirmButton, styles.resetConfirmOk]}>
-                <Text style={[styles.resetConfirmButtonText, { color: '#fff' }]}>Reset</Text>
+                <Text style={[styles.resetConfirmButtonText]}>{t('safety.reset')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -456,7 +448,7 @@ const SettingsMotorSafetyScreen = () => {
           <TouchableOpacity
             onPress={() => setShowResetConfirm(true)}
             style={styles.resetButton}>
-            <Text style={styles.resetButtonText}>⟳ Reset Service Counter</Text>
+            <Text style={styles.resetButtonText}>{t('safety.resetCounter')}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -486,10 +478,11 @@ const SettingsMotorSafetyScreen = () => {
 
           <LinearGradient colors={['#1F7A63', '#2a9d82']} style={[styles.header, { paddingTop: insets.top + 16 }]}>
             <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-              <Text style={styles.backText}>← Settings</Text>
+              <Text style={styles.backIcon}>←</Text>
+              <Text style={styles.backText}>{t('safety.settings')}</Text>
             </TouchableOpacity>
-            <Text style={styles.mainTitle}>Safety Guard</Text>
-            <Text style={styles.subtitle}>Protect your motor with smart monitoring</Text>
+            <Text style={styles.mainTitle}>{t('safety.title')}</Text>
+            <Text style={styles.subtitle}>{t('safety.subtitle')}</Text>
           </LinearGradient>
 
           <View style={[styles.content, { paddingBottom: insets.bottom + 40 }]}>
@@ -500,7 +493,7 @@ const SettingsMotorSafetyScreen = () => {
             <MotorServiceCard />
 
             <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={saving}>
-              {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.saveButtonText}>Apply Changes</Text>}
+              {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.saveButtonText}>{t('safety.applyChanges')}</Text>}
             </TouchableOpacity>
           </View>
         </ScrollView>

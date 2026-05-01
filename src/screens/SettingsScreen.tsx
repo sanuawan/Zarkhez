@@ -15,54 +15,21 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from './styles/SettingsScreen.styles';
 import BottomNavBar from '../components/BottomNavBar';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const settingsItems = [
-  {
-    key: 'alerts',
-    label: 'Alerts',
-    description: 'System warnings & notifications',
-    icon: '🔔',
-    iconBg: '#FFF8E6',
-    iconColor: '#FFD166',
-  },
-  {
-    key: 'activity',
-    label: 'Events / Activity Log',
-    description: 'Motor events & system history',
-    icon: '📋',
-    iconBg: '#E8F3F0',
-    iconColor: '#1F7A63',
-  },
-  {
-    key: 'safety',
-    label: 'Motor Safety Config',
-    description: 'Set voltage & current thresholds',
-    icon: '⚠️',
-    iconBg: '#FFF0F0',
-    iconColor: '#e05353',
-  },
-  {
-    key: 'language',
-    label: 'Language',
-    description: 'English / اردو',
-    icon: '🌐',
-    iconBg: '#E6F7FF',
-    iconColor: '#1890FF',
-  },
-  {
-    key: 'appearance',
-    label: 'Appearance',
-    description: 'Light / Dark mode',
-    icon: '🎨',
-    iconBg: '#F0EEFF',
-    iconColor: '#8b6ef5',
-  },
+  { key: 'alerts', titleKey: 'settings.menu.alerts.title', descKey: 'settings.menu.alerts.desc', icon: '🔔', iconBg: '#FFF8E6', iconColor: '#FFD166' },
+  { key: 'activity', titleKey: 'settings.menu.activity.title', descKey: 'settings.menu.activity.desc', icon: '📋', iconBg: '#E8F3F0', iconColor: '#1F7A63' },
+  { key: 'safety', titleKey: 'settings.menu.safety.title', descKey: 'settings.menu.safety.desc', icon: '⚠️', iconBg: '#FFF0F0', iconColor: '#e05353' },
+  { key: 'language', titleKey: 'settings.menu.language.title', descKey: 'settings.menu.language.desc', icon: '🌐', iconBg: '#E6F7FF', iconColor: '#1890FF' },
+  { key: 'appearance', titleKey: 'settings.menu.appearance.title', descKey: 'settings.menu.appearance.desc', icon: '🎨', iconBg: '#F0EEFF', iconColor: '#8b6ef5' },
 ];
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState('settings');
+  const { t } = useLanguage();
 
   // 🔥 Firebase se current user nikalein
   const user = auth().currentUser;
@@ -148,8 +115,8 @@ const SettingsScreen = () => {
               <Text style={styles.logoText}>Zarkhez</Text>
             </View>
           </View>
-          <Text style={styles.mainTitle}>Settings</Text>
-          <Text style={styles.subtitle}>Manage your preferences</Text>
+          <Text style={styles.mainTitle}>{t('settings.title')}</Text>
+          <Text style={styles.subtitle}>{t('settings.subtitle')}</Text>
         </LinearGradient>
 
         <View style={styles.content}>
@@ -165,17 +132,17 @@ const SettingsScreen = () => {
               <Text style={styles.userName}>{displayName}</Text>
               <View style={styles.userBadgeRow}>
                 <View style={styles.farmerBadge}>
-                  <Text style={styles.farmerBadgeText}>Farmer</Text>
+                  <Text style={styles.farmerBadgeText}>{t('settings.farmer')}</Text>
                 </View>
                 {/* Email choti si niche dikhani ho to dikha sakte hain */}
-                <Text style={styles.loggedInText}>{user?.email ? 'Logged in' : 'Guest'}</Text>
+                <Text style={styles.loggedInText}>{user?.email ? t('settings.loggedIn') : t('settings.guest')}</Text>
               </View>
             </View>
             <View style={styles.onlineDot} />
           </View>
 
           {/* Settings list */}
-          <Text style={styles.sectionLabel}>GENERAL</Text>
+          <Text style={styles.sectionLabel}>{t('settings.general')}</Text>
           <View style={styles.settingsList}>
             {settingsItems.map((item, index) => (
               <TouchableOpacity
@@ -192,8 +159,8 @@ const SettingsScreen = () => {
                   </Text>
                 </View>
                 <View style={styles.itemTextContainer}>
-                  <Text style={styles.itemLabel}>{item.label}</Text>
-                  <Text style={styles.itemDescription}>{item.description}</Text>
+                  <Text style={styles.itemLabel}>{t(item.titleKey)}</Text>
+                  <Text style={styles.itemDescription}>{t(item.descKey)}</Text>
                 </View>
                 <Text style={styles.chevron}>›</Text>
               </TouchableOpacity>
@@ -203,7 +170,7 @@ const SettingsScreen = () => {
           {/* Logout button */}
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutIcon}>🚪</Text>
-            <Text style={styles.logoutText}>Logout</Text>
+            <Text style={styles.logoutText}>{t('common.logout')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

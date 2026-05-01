@@ -248,29 +248,30 @@ const HomeScreen: React.FC = () => {
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
 
-        {/* Stylish Header - with curves and shadow */}
+        {/* Stylish Header - Bilkul Settings Screen Jaisa */}
         <LinearGradient
           colors={['#1F7A63', '#2a9d82']}
-          style={{
-            paddingTop: insets.top + 10, // StatusBar se nechy karne ke liye
-            paddingHorizontal: 20,
-            paddingBottom: 30,
-            borderBottomLeftRadius: 30,
-            borderBottomRightRadius: 30,
-            width: '100%', // Ye sides ka gap khatam karega
-            alignSelf: 'stretch',
-          }}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.homeHeader, { paddingTop: insets.top + 16 }]}
         >
           <View style={styles.homeHeaderTop}>
             <View style={styles.logoContainer}>
               <View style={styles.logoIcon}>
                 <Text style={styles.logoIconText}>💧</Text>
               </View>
-              <Text style={styles.logoText}>Zarkhez</Text>
+              {/* Zarkhez chota aur green font mein */}
+              <Text style={styles.logoText}>{t('header.title')}</Text>
             </View>
-            {/* No button on HomeScreen */}
           </View>
-          <Text style={styles.homeMainTitle}>Smart Farming</Text>
+          
+          {/* Main Title (Smart Farming) aur Subtitle (Automated irrigation) */}
+          <Text style={styles.homeMainTitle}>
+            {language === 'en' ? 'Smart Farming' : 'ذہین کاشتکاری'}
+          </Text>
+          <Text style={styles.homeSubtitle}>
+            {language === 'en' ? 'Automated irrigation' : 'خودکار آبپاشی'}
+          </Text>
         </LinearGradient>
 
         {/* Motor Control Card */}

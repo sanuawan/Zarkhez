@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import firestore from '@react-native-firebase/firestore';
 import { LineChart, PieChart } from 'react-native-chart-kit'; 
 import { styles } from './styles/AnalyticsScreen.styles';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -13,11 +14,14 @@ const AnalyticsScreen = () => {
   const [filter, setFilter] = useState<'weekly' | 'monthly'>('weekly');
   const [motorHP, setMotorHP] = useState('10'); 
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
   
   const [data, setData] = useState({
     paid: 0, pending: 0, totalUnits: 0,
     graphLabels: [], graphValues: []
   });
+
+  
 
   useEffect(() => {
     const hp = parseFloat(motorHP) || 0;
@@ -78,16 +82,15 @@ const AnalyticsScreen = () => {
           
           <LinearGradient colors={['#1F7A63', '#2a9d82']} style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-              <Text style={styles.backText}>← Billing</Text>
+              <Text style={styles.backText}>{t('analytics.backBilling')}</Text>
             </TouchableOpacity>
-            <Text style={styles.mainTitle}>Analytics Dashboard</Text>
+            <Text style={styles.mainTitle}>{t('analytics.title')}</Text>
             
             <View style={styles.toggleRow}>
               <TouchableOpacity style={[styles.toggleButton, filter === 'weekly' && styles.toggleActive]} onPress={() => setFilter('weekly')}>
-                <Text style={[styles.toggleText, filter === 'weekly' && styles.toggleTextActive]}>Weekly Flow</Text>
-              </TouchableOpacity>
+                <Text style={[styles.toggleText, filter === 'weekly' && styles.toggleTextActive]}>{t('analytics.weeklyFlow')}</Text></TouchableOpacity>
               <TouchableOpacity style={[styles.toggleButton, filter === 'monthly' && styles.toggleActive]} onPress={() => setFilter('monthly')}>
-                <Text style={[styles.toggleText, filter === 'monthly' && styles.toggleTextActive]}>Monthly Flow</Text>
+                <Text style={[styles.toggleText, filter === 'monthly' && styles.toggleTextActive]}>{t('analytics.monthlyFlow')}</Text>
               </TouchableOpacity>
             </View>
           </LinearGradient>
@@ -96,11 +99,11 @@ const AnalyticsScreen = () => {
             
             {/* 1. Recovery Graph (Paid/Pending) */}
             <View style={styles.card}>
-              <Text style={styles.cardTitle}>Bill Recovery Status</Text>
+              <Text style={styles.cardTitle}>{t('analytics.recoveryStatus')}</Text>
               <PieChart
                 data={[
-                  { name: "Paid", population: data.paid, color: "#1F7A63", legendFontColor: "#555" },
-                  { name: "Pending", population: data.pending, color: "#E63946", legendFontColor: "#555" }
+                  { name: t('analytics.paid'), population: data.paid, color: "#1F7A63", legendFontColor: "#555" }, // <--- YAHAN CHANGE
+                  { name: t('analytics.pending'), population: data.pending, color: "#E63946", legendFontColor: "#555" } 
                 ]}
                 width={screenWidth - 40} height={180} chartConfig={chartConfig} accessor={"population"} backgroundColor={"transparent"} paddingLeft={"15"} absolute
               />
@@ -108,7 +111,7 @@ const AnalyticsScreen = () => {
 
             {/* 2. Usage Graph (Scrollable kWh) */}
             <View style={styles.card}>
-              <Text style={styles.cardTitle}>{filter === 'weekly' ? 'Weekly Units (kWh)' : 'Yearly Units (kWh)'}</Text>
+              <Text style={styles.cardTitle}>{filter === 'weekly' ? t('analytics.weeklyUnits') : t('analytics.yearlyUnits')}</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <LineChart
                   data={{ labels: data.graphLabels, datasets: [{ data: data.graphValues }] }}
@@ -118,33 +121,33 @@ const AnalyticsScreen = () => {
                 />
               </ScrollView>
               <View style={styles.unitBox}>
-                 <Text style={styles.unitLabel}>Total Estimated Consumption</Text>
+                 <Text style={styles.unitLabel}>{t('analytics.totalConsumption')}</Text>
                  <Text style={styles.unitValue}>{data.totalUnits.toFixed(2)} kWh</Text>
               </View>
             </View>
 
             {/* 3. Motor Setup (Input) */}
             <View style={styles.card}>
-              <Text style={styles.cardTitle}>Motor Configuration</Text>
+              <Text style={styles.cardTitle}>{t('analytics.motorConfig')}</Text>
               <View style={styles.inputRow}>
-                <Text style={{color: '#555', fontWeight: '500'}}>Enter Motor Power (HP):</Text>
+                <Text style={{color: '#555', fontWeight: '500'}}>{t('analytics.enterHP')}</Text>
                 <TextInput 
                   style={styles.input} 
                   keyboardType="numeric" 
                   value={motorHP} 
                   onChangeText={setMotorHP}
-                  placeholder="e.g. 15"
+                  placeholder={t('analytics.hpPlaceholder')}
                 />
               </View>
             </View>
 
             {/* 4. Bottom Summary */}
             <View style={styles.profitCard}>
-              <Text style={{color: 'rgba(255,255,255,0.8)', fontSize: 14}}>Total Pending Collection</Text>
+              <Text style={{color: 'rgba(255,255,255,0.8)', fontSize: 14}}>{t('analytics.totalPending')}</Text> 
               <Text style={styles.profitValue}>Rs {data.pending.toFixed(0)}</Text>
               <View style={styles.footerRow}>
-                <Text style={{color: '#FFD166', fontWeight: 'bold'}}>Paid: Rs {data.paid}</Text>
-                <Text style={{color: '#FFF'}}>Units: {data.totalUnits.toFixed(1)}</Text>
+                <Text style={{color: '#FFD166', fontWeight: 'bold'}}>{t('analytics.paid')}: Rs {data.paid}</Text> 
+                 <Text style={{color: '#FFF'}}>Units: {data.totalUnits.toFixed(1)}</Text>
               </View>
             </View>
 

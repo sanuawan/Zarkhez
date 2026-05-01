@@ -35,7 +35,7 @@ const TimelineItem = ({ session }: any) => {
           </View>
         </View>
 
-        {/* ✅ Individual Button - No Yellow, Proper Colors */}
+        {/* Individual Button */}
         {!isPaid ? (
           <TouchableOpacity 
             onPress={markPaid}

@@ -23,6 +23,7 @@ import { useUser } from '../contexts/UserContext';
 import Header from '../components/Header';
 import BottomNavBar from '../components/BottomNavBar';
 import { styles } from './styles/ScheduleScreen.styles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
@@ -70,7 +71,7 @@ const ScheduleScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [listenerError, setListenerError] = useState<string | null>(null);
-
+  const insets = useSafeAreaInsets();
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
   const [assignedTo, setAssignedTo] = useState('');
@@ -651,7 +652,7 @@ const ScheduleScreen: React.FC = () => {
     return { valid: true };
   };
 
-// ========== SAVE/UPDATE ==========
+  // ========== SAVE/UPDATE ==========
   const handleSaveSchedule = async () => {
     try {
       setIsLoading(true);
@@ -707,9 +708,9 @@ const ScheduleScreen: React.FC = () => {
             }
           }
         }
-        
+
         // Fallback: If only today is selected but the time already passed, shift to next week
-        if (daysToAdd === -1) daysToAdd = 7; 
+        if (daysToAdd === -1) daysToAdd = 7;
 
         finalStartDate.setDate(now.getDate() + daysToAdd);
         finalEndDate = new Date(finalStartDate);
@@ -1174,22 +1175,37 @@ const ScheduleScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, isDark && styles.containerDark]}>
-      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-      <Header showLogout={false} />
+      <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
 
+      {/* 1. ScrollView */}
       <ScrollView
         ref={scrollViewRef}
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
       >
-        {/* Centered title */}
-        <View style={styles.titleWrapper}>
-          <Text style={[styles.centeredTitle, isDark && styles.centeredTitleDark]}>
-            ⏰ {t('schedule.waterSchedule')}
+        {/* 🔴 NAYA CUSTOM HEADER SETTINGS/HOME JESA 🔴 */}
+        <LinearGradient
+          colors={['#1F7A63', '#2a9d82']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.header, { paddingTop: insets.top + 16 }]}
+        >
+          <View style={styles.headerTop}>
+            <View style={styles.logoContainer}>
+              <View style={styles.logoIcon}>
+                <Text style={styles.logoIconText}>💧</Text>
+              </View>
+              <Text style={styles.logoText}>{t('header.title')}</Text>
+            </View>
+          </View>
+          
+          <Text style={styles.mainTitle}>{t('nav.schedule')}</Text>
+          <Text style={styles.subtitle}>
+            {language === 'en' ? 'Manage your routine' : 'اپنے شیڈول کا نظم کریں'}
           </Text>
-        </View>
-
+        </LinearGradient>
+        {/* 🔴 HEADER KHATAM 🔴 */}
+        <View style={{ paddingHorizontal: 16, paddingTop: 20 }}></View>
         {editingId && (
           <View style={[styles.editingIndicator, isDark && styles.editingIndicatorDark]}>
             <Text style={[styles.editingIndicatorText, isDark && styles.editingIndicatorTextDark]}>
@@ -1527,6 +1543,7 @@ const ScheduleScreen: React.FC = () => {
             themeVariant={isDark ? 'dark' : 'light'}
           />
         )}
+
       </ScrollView>
 
       <BottomNavBar activeTab={activeTab} onTabPress={handleTabPress} />

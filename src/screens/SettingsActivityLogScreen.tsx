@@ -5,12 +5,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import { styles } from './styles/SettingsActivityLogScreen.styles';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const SettingsActivityLogScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   // Helper function to get Icon and Color based on type
   const getEventStyle = (type: string) => {
@@ -20,24 +22,24 @@ const SettingsActivityLogScreen = () => {
     switch (eventType) {
       case 'MOTOR_ON':
       case 'MOTOR ON': // Dono cases handle ho jayen gy
-        return { icon: '⚡', bg: '#E8F3F0', color: '#1F7A63', title: 'Motor ON' };
+        return { icon: '⚡', bg: '#E8F3F0', color: '#1F7A63', title: t('activity.motorOn') };
 
       case 'MOTOR_OFF':
       case 'MOTOR OFF':
       case 'SAFETY SHUTDOWN': // Safety band ko bhi red icon milay ga
-        return { icon: '⏹️', bg: '#FFF0F0', color: '#e05353', title: 'Motor OFF' };
+        return { icon: '⏹️', bg: '#FFF0F0', color: '#e05353', title: t('activity.motorOff') };
 
       case 'SCHEDULE_STARTED':
-        return { icon: '📅', bg: '#E8F3F0', color: '#6ED3B5', title: 'Schedule Started' };
+        return { icon: '📅', bg: '#E8F3F0', color: '#6ED3B5', title: t('activity.scheduleStarted') };
 
       case 'SCHEDULE_STOP':
-        return { icon: '✅', bg: '#E8F3F0', color: '#1F7A63', title: 'Schedule Finished' };
+        return { icon: '✅', bg: '#E8F3F0', color: '#1F7A63', title: t('activity.scheduleFinished') };
 
       case 'SCHEDULE_CANCEL':
-        return { icon: '❌', bg: '#FFF0F0', color: '#e05353', title: 'Schedule Cancelled' };
+        return { icon: '❌', bg: '#FFF0F0', color: '#e05353', title: t('activity.scheduleCancelled') };
 
       default:
-        return { icon: '📝', bg: '#F4F7F6', color: '#4a6b64', title: 'Activity' };
+        return { icon: '📝', bg: '#F4F7F6', color: '#4a6b64', title: t('activity.activity') };
     }
   };
   useEffect(() => {
@@ -99,7 +101,7 @@ const SettingsActivityLogScreen = () => {
       });
 
     return () => unsubEvents();
-  }, []);
+  }, []); 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,10 +110,10 @@ const SettingsActivityLogScreen = () => {
         <LinearGradient colors={['#1F7A63', '#2a9d82']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.header, { paddingTop: insets.top + 16 }]}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Text style={styles.backIcon}>←</Text>
-            <Text style={styles.backText}>Settings</Text>
+            <Text style={styles.backText}>{t('activity.settings')}</Text>
           </TouchableOpacity>
-          <Text style={styles.mainTitle}>Events / Activity Log</Text>
-          <Text style={styles.subtitle}>{loading ? 'Loading...' : `${logs.length} events recorded`}</Text>
+          <Text style={styles.mainTitle}>{t('activity.title')}</Text>
+          <Text style={styles.subtitle}>{loading ? t('common.loading') : `${logs.length} ${t('activity.eventsRecorded')}`}</Text>
         </LinearGradient>
 
         <View style={styles.content}>

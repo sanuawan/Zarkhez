@@ -13,20 +13,24 @@ import {
   FlatList,
   ActivityIndicator,
   Alert,
-  TextInput
+  TextInput,
+  Dimensions
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
-import Header from '../components/Header';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BottomNavBar from '../components/BottomNavBar';
 import weatherService, { WeatherData, ForecastData } from '../services/weatherService';
 import { styles } from './styles/CropSoilScreen.styles';
 import firestore from '@react-native-firebase/firestore';
+import LinearGradient from 'react-native-linear-gradient';
 const CropSoilScreen: React.FC = () => {
   const { t, language } = useLanguage();
   const { isDark } = useTheme();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+  const screenWidth = Dimensions.get('window').width;
 
   // --- 1. DATA STATES (Matches Python Model) ---
   const [districts] = useState<string[]>([
@@ -319,17 +323,44 @@ const CropSoilScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, isDark && styles.containerDark]}>
-      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-      <Header showLogout={false} />
+      <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        // 🔥 Yahan array bracket [] laga kar paddingTop: 0 add kar diya hai 🔥
+        contentContainerStyle={[styles.scrollContent, { paddingTop: 0 }]}
+      >
+        {/* 🔴 NAYA CUSTOM HEADER SETTINGS/HOME JESA 🔴 */}
+        <LinearGradient
+          colors={['#1F7A63', '#2a9d82']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[
+            styles.customHeader,
+            {
+              paddingTop: insets.top + 16, // 🔥 Height bilkul Home jaisi normal ho jayegi
+              width: screenWidth,          // 🔥 Width poori screen ke barabar ho jayegi
+              alignSelf: 'center',         // 🔥 ScrollView ki vajah se chota nahi hoga
+              marginBottom: 20,            // 🔥 Farm Detail card se faasla (juray ga nahi)
+            }
+          ]}
+        >
+          <View style={styles.customHeaderTop}>
+            <View style={styles.customLogoContainer}>
+              <View style={styles.customLogoIcon}>
+                <Text style={styles.customLogoIconText}>💧</Text>
+              </View>
+              <Text style={styles.customLogoText}>{t('header.title')}</Text>
+            </View>
+          </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+          <Text style={styles.customMainTitle}>{t('soil.title')}</Text>
+          <Text style={styles.customSubtitle}>
+            {language === 'en' ? 'Optimize water usage with AI' : 'مصنوعی ذہانت سے پانی کی بچت کریں'}
+          </Text>
+        </LinearGradient>
+        {/* 🔴 HEADER KHATAM 🔴 */}
 
-        {/* 1. Title Section */}
-        <View style={styles.titleContainer}>
-          <View style={styles.titleIcon}><Text style={styles.titleIconText}>🌱</Text></View>
-          <Text style={[styles.title, isDark && styles.titleDark]}>{t('soil.title')}</Text>
-          <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>{t('soil.smartIrrigation')}</Text>
-        </View>
 
         {/* 2. Input Form Card */}
         <View style={[styles.card, isDark && styles.cardDark]}>

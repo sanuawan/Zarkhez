@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12, // keep as is, but ensure top padding is correct
+    marginBottom: 12, 
   },
   logoContainer: {
     flexDirection: 'row',
@@ -199,4 +199,139 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: '#1F7A63',
   },
+
+  // 🔥 DARK MODE & NEW UI STYLES 🔥
+  containerDark: {
+    backgroundColor: '#0a0a0a',
+  },
+  cardDark: {
+    backgroundColor: '#1a1a1a',
+    borderColor: '#333',
+  },
+  textDark: {
+    color: '#f9fafb',
+  },
+  textMutedDark: {
+    color: '#9ca3af',
+  },
+  
+  // Rate Card
+  rateCard: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 12,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  rateCardDark: {
+    backgroundColor: '#1a1a1a',
+    borderColor: '#333',
+  },
+  rateInput: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1F7A63',
+    padding: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: '#1F7A63',
+  },
+  rateInputDark: {
+    color: '#6ED3B5',
+    borderBottomColor: '#6ED3B5',
+  },
+  rateValue: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1F7A63',
+  },
+  rateValueDark: {
+    color: '#6ED3B5',
+  },
+  rateButton: {
+    backgroundColor: '#1F7A63',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+
+  // Tabs
+  tabContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    backgroundColor: '#EDF2F1',
+    borderRadius: 12,
+    padding: 5,
+    elevation: 1,
+  },
+  tabContainerDark: {
+    backgroundColor: '#1a1a1a',
+  },
+  tabButton: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  tabButtonActive: {
+    backgroundColor: '#1F7A63',
+  },
+  tabButtonActiveDark: {
+    backgroundColor: '#2a9d82',
+  },
+  tabText: {
+    fontWeight: 'bold',
+    textTransform: 'capitalize',
+  },
+  tabTextActive: {
+    color: '#fff',
+  },
+  tabTextInactive: {
+    color: '#666',
+  },
+  tabTextInactiveDark: {
+    color: '#9ca3af',
+  },
+
+  // User Rows
+  userRowContainerDark: {
+    backgroundColor: '#1a1a1a',
+    borderColor: '#333',
+  },
+  avatarDark: {
+    backgroundColor: '#333',
+  },
+  detailsButtonDark: {
+    borderTopColor: '#333',
+    backgroundColor: '#262626',
+  },
+
+  // Badges
+  statusBadge: {
+    position: 'absolute',
+    right: 12,
+    top: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 4,
+    zIndex: 5,
+  },
+  statusBadgeText: {
+    fontSize: 9,
+    fontWeight: 'bold',
+  },
+  badgePaidLight: { backgroundColor: '#E8F5E9' },
+  badgePaidDark: { backgroundColor: '#064e3b' },
+  badgePaidTextLight: { color: '#1F7A63' },
+  badgePaidTextDark: { color: '#34d399' },
+  
+  badgePendingLight: { backgroundColor: '#F5F5F5' },
+  badgePendingDark: { backgroundColor: '#3f3f46' },
+  badgePendingTextLight: { color: '#9E9E9E' },
+  badgePendingTextDark: { color: '#d4d4d8' },
+
 });
