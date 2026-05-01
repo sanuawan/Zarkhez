@@ -1,5 +1,5 @@
-// LoginScreen.tsx 
-import React, { useState, useEffect } from 'react';
+// LoginScreen.tsx
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,52 +8,83 @@ import {
   StyleSheet,
   Alert,
   ImageBackground,
+  Image,
   ScrollView,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  ActivityIndicator,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../App';
-import LinearGradient from 'react-native-linear-gradient';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
+const LoginScreen: React.FC<Props> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
-  // LOAD SAVED CREDENTIALS
   useEffect(() => {
-    const loadCredentials = async () => {
-      try {
-        const savedEmail = await AsyncStorage.getItem('savedEmail');
-        const savedPassword = await AsyncStorage.getItem('savedPassword');
-        const savedRememberMe = await AsyncStorage.getItem('rememberMe');
-
-        if (savedEmail) setEmail(savedEmail);
-        if (savedPassword) setPassword(savedPassword);
-        if (savedRememberMe === 'true') setRememberMe(true);
-      } catch (error) {
-        console.error('Error loading credentials:', error);
-      }
-    };
-
-    loadCredentials();
+    setEmail('');
+    setPassword('');
   }, []);
 
-  const onLogin = async () => {
-    if (!email || !password) return Alert.alert('Error', 'Email aur password dono darj karo');
-    try {
-      await auth().signInWithEmailAndPassword(email.trim(), password);
+  const getFriendlyError = (error: any) => {
+    const code = error?.code;
+    switch (code) {
+      case 'auth/invalid-email':
+        return 'Please enter a valid email address.';
+      case 'auth/user-not-found':
+        return 'No account found with this email.';
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential':
+        return 'Incorrect email or password.';
+      case 'auth/too-many-requests':
+        return 'Too many attempts. Please try again later.';
+      case 'auth/network-request-failed':
+        return 'Network error. Please check your internet connection.';
+      default:
+        return error?.message || 'Something went wrong. Please try again.';
+    }
+  };
 
-      // SAVE CREDENTIALS IF REMEMBER ME CHECKED
+  const onLogin = async () => {
+    if (loading) {
+      return;
+    }
+
+    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedEmail || !trimmedPassword) {
+      return Alert.alert('Missing Information', 'Please enter both email and password.');
+    }
+
+    try {
+      setLoading(true);
+      await auth().signInWithEmailAndPassword(trimmedEmail, trimmedPassword);
+
+      await auth().currentUser?.reload();
+      const currentUser = auth().currentUser;
+
+      if (!currentUser?.emailVerified) {
+        Alert.alert(
+          'Email Not Verified!',
+          'Please check your Inbox and also your SPAM/JUNK folder to verify your account before logging in.',
+        );
+        await auth().signOut();
+        return;
+      }
+
       if (rememberMe) {
-        await AsyncStorage.setItem('savedEmail', email);
-        await AsyncStorage.setItem('savedPassword', password);
+        await AsyncStorage.setItem('savedEmail', trimmedEmail);
+        await AsyncStorage.setItem('savedPassword', trimmedPassword);
         await AsyncStorage.setItem('rememberMe', 'true');
       } else {
         await AsyncStorage.removeItem('savedEmail');
@@ -63,68 +94,73 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
       navigation.replace('Home');
     } catch (err: any) {
-      Alert.alert('Login failed', err.message || String(err));
+      Alert.alert('Login failed', getFriendlyError(err));
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <ImageBackground
-        source={{
-          uri: 'https://images.unsplash.com/photo-1702373749921-3ed85367c2ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXJtaW5nJTIwYWdyaWN1bHR1cmUlMjBmaWVsZHxlbnwxfHx8fDE3NTk0ODI2NzV8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        }}
-        style={styles.background}
-      >
-        {/* Overlay */}
-        <View style={styles.overlay} />
+  const onForgotPassword = async () => {
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail) {
+      Alert.alert('Email Required', 'Please enter your email first to reset password.');
+      return;
+    }
 
+    try {
+      await auth().sendPasswordResetEmail(trimmedEmail);
+      Alert.alert('Password reset link sent! Please check your email.');
+    } catch (err: any) {
+      Alert.alert('Reset Failed', getFriendlyError(err));
+    }
+  };
+
+  const isLoginDisabled = !email.trim() || !password.trim() || loading;
+
+  return (
+    <ImageBackground
+      source={require('../assets/farmer-tubewell.png')}
+      style={styles.background}
+      blurRadius={3}
+    >
+      <View style={styles.overlay} />
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <ScrollView
+          style={styles.scrollView}
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
+          overScrollMode="never"
         >
           <View style={styles.card}>
-            {/* Logo/Header */}
             <View style={styles.header}>
-              <LinearGradient
-                colors={['#10b981', '#3b82f6']}
-                style={styles.logoContainer}
-              >
-                <Text style={styles.logoEmoji}>🌾</Text>
-              </LinearGradient>
-
-              {/* Gradient Text for FarmTech */}
-              <View style={styles.titleContainer}>
-                <LinearGradient
-                  colors={['#16a34a', '#2563eb']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={styles.gradientBackground}
-                >
-                  <Text style={styles.title}>Zarkhez</Text>
-                </LinearGradient>
-              </View>
-
-              <Text style={styles.subtitle}>Welcome</Text>
+              <Image source={require('../assets/zarkhez-logo-removebg.png')} style={styles.logo} resizeMode="contain" />
+              <Text style={styles.title}>Welcome Back</Text>
+              <Text style={styles.subtitle}>Sign in to continue your premium farming journey</Text>
             </View>
 
-            {/* Login Form */}
             <View style={styles.form}>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Email</Text>
                 <TextInput
                   placeholder="farmer@example.com"
-                  placeholderTextColor="#6b7280"
-                  style={styles.input}
+                  placeholderTextColor="rgba(255,255,255,0.72)"
+                  style={[styles.input, isEmailFocused && styles.focusedInput]}
+                  multiline={false}
                   value={email}
                   onChangeText={setEmail}
                   keyboardType="email-address"
                   autoCapitalize="none"
-                  selectionColor="#10b981" 
-                  cursorColor="#10b981" 
+                  autoComplete="off"
+                  importantForAutofill="no"
+                  selectionColor="#86efac"
+                  cursorColor="#86efac"
+                  onFocus={() => setIsEmailFocused(true)}
+                  onBlur={() => setIsEmailFocused(false)}
+                  editable={!loading}
                 />
               </View>
 
@@ -133,75 +169,71 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 <View style={styles.passwordContainer}>
                   <TextInput
                     placeholder="••••••••"
-                    placeholderTextColor="#6b7280"
-                    style={[styles.input, { paddingRight: 50 }]} 
+                    placeholderTextColor="rgba(255,255,255,0.72)"
+                    style={[
+                      styles.input,
+                      styles.passwordInput,
+                      isPasswordFocused && styles.focusedInput,
+                    ]}
+                    multiline={false}
                     value={password}
                     onChangeText={setPassword}
-                    secureTextEntry={!showPassword} 
-                    selectionColor="#10b981" 
-                    cursorColor="#10b981" 
+                    secureTextEntry={!showPassword}
+                    autoComplete="off"
+                    importantForAutofill="no"
+                    selectionColor="#86efac"
+                    cursorColor="#86efac"
+                    onFocus={() => setIsPasswordFocused(true)}
+                    onBlur={() => setIsPasswordFocused(false)}
+                    editable={!loading}
                   />
-                  {/* Eye button */}
                   <TouchableOpacity
-                    style={{
-                      position: 'absolute',
-                      right: 16,
-                      top: 16,
-                      padding: 4,
-                    }}
+                    style={styles.eyeButton}
                     onPress={() => setShowPassword(!showPassword)}
+                    disabled={loading}
                   >
-                    <Text style={{ fontSize: 20, color: '#6b7280' }}>
-                      {showPassword ? '👁️' : '👁️‍🗨️'}
-                    </Text>
+                    <Text style={styles.eyeText}>{showPassword ? 'Hide' : 'Show'}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
 
+              <TouchableOpacity style={styles.forgotButton} onPress={onForgotPassword} disabled={loading}>
+                <Text style={styles.forgotButtonText}>Forgot Password?</Text>
+              </TouchableOpacity>
+
               <TouchableOpacity
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginBottom: 16,
-                }}
+                style={styles.rememberContainer}
                 onPress={() => setRememberMe(!rememberMe)}
+                disabled={loading}
               >
-                <View style={{
-                  width: 20,
-                  height: 20,
-                  borderWidth: 2,
-                  borderColor: rememberMe ? '#10b981' : '#d1d5db',
-                  borderRadius: 4,
-                  marginRight: 8,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: rememberMe ? '#10b981' : 'transparent',
-                }}>
-                  {rememberMe && <Text style={{ color: 'white', fontSize: 12 }}>✓</Text>}
+                <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
+                  {rememberMe && <Text style={styles.checkmark}>✓</Text>}
                 </View>
-                <Text style={{ color: '#374151', fontSize: 14 }}>Remember me</Text>
+                <Text style={styles.rememberText}>Remember me</Text>
               </TouchableOpacity>
 
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
                   style={[
                     styles.loginButton,
-                    (!email || !password) && styles.disabledButton
+                    isLoginDisabled && styles.disabledButton,
                   ]}
                   onPress={onLogin}
-                  disabled={!email || !password}
+                  disabled={isLoginDisabled}
                 >
-                  <LinearGradient
-                    colors={['#0d9488', '#047857']}
-                    style={styles.gradientButton}
-                  >
-                    <Text style={styles.loginButtonText}>Login</Text>
-                  </LinearGradient>
+                  <View style={styles.gradientButton}>
+                    {loading ? (
+                      <ActivityIndicator size="small" color="#ffffff" />
+                    ) : (
+                      <Text style={styles.loginButtonText}>Login</Text>
+                    )}
+                  </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   style={styles.registerButton}
                   onPress={() => navigation.navigate('Signup')}
+                  disabled={loading}
                 >
                   <Text style={styles.registerButtonText}>Register</Text>
                 </TouchableOpacity>
@@ -209,42 +241,49 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             </View>
           </View>
         </ScrollView>
-      </ImageBackground>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0fdf4',
+    backgroundColor: 'transparent',
   },
   background: {
     flex: 1,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(15, 23, 42, 0.28)',
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
   scrollContainer: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-    minHeight: '100%',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 28,
   },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.35)',
     padding: 32,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 10,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 25,
-    elevation: 10,
+    shadowOpacity: 0.4,
+    shadowRadius: 22,
+    elevation: 12,
     width: '100%',
     maxWidth: 400,
     marginVertical: 20,
@@ -253,66 +292,54 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 32,
   },
-  logoContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  logoEmoji: {
-    fontSize: 32,
-  },
-  titleContainer: {
-    marginBottom: 8,
-    overflow: 'hidden',
-  },
-  gradientBackground: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
+  logo: {
+    width: 130,
+    height: 130,
+    alignSelf: 'center',
+    marginBottom: 10,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: 30,
+    fontWeight: '700',
     color: 'white',
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 18,
-    color: '#15803d',
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.9)',
+    marginTop: 8,
+    textAlign: 'center',
   },
   form: {
-    gap: 24,
+    gap: 16,
   },
   inputContainer: {
     gap: 8,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#166534',
+    color: '#ffffff',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#bbf7d0',
-    borderRadius: 16,
-    padding: 16,
-    fontSize: 18,
-    backgroundColor: 'rgba(240, 253, 244, 0.5)',
-    height: 56,
-    color: '#1f2937', 
+    borderColor: 'rgba(255,255,255,0.45)',
+    borderRadius: 15,
+    paddingHorizontal: 16,
+    paddingVertical: 0,
+    fontSize: 16,
+    backgroundColor: 'rgba(255,255,255,0.14)',
+    height: 55,
+    color: '#ffffff',
   },
-
+  focusedInput: {
+    borderColor: 'rgba(134, 239, 172, 0.95)',
+    shadowColor: '#bbf7d0',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 7,
+  },
   passwordContainer: {
     position: 'relative',
   },
@@ -327,20 +354,32 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     fontSize: 20,
-    color: '#6b7280',
+    color: 'rgba(255,255,255,0.85)',
   },
-  
+  eyeText: {
+    color: '#d9f99d',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  forgotButton: {
+    alignSelf: 'flex-end',
+  },
+  forgotButtonText: {
+    color: '#bbf7d0',
+    fontSize: 13,
+    fontWeight: '600',
+  },
   rememberContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: -8,
+    marginTop: 4,
     marginBottom: 8,
   },
   checkbox: {
     width: 20,
     height: 20,
     borderWidth: 2,
-    borderColor: '#d1d5db',
+    borderColor: 'rgba(255,255,255,0.8)',
     borderRadius: 4,
     marginRight: 8,
     justifyContent: 'center',
@@ -357,7 +396,7 @@ const styles = StyleSheet.create({
   },
   rememberText: {
     fontSize: 14,
-    color: '#374151',
+    color: 'rgba(255,255,255,0.95)',
   },
   buttonsContainer: {
     gap: 16,
@@ -376,13 +415,15 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   gradientButton: {
-    height: 64,
+    height: 58,
+    borderRadius: 16,
+    backgroundColor: '#0f766e',
     justifyContent: 'center',
     alignItems: 'center',
   },
   loginButtonText: {
-    color: 'white', 
-    fontSize: 20,
+    color: '#ffffff',
+    fontSize: 18,
     fontWeight: '600',
   },
   disabledButton: {
@@ -390,16 +431,16 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     borderWidth: 2,
-    borderColor: '#93c5fd',
+    borderColor: 'rgba(255,255,255,0.6)',
     borderRadius: 16,
-    height: 64,
+    height: 58,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(255,255,255,0.08)',
   },
   registerButtonText: {
-    color: '#2563eb',
-    fontSize: 20,
+    color: '#ffffff',
+    fontSize: 18,
     fontWeight: '600',
   },
 });

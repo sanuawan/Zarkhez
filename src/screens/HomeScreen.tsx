@@ -379,7 +379,7 @@ const HomeScreen: React.FC = () => {
                       ? ['#10b981', '#059669'] // Green for ON (dono modes mein same)
                       : isDark
                         ? ['#2a3b36', '#1a211f'] // 🔥 Dark mode mein: Dark Charcoal OFF button
-                        : ['#f3f4f6', '#e5e7eb'] // 🔥 Light mode mein: Soft Light Grey OFF button
+                        : ['#D1D5DB', '#9CA3AF'] // 🔥 Light mode mein: Soft Light Grey OFF button
                 }
                 style={styles.powerGradient}>
                 <Text style={[
