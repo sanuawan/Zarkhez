@@ -6,6 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 import { LineChart, PieChart } from 'react-native-chart-kit'; 
 import { styles } from './styles/AnalyticsScreen.styles';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -15,8 +16,15 @@ const AnalyticsScreen = () => {
   const [motorHP, setMotorHP] = useState('10'); 
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
+  const { isDark } = useTheme();
   
-  const [data, setData] = useState({
+  const [data, setData] = useState<{
+    paid: number;
+    pending: number;
+    totalUnits: number;
+    graphLabels: string[];
+    graphValues: number[];
+  }>({
     paid: 0, pending: 0, totalUnits: 0,
     graphLabels: [], graphValues: []
   });
@@ -63,18 +71,18 @@ const AnalyticsScreen = () => {
 
   const chartConfig = {
     backgroundColor: "#FFF",
-    backgroundGradientFrom: "#FFF",
-    backgroundGradientTo: "#FFF",
+    backgroundGradientFrom: isDark ? "#1c2220" : "#FFF",
+    backgroundGradientTo: isDark ? "#1c2220" : "#FFF",
     decimalPlaces: 1,
     color: (opacity = 1) => `rgba(31, 122, 99, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(100, 100, 100, ${opacity})`,
+    labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(100, 100, 100, ${opacity})`,
     propsForDots: { r: "4", strokeWidth: "2", stroke: "#1F7A63" }
   };
 
-  if (loading) return <View style={{flex:1, justifyContent:'center'}}><ActivityIndicator size="large" color="#1F7A63" /></View>;
+  if (loading) return <View style={{flex:1, justifyContent:'center', backgroundColor: isDark ? '#0a0a0a' : '#F4F8F7'}}><ActivityIndicator size="large" color={isDark ? '#6ED3B5' : '#1F7A63'} /></View>;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
       {/* KeyboardAvoidingView lagaya hai taake HP input keyboard ke nechy na chhupe */}
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{flex: 1}}>
@@ -98,20 +106,20 @@ const AnalyticsScreen = () => {
           <View style={styles.content}>
             
             {/* 1. Recovery Graph (Paid/Pending) */}
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>{t('analytics.recoveryStatus')}</Text>
+            <View style={[styles.card, isDark && styles.cardDark]}>
+              <Text style={[styles.cardTitle, isDark && styles.textWhite]}>{t('analytics.recoveryStatus')}</Text>
               <PieChart
                 data={[
-                  { name: t('analytics.paid'), population: data.paid, color: "#1F7A63", legendFontColor: "#555" }, // <--- YAHAN CHANGE
-                  { name: t('analytics.pending'), population: data.pending, color: "#E63946", legendFontColor: "#555" } 
+                  { name: t('analytics.paid'), population: parseFloat(data.paid.toFixed(2)), color: "#1F7A63", legendFontColor: isDark ? "#9ca3af" : "#555" },
+                  { name: t('analytics.pending'), population: parseFloat(data.pending.toFixed(2)), color: "#E63946", legendFontColor: isDark ? "#9ca3af" : "#555" } 
                 ]}
                 width={screenWidth - 40} height={180} chartConfig={chartConfig} accessor={"population"} backgroundColor={"transparent"} paddingLeft={"15"} absolute
               />
             </View>
 
             {/* 2. Usage Graph (Scrollable kWh) */}
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>{filter === 'weekly' ? t('analytics.weeklyUnits') : t('analytics.yearlyUnits')}</Text>
+            <View style={[styles.card, isDark && styles.cardDark]}>
+              <Text style={[styles.cardTitle, isDark && styles.textWhite]}>{filter === 'weekly' ? t('analytics.weeklyUnits') : t('analytics.yearlyUnits')}</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <LineChart
                   data={{ labels: data.graphLabels, datasets: [{ data: data.graphValues }] }}
@@ -121,22 +129,23 @@ const AnalyticsScreen = () => {
                 />
               </ScrollView>
               <View style={styles.unitBox}>
-                 <Text style={styles.unitLabel}>{t('analytics.totalConsumption')}</Text>
-                 <Text style={styles.unitValue}>{data.totalUnits.toFixed(2)} kWh</Text>
+                 <Text style={[styles.unitLabel, isDark && styles.textMutedDark]}>{t('analytics.totalConsumption')}</Text>
+                 <Text style={[styles.unitValue, isDark && styles.textWhite]}>{data.totalUnits.toFixed(2)} kWh</Text>
               </View>
             </View>
 
             {/* 3. Motor Setup (Input) */}
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>{t('analytics.motorConfig')}</Text>
-              <View style={styles.inputRow}>
-                <Text style={{color: '#555', fontWeight: '500'}}>{t('analytics.enterHP')}</Text>
+            <View style={[styles.card, isDark && styles.cardDark]}>
+              <Text style={[styles.cardTitle, isDark && styles.textWhite]}>{t('analytics.motorConfig')}</Text>
+              <View style={[styles.inputRow, isDark && styles.inputRowDark]}>
+                <Text style={[{color: '#555', fontWeight: '500'}, isDark && styles.textMutedDark]}>{t('analytics.enterHP')}</Text>
                 <TextInput 
-                  style={styles.input} 
+                  style={[styles.input, isDark && styles.inputDark]} 
                   keyboardType="numeric" 
                   value={motorHP} 
                   onChangeText={setMotorHP}
                   placeholder={t('analytics.hpPlaceholder')}
+                  placeholderTextColor={isDark ? '#9ca3af' : '#888'}
                 />
               </View>
             </View>

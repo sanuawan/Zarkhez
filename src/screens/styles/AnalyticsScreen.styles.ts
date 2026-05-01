@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F4F8F7' },
+  containerDark: { backgroundColor: '#0a0a0a' },
   header: { 
     paddingTop: 50, 
     paddingHorizontal: 20, 
@@ -30,6 +31,7 @@ export const styles = StyleSheet.create({
   content: { padding: 15, paddingBottom: 120 }, // Extra padding for keyboard/bottom card
   
   card: { backgroundColor: '#FFF', borderRadius: 22, padding: 18, marginBottom: 15, elevation: 4 },
+  cardDark: { backgroundColor: '#1c2220', borderWidth: 1, borderColor: '#2a3b36', elevation: 4 },
   cardTitle: { fontSize: 16, fontWeight: 'bold', color: '#1F7A63', marginBottom: 15 },
 
   inputRow: { 
@@ -42,11 +44,18 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E0EAE7'
   },
+  inputRowDark: {
+    backgroundColor: '#2a3b36',
+    borderColor: '#3a4b46',
+  },
   input: { backgroundColor: '#FFF', width: 80, padding: 10, borderRadius: 10, textAlign: 'center', fontWeight: 'bold', color: '#1F7A63', elevation: 2 },
+  inputDark: { backgroundColor: '#1c2220', color: '#FFFFFF' },
   
   unitBox: { marginTop: 15, alignItems: 'center', borderTopWidth: 1, borderTopColor: '#EEE', paddingTop: 10 },
   unitLabel: { color: '#888', fontSize: 12 },
   unitValue: { fontSize: 20, fontWeight: 'bold', color: '#1F7A63' },
+  textWhite: { color: '#FFFFFF' },
+  textMutedDark: { color: '#9ca3af' },
 
   profitCard: { backgroundColor: '#1F7A63', padding: 22, borderRadius: 25, elevation: 6 },
   profitValue: { color: '#FFF', fontSize: 32, fontWeight: 'bold', marginVertical: 8 },
