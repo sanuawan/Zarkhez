@@ -176,11 +176,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    paddingVertical: 14,
+    paddingVertical: 7,
     borderRadius: 16,
     borderWidth: 1.5,
     borderColor: '#ffd6d6',
     gap: 8,
+    marginTop: 24,
   },
   logoutIcon: {
     fontSize: 16,
@@ -190,5 +191,45 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#e05353',
+  },
+
+  // Main Container
+  containerDark: {
+    backgroundColor: '#0a0a0a',
+  },
+
+  // User Card (Charcoal tone)
+  userCardDark: {
+    backgroundColor: '#1c2220',
+    borderWidth: 1,
+    borderColor: '#2a3b36',
+  },
+
+  // Settings List (Charcoal tone)
+  settingsListDark: {
+    backgroundColor: '#1c2220',
+    borderWidth: 1,
+    borderColor: '#2a3b36',
+  },
+
+  // Individual Item Border
+  settingsItemBorderDark: {
+    borderTopColor: '#2a3b36',
+  },
+
+  // Text Colors
+  textDark: {
+    color: '#FFFFFF',
+  },
+  textMutedDark: {
+    color: '#9ca3af',
+  },
+
+  // Logout Button
+  logoutButtonDark: {
+    backgroundColor: '#1c2220', // 🔥 Wahi lighter charcoal green jo baqi cards ka hai
+    borderWidth: 1,             // 🔥 Same border width
+    borderColor: '#2a3b36',     // 🔥 Same border color
+    marginTop: 20,              // Thora sa gap settings list se
   },
 });

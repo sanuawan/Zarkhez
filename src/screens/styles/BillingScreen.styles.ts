@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12, 
+    marginBottom: 12,
   },
   logoContainer: {
     flexDirection: 'row',
@@ -205,8 +205,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#0a0a0a',
   },
   cardDark: {
-    backgroundColor: '#1a1a1a',
-    borderColor: '#333',
+    backgroundColor: '#1c2220',
+    borderWidth: 1,
+    borderColor: '#2a3b36',
   },
   textDark: {
     color: '#f9fafb',
@@ -214,7 +215,7 @@ export const styles = StyleSheet.create({
   textMutedDark: {
     color: '#9ca3af',
   },
-  
+
   // Rate Card
   rateCard: {
     backgroundColor: '#fff',
@@ -229,8 +230,11 @@ export const styles = StyleSheet.create({
     borderColor: '#e0e0e0',
   },
   rateCardDark: {
-    backgroundColor: '#1a1a1a',
-    borderColor: '#333',
+    backgroundColor: '#1c2220', // 🔥 Zarkhez premium charcoal (UserDetail jaisa)
+    borderWidth: 1,
+    borderColor: '#2a3b36',     // Halka border
+    elevation: 4,
+    shadowColor: '#000',
   },
   rateInput: {
     fontSize: 20,
@@ -268,8 +272,10 @@ export const styles = StyleSheet.create({
     padding: 5,
     elevation: 1,
   },
-  tabContainerDark: {
-    backgroundColor: '#1a1a1a',
+ tabContainerDark: {
+    backgroundColor: '#1c2220', // 🔥 Same charcoal background
+    borderWidth: 1,
+    borderColor: '#2a3b36',
   },
   tabButton: {
     flex: 1,
@@ -299,8 +305,10 @@ export const styles = StyleSheet.create({
 
   // User Rows
   userRowContainerDark: {
-    backgroundColor: '#1a1a1a',
-    borderColor: '#333',
+    backgroundColor: '#1c2220', // 🔥 Zarkhez theme ka light dark color
+    borderWidth: 1,
+    borderColor: '#2a3b36',     // 🔥 Halka sa border taake card alag nazar aaye
+    shadowColor: '#000',
   },
   avatarDark: {
     backgroundColor: '#333',
@@ -308,6 +316,16 @@ export const styles = StyleSheet.create({
   detailsButtonDark: {
     borderTopColor: '#333',
     backgroundColor: '#262626',
+  },
+
+  tableHeaderDark: {
+    backgroundColor: '#163329',   // 🔥 Wahi maza ka Deep Green
+    borderWidth: 0,
+    borderBottomWidth: 2,
+    borderBottomColor: '#6ED3B5', // 🔥 Golden ki jagah Zarkhez ka apna Mint Green
+  },
+  tableHeaderTextDark: {
+    color: '#FFFFFF',             // Text white hi rahega
   },
 
   // Badges
@@ -328,7 +346,7 @@ export const styles = StyleSheet.create({
   badgePaidDark: { backgroundColor: '#064e3b' },
   badgePaidTextLight: { color: '#1F7A63' },
   badgePaidTextDark: { color: '#34d399' },
-  
+
   badgePendingLight: { backgroundColor: '#F5F5F5' },
   badgePendingDark: { backgroundColor: '#3f3f46' },
   badgePendingTextLight: { color: '#9E9E9E' },

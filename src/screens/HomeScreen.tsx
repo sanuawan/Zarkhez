@@ -24,6 +24,9 @@ import { useLanguage } from '../contexts/LanguageContext';
 import BottomNavBar from '../components/BottomNavBar';
 import { styles } from './styles/HomeScreen.styles';
 import { useTheme } from '../contexts/ThemeContext';
+import Geolocation from '@react-native-community/geolocation';
+import weatherService from '../services/weatherService';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 const HomeScreen: React.FC = () => {
   const { language, toggleLanguage, t } = useLanguage();
@@ -50,8 +53,9 @@ const HomeScreen: React.FC = () => {
   // motorStatus ka latest value timeout ke andar use karne ke liye
   const motorStatusRef = useRef<'on' | 'off'>('off');
 
-  const temperature = 28;
-  const humidity = 65;
+  const [temperature, setTemperature] = useState<number | string>('--');
+  const [humidity, setHumidity] = useState<number | string>('--');
+  const [weatherCondition, setWeatherCondition] = useState<string>('Clear');
 
   // Derived states
   const isTransitioning = motorCommand !== motorStatus;
@@ -71,6 +75,55 @@ const HomeScreen: React.FC = () => {
       }
     }
   }, [motorStatus, motorCommand]);
+
+  // 🔥 Live Location se Weather Fetch karna (With Permission Prompt)
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        // Pehle check karega ke Android hai toh permission maango
+        if (Platform.OS === 'android') {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Zarkhez Location Permission',
+              message: 'Live mausam dekhne ke liye location ki ijazat dein.',
+              buttonNeutral: 'Ask Me Later',
+              buttonNegative: 'Cancel',
+              buttonPositive: 'OK',
+            },
+          );
+          if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('Location permission denied');
+            return; // Agar user ne mana kar diya toh aagay nahi jayega
+          }
+        }
+
+        // Agar permission mil gayi toh location uthao
+        Geolocation.getCurrentPosition(
+          async (position) => {
+            try {
+              const { latitude, longitude } = position.coords;
+              console.log("Location mili:", latitude, longitude); // Terminal mein check karne ke liye
+
+              const liveWeather = await weatherService.getCurrentWeatherByCoords(latitude, longitude);
+
+              setTemperature(liveWeather.temp);
+              setHumidity(liveWeather.humidity);
+              // setWeatherCondition(liveWeather.condition); // Agar zarurat ho toh
+            } catch (error) {
+              console.log("API Error:", error);
+            }
+          },
+          (error) => console.log("GPS Error:", error.message),
+          { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 }
+        );
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+
+    fetchWeather();
+  }, []);
 
   // 🔥 Cleanup on unmount
   useEffect(() => {
@@ -264,7 +317,7 @@ const HomeScreen: React.FC = () => {
               <Text style={styles.logoText}>{t('header.title')}</Text>
             </View>
           </View>
-          
+
           {/* Main Title (Smart Farming) aur Subtitle (Automated irrigation) */}
           <Text style={styles.homeMainTitle}>
             {language === 'en' ? 'Smart Farming' : 'ذہین کاشتکاری'}
@@ -321,13 +374,21 @@ const HomeScreen: React.FC = () => {
               <LinearGradient
                 colors={
                   isTransitioning
-                    ? ['#f59e0b', '#d97706']
+                    ? ['#f59e0b', '#d97706'] // Orange for transition (dono modes mein same)
                     : motorOn
-                      ? ['#10b981', '#059669']
-                      : ['#d1d5db', '#9ca3af']
+                      ? ['#10b981', '#059669'] // Green for ON (dono modes mein same)
+                      : isDark
+                        ? ['#2a3b36', '#1a211f'] // 🔥 Dark mode mein: Dark Charcoal OFF button
+                        : ['#f3f4f6', '#e5e7eb'] // 🔥 Light mode mein: Soft Light Grey OFF button
                 }
                 style={styles.powerGradient}>
-                <Text style={styles.powerIcon}>⚡</Text>
+                <Text style={[
+                  styles.powerIcon,
+                  { color: motorOn ? '#FFFFFF' : (isDark ? '#9ca3af' : '#636466') }
+                  
+                ]}>
+                  ⚡
+                </Text>
               </LinearGradient>
             </TouchableOpacity>
 
@@ -365,19 +426,25 @@ const HomeScreen: React.FC = () => {
 
         {/* Voltage & Current */}
         <View style={[styles.statusRow, { marginHorizontal: 16 }]}>
-          <View style={[styles.statusCard]}>
+          <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
             <LinearGradient colors={['#3b82f6', '#2563eb']} style={styles.statusIconContainer}>
               <Text style={styles.statusIcon}>⚡</Text>
             </LinearGradient>
-            <Text style={styles.statusLabel}>{t('measurements.voltage')}</Text>
-            <Text style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>{voltage.toFixed(2)}V</Text>
+            <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.voltage')}</Text>
+            {/* 🔥 Inline style hata kar statusValue laga diya taake size 22 ho jaye */}
+            <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>
+              {voltage.toFixed(2)}V
+            </Text>
           </View>
-          <View style={[styles.statusCard]}>
+          <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
             <LinearGradient colors={['#f97316', '#ea580c']} style={styles.statusIconContainer}>
               <Text style={styles.statusIcon}>🔌</Text>
             </LinearGradient>
-            <Text style={styles.statusLabel}>{t('measurements.current')}</Text>
-            <Text style={styles.statusValue}>{current.toFixed(2)}A</Text>
+            <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.current')}</Text>
+            {/* 🔥 Yahan bhi dark mode ka tag laga diya */}
+            <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>
+              {current.toFixed(2)}A
+            </Text>
           </View>
         </View>
 

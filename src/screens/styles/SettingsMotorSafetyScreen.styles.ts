@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F4F7F6' },
+  containerDark: { backgroundColor: '#0a0a0a' },
   header: { paddingHorizontal: 20, paddingBottom: 24, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 },
   backButton: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
   backIcon: { fontSize: 18, color: '#FFFFFF', marginRight: 8 },
@@ -22,6 +23,7 @@ export const styles = StyleSheet.create({
   
   // Counter Input Styles
   section: { backgroundColor: '#FFFFFF', borderRadius: 16, padding: 16, shadowColor: '#1F7A63', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2 },
+  sectionDark: { backgroundColor: '#1c2220', borderWidth: 1, borderColor: '#2a3b36', elevation: 5 },
   sectionTitle: { fontSize: 12, fontWeight: '600', color: '#8aabb3', letterSpacing: 0.5, marginBottom: 16, paddingBottom: 8, borderBottomWidth: 1, borderBottomColor: '#f0f4f3' },
   counterContainer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#fff', padding: 10, borderRadius: 12, borderWidth: 1, borderColor: '#e5e7eb' },
   counterButton: { width: 45, height: 45, borderRadius: 10, justifyContent: 'center', alignItems: 'center' },
@@ -40,6 +42,18 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 2,
+  },
+  serviceCardDark: {
+    backgroundColor: '#1c2220',
+    borderWidth: 1,
+    borderColor: '#2a3b36',
+    elevation: 5,
+  },
+  settingsListDark: {
+    backgroundColor: '#1c2220',
+    borderWidth: 1,
+    borderColor: '#2a3b36',
+    elevation: 5,
   },
   cardTitle: {
     fontSize: 12,
@@ -106,6 +120,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
   },
   infoBannerSmall: {
+    backgroundColor: '#E8F3F0',
     borderRadius: 12,
     padding: 12,
     flexDirection: 'row',
@@ -113,9 +128,17 @@ export const styles = StyleSheet.create({
     gap: 10,
     marginBottom: 16,
   },
+  infoBannerSmallDark: {
+    backgroundColor: '#1c2220',
+    borderWidth: 1,
+    borderColor: '#2a3b36',
+  },
   infoTextSmall: {
     flex: 1,
     fontSize: 12,
+  },
+  infoTextSmallDark: {
+    color: '#6ED3B5',
   },
   statsGrid: {
     flexDirection: 'row',
@@ -127,6 +150,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#F9FAFB',
     borderRadius: 12,
     padding: 12,
+  },
+  statCardDark: {
+    backgroundColor: '#2a3b36',
   },
   statLabel: {
     fontSize: 11,
@@ -191,11 +217,19 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: '#1f2937',
   },
+  customLimitInputDark: {
+    backgroundColor: '#2a3b36',
+    borderColor: '#3a4b46',
+    color: '#FFFFFF',
+  },
   customLimitUnit: {
     backgroundColor: '#F3F4F6',
     paddingHorizontal: 12,
     justifyContent: 'center',
     borderRadius: 12,
+  },
+  customLimitUnitDark: {
+    backgroundColor: '#2a3b36',
   },
   customLimitUnitText: {
     fontSize: 12,
@@ -242,6 +276,10 @@ export const styles = StyleSheet.create({
     paddingVertical: 12,
     alignItems: 'center',
   },
+  resetButtonDark: {
+    backgroundColor: '#2a3b36',
+    borderColor: '#3a4b46',
+  },
   resetButtonText: {
     fontSize: 12,
     fontWeight: '600',
@@ -254,6 +292,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center', 
     marginTop: 8 
   },
+  saveButtonDark: {
+    backgroundColor: '#2a3b36',
+    borderWidth: 1,
+    borderColor: '#3a4b46',
+  },
   savedButton: { backgroundColor: '#6ED3B5' },
   saveButtonText: { fontSize: 14, fontWeight: '600', color: '#FFFFFF' },
 
@@ -262,6 +305,10 @@ export const styles = StyleSheet.create({
   modeButton: { 
     flex: 1, padding: 15, borderRadius: 16, backgroundColor: '#f0f4f3', 
     alignItems: 'center', borderWidth: 1, borderColor: '#e0e0e0' 
+  },
+  modeButtonDark: {
+    backgroundColor: '#2a3b36',
+    borderColor: '#3a4b46',
   },
   modeButtonActive: { backgroundColor: '#1F7A63', borderColor: '#1F7A63' },
   modeIconCircle: { 
@@ -272,7 +319,11 @@ export const styles = StyleSheet.create({
   modeDescriptionBanner: { 
     backgroundColor: '#E8F3F0', padding: 12, borderRadius: 12, marginTop: 10 
   },
+  modeDescriptionBannerDark: {
+    backgroundColor: '#1c2220',
+  },
   modeDescriptionText: { color: '#1F7A63', fontSize: 12, textAlign: 'center' },
+  modeDescriptionTextDark: { color: '#6ED3B5' },
 
   // SettingsMotorSafetyScreen.styles.js mein yeh add karein:
 
@@ -315,6 +366,10 @@ valueBox: {
   width: 80,
   borderColor: '#E5E7EB',
 },
+valueBoxDark: {
+  backgroundColor: '#2a3b36',
+  borderColor: '#3a4b46',
+},
 valueText: {
   fontSize: 16,
   fontWeight: '600',
@@ -323,6 +378,12 @@ valueText: {
   textAlign: 'center',
   padding: 0, 
   width: 35, 
+},
+textWhite: {
+  color: '#FFFFFF',
+},
+textMutedDark: {
+  color: '#9ca3af',
 },
 unitText: {
   fontSize: 14,
@@ -339,6 +400,8 @@ labelSmall: {
   fontSize: 11,
   color: '#9CA3AF',
 },
+
+
 });
 
 

@@ -6,6 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 import TimelineItem from '../components/TimelineItem';
 import { styles } from './styles/UserDetailScreen.styles';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const UserDetailScreen = () => {
   const navigation = useNavigation();
@@ -13,6 +14,7 @@ const UserDetailScreen = () => {
   const { userName } = route.params as { userName: string }; 
   const [sessions, setSessions] = useState<any[]>([]);
   const { t } = useLanguage();
+  const { isDark } = useTheme();
 
   const formatDuration = (totalMinutes: number) => {
     if (totalMinutes === 0) return '0s';
@@ -69,12 +71,12 @@ const UserDetailScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle="light-content" backgroundColor="#1F7A63" />
       <ScrollView showsVerticalScrollIndicator={false}>
         <LinearGradient colors={['#1F7A63', '#2a9d82']} style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Text style={styles.backText}>← Back to Billing</Text>
+            <Text style={styles.backText}>{t('userDetail.backBilling')}</Text>
           </TouchableOpacity>
 
           <View style={styles.userHeader}>
@@ -107,7 +109,7 @@ const UserDetailScreen = () => {
             <Text style={{ color: '#fff', fontWeight: 'bold' }}>{t('userDetail.settleBill')}</Text>
           </TouchableOpacity>
 
-          <Text style={styles.timelineTitle}>{t('userDetail.timelineTitle')}</Text>
+          <Text style={[styles.timelineTitle, isDark && styles.textGreenDark]}>{t('userDetail.timelineTitle')}</Text>
           <View style={[styles.timeline, { borderLeftWidth: 0 }]}> 
             {/* 👆 Grey Line hatane ke liye borderLeftWidth 0 kar di */}
             {sessions.map((session) => (

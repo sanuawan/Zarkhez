@@ -22,12 +22,15 @@ import motorRuntimeService, { MotorRuntimeData } from '../services/motorRuntimeS
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const SettingsMotorSafetyScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const handleBack = () => navigation.goBack();
   const { t } = useLanguage();
+  const { isDark } = useTheme();
+  
 
   const scrollViewRef = useRef<ScrollView>(null);
   const customLimitInputRef = useRef<TextInput>(null);
@@ -193,29 +196,29 @@ const SettingsMotorSafetyScreen = () => {
 
   // MERGED CARD - Smart Control Mode + Slider UI for Voltage & Current
   const MergedCard = () => (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>{t('safety.smartControl')}</Text>
+    <View style={[styles.section, isDark && styles.sectionDark]}>
+      <Text style={[styles.sectionTitle, isDark && styles.textMutedDark]}>{t('safety.smartControl')}</Text>
 
       {/* Smart Control Mode */}
-      <Text style={styles.mergedSubLabel}>{t('safety.controlMode')}</Text>
+      <Text style={[styles.mergedSubLabel, isDark && styles.textWhite]}>{t('safety.controlMode')}</Text>
       <View style={styles.modeContainer}>
         <TouchableOpacity
-          style={[styles.modeButton, controlMode === 'auto' && styles.modeButtonActive]}
+          style={[styles.modeButton, isDark && styles.modeButtonDark, controlMode === 'auto' && styles.modeButtonActive]}
           onPress={() => setControlMode('auto')}>
           <View style={styles.modeIconCircle}><Text>⚡</Text></View>
-          <Text style={[styles.modeButtonText]}>{t('safety.autoMode')}</Text>
+          <Text style={[styles.modeButtonText, isDark && styles.textWhite]}>{t('safety.autoMode')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.modeButton, controlMode === 'manual' && styles.modeButtonActive]}
+          style={[styles.modeButton, isDark && styles.modeButtonDark, controlMode === 'manual' && styles.modeButtonActive]}
           onPress={() => setControlMode('manual')}>
           <View style={styles.modeIconCircle}><Text>📈</Text></View>
-          <Text style={[styles.modeButtonText]}>{t('safety.manualMode')}</Text>
+          <Text style={[styles.modeButtonText, isDark && styles.textWhite]}>{t('safety.manualMode')}</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.modeDescriptionBanner}>
-        <Text style={styles.modeDescriptionText}>
+      <View style={[styles.modeDescriptionBanner, isDark && styles.modeDescriptionBannerDark]}>
+        <Text style={[styles.modeDescriptionText, isDark && styles.modeDescriptionTextDark]}>
           🛡️ {controlMode === 'auto' ? t('safety.autoDesc') : t('safety.manualDesc')}
         </Text>
       </View>
@@ -223,21 +226,21 @@ const SettingsMotorSafetyScreen = () => {
       <View style={styles.divider} />
 
       {/* Voltage & Current Limits with Slider UI */}
-      <Text style={styles.mergedSubLabel}>{t('safety.limits')}</Text>
+      <Text style={[styles.mergedSubLabel, isDark && styles.textWhite]}>{t('safety.limits')}</Text>
 
       {/* Minimum Voltage */}
       <View style={styles.mergedRow}>
         <View style={styles.sliderHeader}>
-          <Text style={styles.mergedLabel}>{t('safety.minVol')}</Text>
-          <View style={styles.valueBox}>
+          <Text style={[styles.mergedLabel, isDark && styles.textWhite]}>{t('safety.minVol')}</Text>
+          <View style={[styles.valueBox, isDark && styles.valueBoxDark]}>
             <TextInput
-              style={styles.valueText}
+              style={[styles.valueText, isDark && styles.textWhite]}
               defaultValue={minV.toString()} // 'value' ki jagah 'defaultValue'
               maxLength={3}
               keyboardType="numeric"
               onEndEditing={(e) => setMinV(parseFloat(e.nativeEvent.text) || 0)}
             />
-            <Text style={styles.unitText}>V</Text>
+            <Text style={[styles.unitText, { color: '#EF4444' }]}>V</Text>
           </View>
         </View>
         <Slider
@@ -249,29 +252,29 @@ const SettingsMotorSafetyScreen = () => {
           // isko khatam kr dein: onValueChange={(val) => setMinV(parseFloat(val.toFixed(1)))}
           onSlidingComplete={(val) => setMinV(parseFloat(val.toFixed(1)))} // Sirf ye add karein
           minimumTrackTintColor="#FFD066"
-          maximumTrackTintColor="#E5E7EB"
+          maximumTrackTintColor={isDark ? '#3a4b46' : '#E5E7EB'}
           thumbTintColor="#FFD066"
         />
 
         <View style={styles.rangeLabels}>
-          <Text style={styles.labelSmall}>0 V</Text>
-          <Text style={styles.labelSmall}>220 V</Text>
+          <Text style={[styles.labelSmall, isDark && styles.textMutedDark]}>0 V</Text>
+          <Text style={[styles.labelSmall, isDark && styles.textMutedDark]}>220 V</Text>
         </View>
       </View>
 
       {/* Maximum Voltage */}
       <View style={styles.mergedRow}>
         <View style={styles.sliderHeader}>
-          <Text style={styles.mergedLabel}>{t('safety.maxVol')}</Text>
-          <View style={[styles.valueBox, { borderColor: '#FEE2E2' }]}>
+          <Text style={[styles.mergedLabel, isDark && styles.textWhite]}>{t('safety.maxVol')}</Text>
+          <View style={[styles.valueBox, isDark && styles.valueBoxDark, { borderColor: '#FEE2E2' }]}>
             <TextInput
-              style={styles.valueText}
+              style={[styles.valueText, isDark && styles.textWhite]}
               defaultValue={maxV.toString()} // 'value' ki jagah 'defaultValue'
               maxLength={3}
               keyboardType="numeric"
               onEndEditing={(e) => setMaxV(parseFloat(e.nativeEvent.text) || 0)}
             />
-            <Text style={[styles.unitText, { color: '#EF4444' }]}>V</Text>
+            <Text style={[styles.unitText, isDark && styles.textMutedDark, { color: '#EF4444' }]}>V</Text>
           </View>
         </View>
         <Slider
@@ -282,28 +285,28 @@ const SettingsMotorSafetyScreen = () => {
           value={maxV}
           onSlidingComplete={(val) => setMaxV(parseFloat(val.toFixed(1)))} // Ye line change karein
           minimumTrackTintColor="#EF4444"
-          maximumTrackTintColor="#E5E7EB"
+          maximumTrackTintColor={isDark ? '#3a4b46' : '#E5E7EB'}
           thumbTintColor="#EF4444"
         />
         <View style={styles.rangeLabels}>
-          <Text style={styles.labelSmall}>0 V</Text>
-          <Text style={styles.labelSmall}>240 V</Text>
+          <Text style={[styles.labelSmall, isDark && styles.textMutedDark]}>0 V</Text>
+          <Text style={[styles.labelSmall, isDark && styles.textMutedDark]}>240 V</Text>
         </View>
       </View>
 
       {/* Maximum Current */}
       <View style={styles.mergedRow}>
         <View style={styles.sliderHeader}>
-          <Text style={styles.mergedLabel}>{t('safety.maxCurr')}</Text>
-          <View style={[styles.valueBox, { borderColor: '#FEE2E2' }]}>
+          <Text style={[styles.mergedLabel, isDark && styles.textWhite]}>{t('safety.maxCurr')}</Text>
+          <View style={[styles.valueBox, isDark && styles.valueBoxDark, { borderColor: '#FEE2E2' }]}>
             <TextInput
-              style={styles.valueText}
+              style={[styles.valueText, isDark && styles.textWhite]}
               defaultValue={maxA.toString()} // 'value' ki jagah 'defaultValue'
               maxLength={3}
               keyboardType="numeric"
               onEndEditing={(e) => setMaxA(parseFloat(e.nativeEvent.text) || 0)}
             />
-            <Text style={[styles.unitText, { color: '#EF4444' }]}>A</Text>
+            <Text style={[styles.unitText, isDark && styles.textMutedDark, { color: '#EF4444' }]}>A</Text>
           </View>
         </View>
         <Slider
@@ -314,12 +317,12 @@ const SettingsMotorSafetyScreen = () => {
           value={maxA}
           onSlidingComplete={(val) => setMaxA(parseFloat(val.toFixed(1)))} // Ye line change karein
           minimumTrackTintColor="#EF4444"
-          maximumTrackTintColor="#E5E7EB"
+          maximumTrackTintColor={isDark ? '#3a4b46' : '#E5E7EB'}
           thumbTintColor="#EF4444"
         />
         <View style={styles.rangeLabels}>
-          <Text style={styles.labelSmall}>0 A</Text>
-          <Text style={styles.labelSmall}>20 A</Text>
+          <Text style={[styles.labelSmall, isDark && styles.textMutedDark]}>0 A</Text>
+          <Text style={[styles.labelSmall, isDark && styles.textMutedDark]}>20 A</Text>
         </View>
       </View>
     </View>
@@ -339,8 +342,8 @@ const SettingsMotorSafetyScreen = () => {
     const remaining = Math.max(0, limitNum - (runningHours || 0));
 
     return (
-      <View style={styles.serviceCard}>
-        <Text style={styles.cardTitle}>{t('safety.motorService')}</Text>
+      <View style={[styles.serviceCard, isDark && styles.serviceCardDark]}>
+        <Text style={[styles.cardTitle, isDark && styles.textMutedDark]}>{t('safety.motorService')}</Text>
 
         <View style={styles.serviceStatusRow}>
           <View style={styles.serviceStatusLeft}>
@@ -348,8 +351,8 @@ const SettingsMotorSafetyScreen = () => {
               <Text style={styles.serviceIconText}>🔧</Text>
             </View>
             <View>
-              <Text style={styles.serviceStatusLabel}>{t('safety.serviceStatus')}</Text>
-              <Text style={[styles.serviceStatusValue]}>{serviceExceeded ? t('safety.serviceRequired') : t('safety.normal')}</Text>
+              <Text style={[styles.serviceStatusLabel, isDark && styles.textMutedDark]}>{t('safety.serviceStatus')}</Text>
+              <Text style={[styles.serviceStatusValue, isDark && styles.textWhite]}>{serviceExceeded ? t('safety.serviceRequired') : t('safety.normal')}</Text>
             </View>
           </View>
           <View style={[styles.serviceBadge, { backgroundColor: serviceExceeded ? '#FEE2E2' : '#E8F3F0' }]}>
@@ -360,39 +363,39 @@ const SettingsMotorSafetyScreen = () => {
         {serviceExceeded && (
           <View style={[styles.alertBanner, { backgroundColor: '#FEE2E2', borderColor: '#EF4444' }]}>
             <Text style={styles.alertIcon}>⚠️</Text>
-            <Text style={[styles.alertText]}>Service required! Motor has exceeded {serviceLimitInput} {t('safety.hours')}.</Text>
+            <Text style={[styles.alertText, isDark && styles.textWhite]}>Service required! Motor has exceeded {serviceLimitInput} {t('safety.hours')}.</Text>
           </View>
         )}
 
         {!serviceExceeded && (
-          <View style={[styles.infoBannerSmall, { backgroundColor: '#E8F3F0' }]}>
+          <View style={[styles.infoBannerSmall, isDark && styles.infoBannerSmallDark]}>
             <Text style={styles.infoIcon}>✓</Text>
-            <Text style={[styles.infoTextSmall]}>{t('safety.motorGood')} {formatRemainingTime(remaining)} {t('safety.remaining')}.</Text>
+            <Text style={[styles.infoTextSmall, isDark && styles.infoTextSmallDark]}>{t('safety.motorGood')} {formatRemainingTime(remaining)} {t('safety.remaining')}.</Text>
           </View>
         )}
 
         <View style={styles.statsGrid}>
-          <View style={styles.statCard}>
-            <Text style={styles.statLabel}>{t('safety.runningTime')}</Text>
-            <Text style={[styles.statValue, { color: serviceExceeded ? '#EF4444' : '#1F7A63' }]}>
+          <View style={[styles.statCard, isDark && styles.statCardDark]}>
+            <Text style={[styles.statLabel, isDark && styles.textWhite]}>{t('safety.runningTime')}</Text>
+            <Text style={[styles.statValue, { color: isDark ? '#FFFFFF' : (serviceExceeded ? '#EF4444' : '#1F7A63') }]}>
               {formatDuration(runningHours)}
             </Text>
           </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statLabel}>{t('safety.serviceLimit')}</Text>
-            <Text style={[styles.statValue, { color: '#1F7A63' }]}>
-              {serviceLimitInput || "500"} <Text style={styles.statUnit}>{t('safety.hrs')}</Text>
+          <View style={[styles.statCard, isDark && styles.statCardDark]}>
+            <Text style={[styles.statLabel, isDark && styles.textWhite]}>{t('safety.serviceLimit')}</Text>
+            <Text style={[styles.statValue, { color: isDark ? '#FFFFFF' : '#1F7A63' }]}>
+              {serviceLimitInput || "500"} <Text style={[styles.statUnit, isDark && styles.textWhite]}>{t('safety.hrs')}</Text>
             </Text>
           </View>
         </View>
 
         <View style={styles.progressSection}>
           <View style={styles.progressLabels}>
-            <Text style={styles.progressLabel}>0</Text>
+            <Text style={[styles.progressLabel, isDark && styles.textMutedDark]}>0</Text>
             <Text style={[styles.progressPercent, { color: serviceExceeded ? '#EF4444' : '#1F7A63' }]}>
               {serviceProgress.toFixed(0)}%
             </Text>
-            <Text style={styles.progressLabel}>{serviceLimitInput} {t('safety.hrs')}</Text>
+            <Text style={[styles.progressLabel, isDark && styles.textMutedDark]}>{serviceLimitInput} {t('safety.hrs')}</Text>
           </View>
           <View style={styles.progressBar}>
             <View style={[styles.progressFill, {
@@ -403,11 +406,11 @@ const SettingsMotorSafetyScreen = () => {
         </View>
 
         <View style={styles.customLimitSection}>
-          <Text style={styles.customLimitLabel}>{t('safety.customLimit')}</Text>
+          <Text style={[styles.customLimitLabel, isDark && styles.textWhite]}>{t('safety.customLimit')}</Text>
           <View style={styles.customLimitInputContainer}>
             <TextInput
               ref={customLimitInputRef}
-              style={styles.customLimitInput}
+              style={[styles.customLimitInput, isDark && styles.customLimitInputDark]}
               value={serviceLimitInput}
               onChangeText={(text) => {
                 setServiceLimitInput(text);
@@ -417,38 +420,38 @@ const SettingsMotorSafetyScreen = () => {
               }}
               keyboardType="numeric"
               placeholder="500"
-              placeholderTextColor="#9CA3AF"
+              placeholderTextColor={isDark ? '#9CA3AF' : '#9CA3AF'}
               returnKeyType="done"
               blurOnSubmit={false}        // ✅ ye rakhna important hai
             />
-            <View style={styles.customLimitUnit}>
-              <Text style={styles.customLimitUnitText}>{t('safety.hours')}</Text>
+            <View style={[styles.customLimitUnit, isDark && styles.customLimitUnitDark]}>
+              <Text style={[styles.customLimitUnitText, isDark && styles.textMutedDark]}>{t('safety.hours')}</Text>
             </View>
           </View>
         </View>
 
         {showResetConfirm ? (
           <View style={styles.resetConfirmContainer}>
-            <Text style={styles.resetConfirmText}>{t('safety.resetConfirm')}</Text>
-            <Text style={[styles.resetConfirmText]}>Current: {formatDuration(runningHours)} {t('safety.willBeReset')}</Text>
+            <Text style={[styles.resetConfirmText, isDark && styles.textWhite]}>{t('safety.resetConfirm')}</Text>
+            <Text style={[styles.resetConfirmText, isDark && styles.textWhite]}>Current: {formatDuration(runningHours)} {t('safety.willBeReset')}</Text>
             <View style={styles.resetConfirmButtons}>
               <TouchableOpacity
                 onPress={() => setShowResetConfirm(false)}
                 style={[styles.resetConfirmButton, styles.resetConfirmCancel]}>
-                <Text style={styles.resetConfirmButtonText}>{t('common.cancel')}</Text>
+                <Text style={[styles.resetConfirmButtonText, isDark && styles.textWhite]}>{t('common.cancel')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleResetService}
                 style={[styles.resetConfirmButton, styles.resetConfirmOk]}>
-                <Text style={[styles.resetConfirmButtonText]}>{t('safety.reset')}</Text>
+                <Text style={[styles.resetConfirmButtonText, isDark && styles.textWhite]}>{t('safety.reset')}</Text>
               </TouchableOpacity>
             </View>
           </View>
         ) : (
           <TouchableOpacity
             onPress={() => setShowResetConfirm(true)}
-            style={styles.resetButton}>
-            <Text style={styles.resetButtonText}>{t('safety.resetCounter')}</Text>
+            style={[styles.resetButton, isDark && styles.resetButtonDark]}>
+            <Text style={[styles.resetButtonText, isDark && styles.textWhite]}>{t('safety.resetCounter')}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -464,12 +467,13 @@ const SettingsMotorSafetyScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle="light-content" backgroundColor="#1F7A63" />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}>
         <ScrollView
+          style={isDark ? styles.containerDark : undefined}
           ref={scrollViewRef}
           showsVerticalScrollIndicator={false}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#1F7A63"]} />}
@@ -485,14 +489,14 @@ const SettingsMotorSafetyScreen = () => {
             <Text style={styles.subtitle}>{t('safety.subtitle')}</Text>
           </LinearGradient>
 
-          <View style={[styles.content, { paddingBottom: insets.bottom + 40 }]}>
+          <View style={[styles.content, { paddingBottom: insets.bottom + 40 }, isDark && styles.containerDark]}>
             {/* MERGED CARD - Smart Control + Slider UI for Voltage & Current */}
             <MergedCard />
 
             {/* Motor Service Card */}
             <MotorServiceCard />
 
-            <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={saving}>
+            <TouchableOpacity style={[styles.saveButton, isDark && styles.saveButtonDark]} onPress={handleSave} disabled={saving}>
               {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.saveButtonText}>{t('safety.applyChanges')}</Text>}
             </TouchableOpacity>
           </View>

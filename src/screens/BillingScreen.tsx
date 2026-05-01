@@ -124,7 +124,7 @@ const BillingScreen = () => {
           <View style={styles.headerTop}>
             <View style={styles.logoContainer}>
               <View style={styles.logoIcon}><Text style={styles.logoIconText}>💧</Text></View>
-              <Text style={styles.logoText}>Zarkhez</Text>
+              <Text style={styles.logoText}>{t('header.title')}</Text>
             </View>
             <TouchableOpacity style={styles.analyticsButton} onPress={() => navigation.navigate('Analytics' as never)}>
               <Text style={styles.analyticsButtonText}>{t('billing.viewAnalytics')}</Text>
@@ -202,11 +202,11 @@ const BillingScreen = () => {
             <Text style={[styles.sectionDate, isDark && styles.textMutedDark]}>March 2026</Text>
           </View>
 
-          <View style={styles.tableHeader}>
-            <Text style={[styles.tableHeaderCell, isDark && styles.textMutedDark, { flex: 1.5 }]}>{t('billing.tableName')}</Text>
-            <Text style={[styles.tableHeaderCell, isDark && styles.textMutedDark, { textAlign: 'center', flex: 0.8 }]}>{t('billing.tableSessions')}</Text>
-            <Text style={[styles.tableHeaderCell, isDark && styles.textMutedDark, { textAlign: 'center', flex: 1 }]}>{t('billing.tableTime')}</Text>
-            <Text style={[styles.tableHeaderCell, isDark && styles.textMutedDark, { textAlign: 'right', flex: 1 }]}>{t('billing.tableBill')}</Text>
+          <View style={[styles.tableHeader, isDark && styles.tableHeaderDark]}>
+            <Text style={[styles.tableHeaderCell, isDark && styles.tableHeaderTextDark, { flex: 1.5 }]}>{t('billing.tableName')}</Text>
+            <Text style={[styles.tableHeaderCell, isDark && styles.tableHeaderTextDark, { textAlign: 'center', flex: 0.8 }]}>{t('billing.tableSessions')}</Text>
+            <Text style={[styles.tableHeaderCell, isDark && styles.tableHeaderTextDark, { textAlign: 'center', flex: 1 }]}>{t('billing.tableTime')}</Text>
+            <Text style={[styles.tableHeaderCell, isDark && styles.tableHeaderTextDark, { textAlign: 'right', flex: 1 }]}>{t('billing.tableBill')}</Text>
           </View>
 
           {usersData.map((user) => (

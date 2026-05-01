@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from './styles/SettingsScreen.styles';
 import BottomNavBar from '../components/BottomNavBar';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const settingsItems = [
   { key: 'alerts', titleKey: 'settings.menu.alerts.title', descKey: 'settings.menu.alerts.desc', icon: '🔔', iconBg: '#FFF8E6', iconColor: '#FFD166' },
@@ -30,6 +31,7 @@ const SettingsScreen = () => {
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState('settings');
   const { t } = useLanguage();
+  const { isDark } = useTheme();
 
   // 🔥 Firebase se current user nikalein
   const user = auth().currentUser;
@@ -95,7 +97,7 @@ const SettingsScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle="light-content" backgroundColor="#1F7A63" />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -112,7 +114,7 @@ const SettingsScreen = () => {
               <View style={styles.logoIcon}>
                 <Text style={styles.logoIconText}>💧</Text>
               </View>
-              <Text style={styles.logoText}>Zarkhez</Text>
+              <Text style={styles.logoText}>{t('header.title')}</Text>
             </View>
           </View>
           <Text style={styles.mainTitle}>{t('settings.title')}</Text>
@@ -122,34 +124,34 @@ const SettingsScreen = () => {
         <View style={styles.content}>
           {/* User card */}
           {/* User card */}
-          <View style={styles.userCard}>
+          <View style={[styles.userCard, isDark && styles.userCardDark]}>
             <View style={styles.userAvatar}>
               {/* Agar user ki photo hai to wo bhi dikha sakte hain, abhi icon hi rehne dete hain */}
               <Text style={styles.userAvatarText}>👤</Text>
             </View>
             <View style={styles.userInfo}>
               {/* 🔥 Yahan dynamic naam aayega */}
-              <Text style={styles.userName}>{displayName}</Text>
+              <Text style={[styles.userName, isDark && styles.textDark]}>{displayName}</Text>
               <View style={styles.userBadgeRow}>
                 <View style={styles.farmerBadge}>
                   <Text style={styles.farmerBadgeText}>{t('settings.farmer')}</Text>
                 </View>
                 {/* Email choti si niche dikhani ho to dikha sakte hain */}
-                <Text style={styles.loggedInText}>{user?.email ? t('settings.loggedIn') : t('settings.guest')}</Text>
+                <Text style={[styles.loggedInText, isDark && styles.textMutedDark]}>{user?.email ? t('settings.loggedIn') : t('settings.guest')}</Text>
               </View>
             </View>
             <View style={styles.onlineDot} />
           </View>
 
           {/* Settings list */}
-          <Text style={styles.sectionLabel}>{t('settings.general')}</Text>
-          <View style={styles.settingsList}>
+          <Text style={[styles.sectionLabel, isDark && styles.textMutedDark]}>{t('settings.general')}</Text>
+          <View style={[styles.settingsList, isDark && styles.settingsListDark]}>
             {settingsItems.map((item, index) => (
               <TouchableOpacity
                 key={item.key}
                 style={[
                   styles.settingsItem,
-                  index > 0 && styles.settingsItemBorder,
+                  index > 0 && (isDark ? styles.settingsItemBorderDark : styles.settingsItemBorder),
                 ]}
                 onPress={() => navigateToSubScreen(item.key)}
               >
@@ -159,18 +161,17 @@ const SettingsScreen = () => {
                   </Text>
                 </View>
                 <View style={styles.itemTextContainer}>
-                  <Text style={styles.itemLabel}>{t(item.titleKey)}</Text>
-                  <Text style={styles.itemDescription}>{t(item.descKey)}</Text>
+                  <Text style={[styles.itemLabel, isDark && styles.textDark]}>{t(item.titleKey)}</Text>
+                  <Text style={[styles.itemDescription, isDark && styles.textMutedDark]}>{t(item.descKey)}</Text>
                 </View>
-                <Text style={styles.chevron}>›</Text>
+                <Text style={[styles.chevron, isDark && styles.textMutedDark]}>›</Text>
               </TouchableOpacity>
             ))}
           </View>
 
           {/* Logout button */}
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutIcon}>🚪</Text>
-            <Text style={styles.logoutText}>{t('common.logout')}</Text>
+          <TouchableOpacity style={[styles.logoutButton, isDark && styles.logoutButtonDark]} onPress={handleLogout}>
+            <Text style={[styles.logoutText, isDark && { color: '#e05353' }]}>{t('common.logout')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

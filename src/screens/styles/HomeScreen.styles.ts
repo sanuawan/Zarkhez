@@ -104,8 +104,12 @@ export const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 8,
   },
-  cardDark: {
-    backgroundColor: '#262626',
+ cardDark: {
+    backgroundColor: '#1c2220', // 🔥 Lighter dark charcoal green
+    borderWidth: 1,
+    borderColor: '#2a3b36',
+    shadowColor: '#000',
+    elevation: 5,
   },
   cardTitle: {
     fontSize: 20,
@@ -156,16 +160,20 @@ export const styles = StyleSheet.create({
     borderRadius: 60,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.1,
     shadowRadius: 16,
     elevation: 16,
     marginBottom: 16,
+    borderWidth: 0.5,             // 🔥 Thora mota border premium lagta hai
+    borderColor: '#e5e7eb',
   },
   powerButtonOn: {
     shadowColor: '#10b981',
     shadowOpacity: 0.4,
   },
   powerButtonDark: {
+    borderColor: '#252726', // 🔥 Dark mode ka charcoal border
+    shadowOpacity: 0.3,
     shadowColor: '#000',
   },
   powerButtonDisabled: {
@@ -188,7 +196,7 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
   powerStatusDark: {
-    color: '#9ca3af',
+    color: '#9ca3af', // Yeh thora dim white/grey hi rahega OFF state mein
   },
   powerStatusOn: {
     color: '#10b981',
@@ -231,7 +239,9 @@ export const styles = StyleSheet.create({
     elevation: 4,
   },
   statusCardDark: {
-    backgroundColor: '#262626',
+    backgroundColor: '#1c2220', // 🔥 Same theme match
+    borderWidth: 1,
+    borderColor: '#2a3b36',
   },
   statusIconContainer: {
     width: 48,
@@ -250,16 +260,16 @@ export const styles = StyleSheet.create({
     color: '#6b7280',
     marginBottom: 4,
   },
-  statusLabelDark: {
-    color: '#9ca3af',
+ statusLabelDark: {
+    color: '#FFFFFF',           // 🔥 Heading ko bhi white kar diya
   },
   statusValue: {
-    fontSize: 20,
+    fontSize: 22,               // 🔥 Size bilkul same (22) fix kar diya dono ke liye
     fontWeight: 'bold',
     color: '#1f2937',
   },
   statusValueDark: {
-    color: '#f9fafb',
+    color: '#FFFFFF',           // 🔥 White color taake background pe waazeh (clear) padha jaye
   },
 
   // Weather Card
@@ -278,7 +288,9 @@ export const styles = StyleSheet.create({
     elevation: 4,
   },
   weatherCardDark: {
-    backgroundColor: '#262626',
+    backgroundColor: '#1c2220', // 🔥 Same theme match
+    borderWidth: 1,
+    borderColor: '#2a3b36',
   },
   weatherHeader: {
     flexDirection: 'row',
@@ -348,8 +360,10 @@ export const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
   },
-  actionButtonDark: {
-    backgroundColor: '#262626',
+ actionButtonDark: {
+    backgroundColor: '#1c2220', // 🔥 Same theme match
+    borderWidth: 1,
+    borderColor: '#2a3b36',
   },
   actionIcon: {
     fontSize: 32,

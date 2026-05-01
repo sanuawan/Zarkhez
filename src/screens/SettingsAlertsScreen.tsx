@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import { styles } from './styles/SettingsAlertsScreen.styles';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const SettingsAlertsScreen = () => {
   const navigation = useNavigation();
@@ -22,6 +23,7 @@ const SettingsAlertsScreen = () => {
   const [alerts, setAlerts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
+  const { isDark } = useTheme();
 
   const markAllAsRead = async (unreadList: any[]) => {
     if (unreadList.length === 0) return;
@@ -91,7 +93,7 @@ const SettingsAlertsScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
       <StatusBar barStyle="light-content" backgroundColor="#1F7A63" />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* 🔥 Header section wapas add kar diya */}
@@ -130,20 +132,21 @@ const SettingsAlertsScreen = () => {
                 key={alert.id}
                 style={[
                   styles.alertCard,
-                  !alert.read && {
+                  isDark && styles.alertCardDark,
+                  !alert.read && (isDark ? styles.unreadAlertDark : {
                     backgroundColor: '#F0F7FF',
                     borderColor: '#2196F3',
                     borderWidth: 1
-                  }
+                  }),
                 ]}
               >
                 <View style={styles.alertRow}>
-                  <View style={[styles.alertIcon, { backgroundColor: alert.iconBg }]}>
+                  <View style={[styles.alertIcon, { backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : alert.iconBg }]}>
                     <Text style={[styles.alertIconText, { color: alert.iconColor }]}>{alert.icon}</Text>
                   </View>
                   <View style={styles.alertContent}>
                     <View style={styles.alertHeader}>
-                      <Text style={[styles.alertTitle, !alert.read && { fontWeight: 'bold' }]}>
+                      <Text style={[styles.alertTitle, isDark && styles.textWhite, !alert.read && { fontWeight: 'bold' }]}>
                         {alert.title}
                       </Text>
                       {!alert.read && (
@@ -152,7 +155,7 @@ const SettingsAlertsScreen = () => {
                         </View>
                       )}
                     </View>
-                    <Text style={styles.alertDescription}>{alert.message}</Text>
+                    <Text style={[styles.alertDescription, isDark && styles.textMutedDark]}>{alert.message}</Text>
                     <Text style={styles.alertTime}>{alert.time}</Text>
                   </View>
                 </View>

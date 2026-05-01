@@ -58,6 +58,31 @@ const weatherService = {
     }
   },
 
+  getCurrentWeatherByCoords: async (lat: number, lon: number): Promise<WeatherData> => {
+    try {
+      const response = await fetch(
+        `${API_CONFIG.WEATHER_BASE_URL}?lat=${lat}&lon=${lon}&units=metric&appid=${API_CONFIG.WEATHER_API_KEY}`
+      );
+      
+      const data = await response.json();
+      if (data.cod !== 200) throw new Error(data.message);
+
+      const rain = data.rain ? (data.rain['1h'] || 0) : 0;
+
+      return {
+        temp: Math.round(data.main.temp),
+        condition: data.weather[0].main,
+        humidity: data.main.humidity,
+        windSpeed: Math.round(data.wind.speed * 3.6),
+        feelsLike: Math.round(data.main.feels_like),
+        rainfall: rain,
+      };
+    } catch (error) {
+      console.error("Live Location Weather Error:", error);
+      throw error;
+    }
+  },
+
   // 2. 5-Days Forecast
   getWeatherForecast: async (city: string): Promise<ForecastData[]> => {
     try {

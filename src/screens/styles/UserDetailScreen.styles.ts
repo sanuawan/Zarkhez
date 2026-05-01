@@ -183,4 +183,36 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#c8922a',
   },
+
+  // 🔥 DARK MODE STYLE 🔥
+  containerDark: {
+    backgroundColor: '#0a0a0a',
+  },
+
+  textGreenDark: {
+    color: '#6ED3B5',
+  },
+  
+  // Niche walay styles TimelineItem ke cards dark karne ke liye hain
+  timelineCardDark: {
+    backgroundColor: '#1c2220', // 🔥 Zarkhez theme se milta julta thora lighter dark color
+    borderWidth: 1,
+    borderColor: '#2a3b36',     // 🔥 Halka sa border taake card ki boundary wazeh ho jaye
+    shadowColor: '#000',
+  },
+  timeValueDark: {
+    color: '#f9fafb',
+  },
+  timeLabelDark: {
+    color: '#9ca3af',
+  },
+  dateBadgeDark: {
+    backgroundColor: '#064e3b',
+  },
+  dateTextDark: {
+    color: '#34d399',
+  },
+  durationBadgeDark: {
+    backgroundColor: '#422006',
+  },
 });

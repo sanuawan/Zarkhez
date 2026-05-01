@@ -2,6 +2,7 @@
 import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F4F7F6' },
+  containerDark: { backgroundColor: '#0a0a0a' },
   header: { paddingHorizontal: 20, paddingBottom: 24, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 },
   backButton: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
   backIcon: { fontSize: 18, color: '#FFFFFF', marginRight: 8 },
@@ -13,6 +14,8 @@ export const styles = StyleSheet.create({
   attentionText: { fontSize: 12, color: '#FFD166', fontWeight: '500' },
   content: { padding: 16, gap: 12 },
   alertCard: { backgroundColor: '#FFFFFF', borderRadius: 16, padding: 16, shadowColor: '#1F7A63', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2 },
+  alertCardDark: { backgroundColor: '#1c2220', borderWidth: 1, borderColor: '#2a3b36', elevation: 4 },
+  unreadAlertDark: { backgroundColor: 'rgba(33, 150, 243, 0.1)', borderColor: '#2196F3', borderWidth: 1 },
   activeAlertCard: { shadowColor: '#FFD166', shadowOpacity: 0.25, shadowRadius: 16, borderWidth: 1.5, borderColor: '#FFD166' },
   alertRow: { flexDirection: 'row', gap: 12 },
   alertIcon: { width: 40, height: 40, borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
@@ -24,4 +27,6 @@ export const styles = StyleSheet.create({
   activeBadgeText: { fontSize: 10, fontWeight: '600', color: '#1F7A63' },
   alertDescription: { fontSize: 12, color: '#4a6b64', marginBottom: 6 },
   alertTime: { fontSize: 11, color: '#b0c8c2' },
+  textWhite: { color: '#FFFFFF' },
+  textMutedDark: { color: '#9ca3af' },
 });
