@@ -64,6 +64,7 @@ const ScheduleScreen: React.FC = () => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const nameInputRef = useRef<View>(null);
+  const nameInputYRef = useRef<number>(0);
 
   const [activeTab, setActiveTab] = useState('schedule');
   const [schedules, setSchedules] = useState<ScheduleDocument[]>([]);
@@ -72,6 +73,7 @@ const ScheduleScreen: React.FC = () => {
   const [isFetching, setIsFetching] = useState(true);
   const [listenerError, setListenerError] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
+  const uiStyles = styles as any;
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
   const [assignedTo, setAssignedTo] = useState('');
@@ -401,14 +403,8 @@ const ScheduleScreen: React.FC = () => {
         language === 'ur' ? 'نام درکار ہے' : 'Name Required',
         language === 'ur' ? 'براہ کرم نام لکھیں' : 'Please enter a name'
       );
-      // Scroll to name input
-      nameInputRef.current?.measureLayout(
-        scrollViewRef.current?.getInnerViewNode(),
-        (x, y) => {
-          scrollViewRef.current?.scrollTo({ y: y - 100, animated: true });
-        },
-        () => { }
-      );
+      // Scroll to name input (safe: avoids measureLayout native ref crash)
+      scrollViewRef.current?.scrollTo({ y: Math.max(0, nameInputYRef.current - 100), animated: true });
       return { valid: false };
     }
 
@@ -1053,10 +1049,7 @@ const ScheduleScreen: React.FC = () => {
 
     return (
       <View key={schedule.id} style={[styles.savedScheduleCard, isDark && styles.savedScheduleCardDark]}>
-        <LinearGradient
-          colors={isDark ? ['#1f2937', '#111827'] : ['#fff', '#f9fafb']}
-          style={styles.savedScheduleGradient}
-        >
+        <View style={[styles.savedScheduleGradient, isDark && uiStyles.savedScheduleGradientDark]}>
           {isTop && countdownText ? (
             <View style={styles.topBadge}>
               <Text style={styles.topBadgeText}>{countdownText}</Text>
@@ -1064,23 +1057,35 @@ const ScheduleScreen: React.FC = () => {
           ) : null}
 
           <View style={styles.savedScheduleHeader}>
-            <View style={styles.savedScheduleType}>
-              <Text style={styles.savedScheduleTypeIcon}>
-                {schedule.repeatType === 'today' ? '🎯' : schedule.repeatType === 'weekly' ? '📆' : '📅'}
-              </Text>
-              <Text style={[styles.savedScheduleTypeText, isDark && styles.savedScheduleTypeTextDark]}>
-                {getScheduleTypeText(schedule)}
-              </Text>
+            <View style={uiStyles.savedScheduleHeaderLeft}>
+              <View style={uiStyles.savedScheduleAvatar}>
+                <Text style={uiStyles.savedScheduleAvatarText}>
+                  {(schedule.assignedTo?.trim()?.[0] ?? 'U').toUpperCase()}
+                </Text>
+              </View>
+              <View>
+                <Text style={[styles.savedScheduleAssignedTo, isDark && styles.savedScheduleAssignedToDark]}>
+                  {schedule.assignedTo}
+                </Text>
+                <Text style={[styles.savedScheduleTypeText, isDark && styles.savedScheduleTypeTextDark]}>
+                  {getScheduleTypeText(schedule)}
+                </Text>
+              </View>
             </View>
             <View style={[styles.savedScheduleStatus, { backgroundColor: statusBg }]}>
               <View style={[styles.savedScheduleStatusDot, { backgroundColor: statusColor }]} />
-              <Text style={{ color: statusColor, fontSize: 12, fontWeight: '500' }}>{statusText}</Text>
+              <Text style={{ color: statusColor, fontSize: 12, fontWeight: '600' }}>{statusText}</Text>
             </View>
           </View>
 
-          <Text style={[styles.savedScheduleAssignedTo, isDark && styles.savedScheduleAssignedToDark]}>
-            👤 {schedule.assignedTo}
-          </Text>
+          <View style={styles.savedScheduleDateContainer}>
+            <Text style={[styles.savedScheduleTypeIcon, isDark && styles.savedScheduleDateLabelDark]}>◷</Text>
+            <Text style={[styles.savedScheduleDateLabel, isDark && styles.savedScheduleDateLabelDark]}>
+              {schedule.repeatType === 'custom' && schedule.scheduleDate
+                ? `${formatFirestoreDate(schedule.scheduleDate)} · ${formatFirestoreTime(schedule.startTime)} - ${formatFirestoreTime(schedule.endTime)}`
+                : `${formatFirestoreDate(schedule.createdAt)} · ${formatFirestoreTime(schedule.startTime)} - ${formatFirestoreTime(schedule.endTime)}`}
+            </Text>
+          </View>
 
           {schedule.repeatType === 'weekly' && schedule.daysOfWeek && (
             <View style={styles.weeklyDaysContainer}>
@@ -1088,10 +1093,10 @@ const ScheduleScreen: React.FC = () => {
                 const dayStatus = getDayStatus(schedule, idx);
                 let dayBgColor = '#f3f4f6';
                 if (schedule.daysOfWeek?.includes(idx)) {
-                  if (dayStatus === 'running') dayBgColor = '#fbbf24';
-                  else if (dayStatus === 'completed') dayBgColor = '#86efac';
-                  else if (dayStatus === 'cancelled') dayBgColor = '#fca5a5';
-                  else dayBgColor = '#bfdbfe';
+                  if (dayStatus === 'running') dayBgColor = '#fde68a';
+                  else if (dayStatus === 'completed') dayBgColor = '#d1fae5';
+                  else if (dayStatus === 'cancelled') dayBgColor = '#fee2e2';
+                  else dayBgColor = '#dbeafe';
                 }
                 return (
                   <View key={idx} style={[styles.weeklyDayChip, { backgroundColor: dayBgColor }]}>
@@ -1104,37 +1109,6 @@ const ScheduleScreen: React.FC = () => {
             </View>
           )}
 
-          {schedule.repeatType === 'custom' && schedule.scheduleDate && (
-            <View style={styles.savedScheduleDateContainer}>
-              <Text style={[styles.savedScheduleDateLabel, isDark && styles.savedScheduleDateLabelDark]}>
-                {language === 'ur' ? 'تاریخ:' : 'Date:'}
-              </Text>
-              <Text style={[styles.savedScheduleDateValue, isDark && styles.savedScheduleDateValueDark]}>
-                {formatFirestoreDate(schedule.scheduleDate)}
-              </Text>
-            </View>
-          )}
-
-          <View style={styles.savedScheduleTimes}>
-            <View style={styles.savedScheduleTimeBlock}>
-              <Text style={[styles.savedScheduleTimeLabel, isDark && styles.savedScheduleTimeLabelDark]}>
-                {language === 'ur' ? 'شروع' : 'Start'}
-              </Text>
-              <Text style={[styles.savedScheduleTimeValue, isDark && styles.savedScheduleTimeValueDark]}>
-                {formatFirestoreTime(schedule.startTime)}
-              </Text>
-            </View>
-            <Text style={[styles.savedScheduleTimeSeparator, isDark && styles.savedScheduleTimeSeparatorDark]}>—</Text>
-            <View style={styles.savedScheduleTimeBlock}>
-              <Text style={[styles.savedScheduleTimeLabel, isDark && styles.savedScheduleTimeLabelDark]}>
-                {language === 'ur' ? 'اختتام' : 'End'}
-              </Text>
-              <Text style={[styles.savedScheduleTimeValue, isDark && styles.savedScheduleTimeValueDark]}>
-                {formatFirestoreTime(schedule.endTime)}
-              </Text>
-            </View>
-          </View>
-
           {schedule.cancelReason && (
             <Text style={[styles.cancelReason, isDark && styles.cancelReasonDark]}>
               ⚠️ {schedule.cancelReason}
@@ -1142,28 +1116,33 @@ const ScheduleScreen: React.FC = () => {
           )}
 
           <View style={styles.savedScheduleFooter}>
-            <Text style={[styles.savedScheduleDate, isDark && styles.savedScheduleDateDark]}>
-              {formatFirestoreDate(schedule.createdAt)}
-            </Text>
             <View style={styles.savedScheduleActions}>
               <TouchableOpacity
                 style={[styles.savedScheduleEditBtn, isDark && styles.savedScheduleEditBtnDark]}
                 onPress={() => handleEditSchedule(schedule)}
               >
-                <Text style={styles.savedScheduleEditBtnText}>{language === 'ur' ? 'ترمیم' : 'Edit'}</Text>
+                <Text style={styles.savedScheduleEditBtnText}>✎ {language === 'ur' ? 'ترمیم' : 'Edit'}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.savedScheduleDeleteBtn, isDark && styles.savedScheduleDeleteBtnDark]}
                 onPress={() => handleDeleteSchedule(schedule.id)}
               >
-                <Text style={styles.savedScheduleDeleteBtnText}>{language === 'ur' ? 'حذف کریں' : 'Delete'}</Text>
+                <Text style={styles.savedScheduleDeleteBtnText}>🗑 {language === 'ur' ? 'حذف کریں' : 'Delete'}</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </LinearGradient>
+        </View>
       </View>
     );
   };
+
+  const scheduleFilters: Array<{ key: string; labelEn: string; labelUr: string }> = [
+    { key: 'all', labelEn: 'All', labelUr: 'سب' },
+    { key: 'pending', labelEn: 'Pending', labelUr: 'منتظر' },
+    { key: 'running', labelEn: 'Running', labelUr: 'چل رہا' },
+    { key: 'completed', labelEn: 'Completed', labelUr: 'مکمل' },
+    { key: 'cancelled', labelEn: 'Cancelled', labelUr: 'منسوخ' },
+  ];
 
   const days = getDaysInMonth(currentMonth);
 
@@ -1198,7 +1177,7 @@ const ScheduleScreen: React.FC = () => {
               <Text style={styles.logoText}>{t('header.title')}</Text>
             </View>
           </View>
-          
+
           <Text style={styles.mainTitle}>{t('nav.schedule')}</Text>
           <Text style={styles.subtitle}>
             {language === 'en' ? 'Manage your routine' : 'اپنے شیڈول کا نظم کریں'}
@@ -1219,39 +1198,48 @@ const ScheduleScreen: React.FC = () => {
           </View>
         )}
 
-        {/* Name input */}
-        <View ref={nameInputRef} collapsable={false} style={[styles.card, isDark && styles.cardDark]}>
-          <Text style={[styles.sectionTitle, isDark && styles.sectionTitleDark]}>
-            👤 {language === 'ur' ? 'نام' : 'Name'}
+        {/* New Schedule - single Material Card (Name + Type + optional calendar/days + time picker) */}
+        <View style={[styles.builderCard, isDark && styles.builderCardDark]}>
+          <Text style={[styles.builderTitle, isDark && styles.builderTitleDark]}>
+            {language === 'ur' ? 'نیا شیڈول' : 'New Schedule'}
           </Text>
-          <TextInput
-            style={[styles.input, isDark && styles.inputDark]}
-            placeholder={language === 'ur' ? 'نام لکھیں' : 'Enter name'}
-            placeholderTextColor={isDark ? '#9ca3af' : '#9ca3af'}
-            value={assignedTo}
-            onChangeText={setAssignedTo}
-          />
-        </View>
 
-        {/* Repeat type buttons */}
-        <View style={[styles.card, isDark && styles.cardDark, { marginTop: 8 }]}>
-          <Text style={[styles.sectionTitle, isDark && styles.sectionTitleDark]}>
-            🔁 {language === 'ur' ? 'دہرائیں' : 'Repeat'}
+          {/* Name input */}
+          <View
+            ref={nameInputRef}
+            collapsable={false}
+            onLayout={event => {
+              nameInputYRef.current = event.nativeEvent.layout.y;
+            }}
+          >
+            <Text style={[styles.builderLabel, isDark && styles.builderLabelDark]}>
+              {language === 'ur' ? 'یوزر کا نام' : 'User Name'}
+            </Text>
+            <TextInput
+              style={[styles.input, isDark && styles.inputDark, styles.builderInput]}
+              placeholder={language === 'ur' ? 'یوزر کا نام' : 'User Name'}
+              placeholderTextColor={isDark ? '#9ca3af' : '#9ca3af'}
+              value={assignedTo}
+              onChangeText={setAssignedTo}
+            />
+          </View>
+
+          {/* Repeat type buttons */}
+          <Text style={[styles.builderLabel, isDark && styles.builderLabelDark, { marginTop: 14 }]}>
+            {language === 'ur' ? 'قسم' : 'Type'}
           </Text>
-          <View style={styles.scheduleTypeContainer}>
+          <View style={[styles.segmentedContainer, isDark && styles.segmentedContainerDark]}>
             <TouchableOpacity
               style={[
-                styles.scheduleTypeButton,
-                scheduleType === 'today' && styles.scheduleTypeButtonActive,
-                isDark && scheduleType === 'today' && styles.scheduleTypeButtonActiveDark
+                styles.segmentedButton,
+                scheduleType === 'today' && styles.segmentedButtonActive,
               ]}
               onPress={() => { setScheduleType('today'); setShowCalendar(false); }}
             >
-              <Text style={styles.scheduleTypeButtonIcon}>🎯</Text>
               <Text style={[
-                styles.scheduleTypeButtonText,
-                isDark && styles.scheduleTypeButtonTextDark,
-                scheduleType === 'today' && styles.scheduleTypeButtonTextActive
+                styles.segmentedText,
+                isDark && styles.segmentedTextDark,
+                scheduleType === 'today' && styles.segmentedTextActive,
               ]}>
                 {language === 'ur' ? 'آج' : 'Today'}
               </Text>
@@ -1259,17 +1247,15 @@ const ScheduleScreen: React.FC = () => {
 
             <TouchableOpacity
               style={[
-                styles.scheduleTypeButton,
-                scheduleType === 'weekly' && styles.scheduleTypeButtonActive,
-                isDark && scheduleType === 'weekly' && styles.scheduleTypeButtonActiveDark
+                styles.segmentedButton,
+                scheduleType === 'weekly' && styles.segmentedButtonActive,
               ]}
               onPress={() => { setScheduleType('weekly'); setShowCalendar(false); }}
             >
-              <Text style={styles.scheduleTypeButtonIcon}>📆</Text>
               <Text style={[
-                styles.scheduleTypeButtonText,
-                isDark && styles.scheduleTypeButtonTextDark,
-                scheduleType === 'weekly' && styles.scheduleTypeButtonTextActive
+                styles.segmentedText,
+                isDark && styles.segmentedTextDark,
+                scheduleType === 'weekly' && styles.segmentedTextActive,
               ]}>
                 {language === 'ur' ? 'ہفتہ وار' : 'Weekly'}
               </Text>
@@ -1277,155 +1263,156 @@ const ScheduleScreen: React.FC = () => {
 
             <TouchableOpacity
               style={[
-                styles.scheduleTypeButton,
-                scheduleType === 'custom' && styles.scheduleTypeButtonActive,
-                isDark && scheduleType === 'custom' && styles.scheduleTypeButtonActiveDark
+                styles.segmentedButton,
+                scheduleType === 'custom' && styles.segmentedButtonActive,
               ]}
               onPress={() => { setScheduleType('custom'); setShowCalendar(true); }}
             >
-              <Text style={styles.scheduleTypeButtonIcon}>📅</Text>
               <Text style={[
-                styles.scheduleTypeButtonText,
-                isDark && styles.scheduleTypeButtonTextDark,
-                scheduleType === 'custom' && styles.scheduleTypeButtonTextActive
+                styles.segmentedText,
+                isDark && styles.segmentedTextDark,
+                scheduleType === 'custom' && styles.segmentedTextActive,
               ]}>
                 {language === 'ur' ? 'کسٹم' : 'Custom'}
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
 
-        {/* Weekly day selector */}
-        {scheduleType === 'weekly' && (
-          <View style={[styles.card, isDark && styles.cardDark]}>
-            <Text style={[styles.sectionTitle, isDark && styles.sectionTitleDark]}>
-              {language === 'ur' ? 'دن منتخب کریں' : 'Select Days'}
-            </Text>
-            <View style={styles.daysSelector}>
-              {fullDayNames.map((day, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.dayChip,
-                    selectedDays.includes(index) && styles.dayChipSelected,
-                    isDark && selectedDays.includes(index) && styles.dayChipSelectedDark
-                  ]}
-                  onPress={() => toggleDay(index)}
-                >
-                  <Text style={[
-                    styles.dayChipText,
-                    selectedDays.includes(index) && styles.dayChipTextSelected,
-                    isDark && styles.dayChipTextDark
-                  ]}>
-                    {language === 'ur' ? fullDayNamesUrdu[index].substring(0, 2) : day.substring(0, 3)}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-        )}
-
-        {/* Calendar for custom */}
-        {scheduleType === 'custom' && showCalendar && (
-          <View style={[styles.calendarCard, isDark && styles.calendarCardDark]}>
-            <View style={styles.calendarHeader}>
-              <TouchableOpacity onPress={() => navigateMonth('prev')}>
-                <Text style={[styles.calendarNavButton, isDark && styles.calendarNavButtonDark]}>&lt;</Text>
-              </TouchableOpacity>
-              <Text style={[styles.calendarMonth, isDark && styles.calendarMonthDark]}>
-                {formatMonthYear(currentMonth)}
+          {/* Weekly day selector */}
+          {scheduleType === 'weekly' && (
+            <View style={{ marginTop: 14 }}>
+              <Text style={[styles.builderLabel, isDark && styles.builderLabelDark]}>
+                {language === 'ur' ? 'دن منتخب کریں' : 'Select Days'}
               </Text>
-              <TouchableOpacity onPress={() => navigateMonth('next')}>
-                <Text style={[styles.calendarNavButton, isDark && styles.calendarNavButtonDark]}>&gt;</Text>
-              </TouchableOpacity>
+              <View style={styles.daysSelector}>
+                {fullDayNames.map((day, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.dayChip,
+                      selectedDays.includes(index) && styles.dayChipSelected,
+                      isDark && selectedDays.includes(index) && styles.dayChipSelectedDark
+                    ]}
+                    onPress={() => toggleDay(index)}
+                  >
+                    <Text style={[
+                      styles.dayChipText,
+                      selectedDays.includes(index) && styles.dayChipTextSelected,
+                      isDark && styles.dayChipTextDark
+                    ]}>
+                      {language === 'ur' ? fullDayNamesUrdu[index].substring(0, 2) : day.substring(0, 3)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
+          )}
 
-            <View style={styles.daysOfWeek}>
-              {daysOfWeek.map((day, i) => (
-                <Text key={i} style={[styles.dayOfWeek, isDark && styles.dayOfWeekDark]}>{day}</Text>
-              ))}
+          {/* Calendar for custom */}
+          {scheduleType === 'custom' && showCalendar && (
+            <View style={[styles.calendarCardInBuilder, isDark && styles.calendarCardInBuilderDark]}>
+              <View style={styles.calendarHeader}>
+                <TouchableOpacity onPress={() => navigateMonth('prev')}>
+                  <Text style={[styles.calendarNavButton, isDark && styles.calendarNavButtonDark]}>&lt;</Text>
+                </TouchableOpacity>
+                <Text style={[styles.calendarMonth, isDark && styles.calendarMonthDark]}>
+                  {formatMonthYear(currentMonth)}
+                </Text>
+                <TouchableOpacity onPress={() => navigateMonth('next')}>
+                  <Text style={[styles.calendarNavButton, isDark && styles.calendarNavButtonDark]}>&gt;</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.daysOfWeek}>
+                {daysOfWeek.map((day, i) => (
+                  <Text key={i} style={[styles.dayOfWeek, isDark && styles.dayOfWeekDark]}>{day}</Text>
+                ))}
+              </View>
+
+              <View style={styles.calendarGrid}>
+                {days.map((date, index) => (
+                  <View key={index} style={styles.calendarCell}>
+                    {date ? (
+                      <TouchableOpacity
+                        style={[
+                          styles.dateButton,
+                          isDateSelected(date) && styles.dateButtonSelected
+                        ]}
+                        onPress={() => toggleDateSelection(date)}
+                        disabled={getMidnightDate(date) < getMidnightDate(new Date())}
+                      >
+                        <Text style={[
+                          styles.dateText,
+                          isDark && styles.dateTextDark,
+                          isDateSelected(date) && styles.dateTextSelected,
+                          date.getDay() === 0 && styles.sundayText,
+                          getMidnightDate(date) < getMidnightDate(new Date()) && styles.pastDate
+                        ]}>
+                          {date.getDate()}
+                        </Text>
+                        {isDateSelected(date) && <View style={styles.dateSelectedIndicator} />}
+                      </TouchableOpacity>
+                    ) : (
+                      <View style={styles.emptyCell} />
+                    )}
+                  </View>
+                ))}
+              </View>
+
+              {selectedDates.length > 0 && (
+                <Text style={[styles.selectedDatesCount, isDark && styles.selectedDatesCountDark]}>
+                  {language === 'ur' ? `منتخب تاریخیں: ${selectedDates.length}` : `Selected dates: ${selectedDates.length}`}
+                </Text>
+              )}
             </View>
+          )}
 
-            <View style={styles.calendarGrid}>
-              {days.map((date, index) => (
-                <View key={index} style={styles.calendarCell}>
-                  {date ? (
-                    <TouchableOpacity
-                      style={[
-                        styles.dateButton,
-                        isDateSelected(date) && styles.dateButtonSelected
-                      ]}
-                      onPress={() => toggleDateSelection(date)}
-                      disabled={getMidnightDate(date) < getMidnightDate(new Date())}
-                    >
-                      <Text style={[
-                        styles.dateText,
-                        isDark && styles.dateTextDark,
-                        isDateSelected(date) && styles.dateTextSelected,
-                        date.getDay() === 0 && styles.sundayText,
-                        getMidnightDate(date) < getMidnightDate(new Date()) && styles.pastDate
-                      ]}>
-                        {date.getDate()}
-                      </Text>
-                      {isDateSelected(date) && <View style={styles.dateSelectedIndicator} />}
-                    </TouchableOpacity>
-                  ) : (
-                    <View style={styles.emptyCell} />
-                  )}
+          {/* Time picker (existing component/logic) */}
+          <Text style={[styles.builderLabel, isDark && styles.builderLabelDark, { marginTop: 14 }]}>
+            {language === 'ur' ? 'وقت' : 'Time Range'}
+          </Text>
+          <View style={[styles.timeBannerCardInBuilder, isDark && styles.timeBannerCardDark]}>
+            <LinearGradient
+              colors={isDark ? ['#1f2937', '#111827'] : ['#ffffff', '#f4f6f8']}
+              style={styles.timeBannerGradient}
+            >
+              <View style={styles.timeBannerHeader}>
+                <Text style={[styles.timeBannerTitle, isDark && styles.timeBannerTitleDark]}>
+                  {language === 'ur' ? 'پانی کا وقت' : 'Water Time'}
+                </Text>
+                <TouchableOpacity onPress={refreshCurrentTime} style={styles.timeRefreshButton}>
+                  <Text style={[styles.timeRefreshIcon, isDark && styles.timeRefreshIconDark]}>🔄</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.timeBannerTimes}>
+                <View style={styles.timeBannerItem}>
+                  <Text style={[styles.timeBannerLabel, isDark && styles.timeBannerLabelDark]}>
+                    {language === 'ur' ? 'شروع' : 'Start'}
+                  </Text>
+                  <TouchableOpacity onPress={() => setShowStartPicker(true)}>
+                    <Text style={[styles.timeBannerValue, isDark && styles.timeBannerValueDark]}>
+                      {formatTimeCompact(startTime)}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-              ))}
-            </View>
-
-            {selectedDates.length > 0 && (
-              <Text style={[styles.selectedDatesCount, isDark && styles.selectedDatesCountDark]}>
-                {language === 'ur' ? `منتخب تاریخیں: ${selectedDates.length}` : `Selected dates: ${selectedDates.length}`}
+                <Text style={[styles.timeBannerSeparator, isDark && styles.timeBannerSeparatorDark]}>—</Text>
+                <View style={styles.timeBannerItem}>
+                  <Text style={[styles.timeBannerLabel, isDark && styles.timeBannerLabelDark]}>
+                    {language === 'ur' ? 'اختتام' : 'End'}
+                  </Text>
+                  <TouchableOpacity onPress={() => setShowEndPicker(true)}>
+                    <Text style={[styles.timeBannerValue, isDark && styles.timeBannerValueDark]}>
+                      {formatTimeCompact(endTime)}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <Text style={[styles.timeBannerDuration, isDark && styles.timeBannerDurationDark]}>
+                ⏱️ {calculateDuration()}
               </Text>
-            )}
+            </LinearGradient>
           </View>
-        )}
-
-        {/* Time banner with refresh button inside */}
-        <View style={[styles.timeBannerCard, isDark && styles.timeBannerCardDark]}>
-          <LinearGradient
-            colors={isDark ? ['#065f46', '#047857'] : ['#d1fae5', '#a7f3d0']}
-            style={styles.timeBannerGradient}
-          >
-            <View style={styles.timeBannerHeader}>
-              <Text style={[styles.timeBannerTitle, isDark && styles.timeBannerTitleDark]}>
-                {language === 'ur' ? 'پانی کا وقت' : 'Water Time'}
-              </Text>
-              <TouchableOpacity onPress={refreshCurrentTime} style={styles.timeRefreshButton}>
-                <Text style={[styles.timeRefreshIcon, isDark && styles.timeRefreshIconDark]}>🔄</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.timeBannerTimes}>
-              <View style={styles.timeBannerItem}>
-                <Text style={[styles.timeBannerLabel, isDark && styles.timeBannerLabelDark]}>
-                  {language === 'ur' ? 'شروع' : 'Start'}
-                </Text>
-                <TouchableOpacity onPress={() => setShowStartPicker(true)}>
-                  <Text style={[styles.timeBannerValue, isDark && styles.timeBannerValueDark]}>
-                    {formatTimeCompact(startTime)}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <Text style={[styles.timeBannerSeparator, isDark && styles.timeBannerSeparatorDark]}>—</Text>
-              <View style={styles.timeBannerItem}>
-                <Text style={[styles.timeBannerLabel, isDark && styles.timeBannerLabelDark]}>
-                  {language === 'ur' ? 'اختتام' : 'End'}
-                </Text>
-                <TouchableOpacity onPress={() => setShowEndPicker(true)}>
-                  <Text style={[styles.timeBannerValue, isDark && styles.timeBannerValueDark]}>
-                    {formatTimeCompact(endTime)}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <Text style={[styles.timeBannerDuration, isDark && styles.timeBannerDurationDark]}>
-              ⏱️ {calculateDuration()}
-            </Text>
-          </LinearGradient>
         </View>
 
         {/* Save button */}
@@ -1435,7 +1422,7 @@ const ScheduleScreen: React.FC = () => {
           disabled={isLoading}
         >
           <LinearGradient
-            colors={isDark ? ['#059669', '#047857'] : ['#10b981', '#059669']}
+            colors={isDark ? ['#0f766e', '#115e59'] : ['#24866f', '#1f7a63']}
             style={styles.saveButtonGradient}
           >
             {isLoading ? (
@@ -1452,40 +1439,42 @@ const ScheduleScreen: React.FC = () => {
         </TouchableOpacity>
 
         {/* Filter */}
-        <View style={[styles.card, isDark && styles.cardDark, styles.filterCard]}>
-          <Text style={[styles.sectionTitle, isDark && styles.sectionTitleDark]}>
-            {language === 'ur' ? '📋 محفوظ کردہ شیڈولز' : '📋 Saved Schedules'}
-          </Text>
-          <View style={styles.filterContainer}>
-            <Text style={[styles.filterLabel, isDark && styles.filterLabelDark]}>
-              {language === 'ur' ? 'فلٹر:' : 'Filter:'}
+        <View style={[styles.card, isDark && styles.cardDark]}>
+          <View style={uiStyles.savedHeaderRow}>
+            <Text style={[uiStyles.savedHeaderTitle, isDark && uiStyles.savedHeaderTitleDark]}>
+              {language === 'ur' ? 'Schedules' : 'Schedules'}
             </Text>
-            <TouchableOpacity
-              style={[styles.filterButton, isDark && styles.filterButtonDark]}
-              onPress={() => {
-                const options = ['all', 'pending', 'running', 'completed'];
-                const labels = language === 'ur'
-                  ? ['سب', 'منتظر', 'چل رہا', 'مکمل']
-                  : ['All', 'Pending', 'Running', 'Completed'];
-                Alert.alert(
-                  language === 'ur' ? 'فلٹر منتخب کریں' : 'Select Filter',
-                  '',
-                  options.map((opt, idx) => ({
-                    text: labels[idx],
-                    onPress: () => setFilterStatus(opt),
-                  }))
-                );
-              }}
-            >
-              <Text style={[styles.filterButtonText, isDark && styles.filterButtonTextDark]}>
-                {filterStatus === 'all' ? (language === 'ur' ? 'سب' : 'All') :
-                  filterStatus === 'pending' ? (language === 'ur' ? 'منتظر' : 'Pending') :
-                    filterStatus === 'running' ? (language === 'ur' ? 'چل رہا' : 'Running') :
-                      (language === 'ur' ? 'مکمل' : 'Completed')}
-              </Text>
-              <Text style={[styles.filterArrow, isDark && styles.filterArrowDark]}>▼</Text>
-            </TouchableOpacity>
+            <Text style={[uiStyles.savedHeaderCount, isDark && uiStyles.savedHeaderCountDark]}>
+              {`${sortedSchedules.length} ${language === 'ur' ? 'آئٹمز' : 'items'}`}
+            </Text>
           </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={uiStyles.filterPillsRow}>
+            {scheduleFilters.map(filter => {
+              const active = filterStatus === filter.key;
+              return (
+                <TouchableOpacity
+                  key={filter.key}
+                  style={[
+                    uiStyles.filterPillButton,
+                    active && uiStyles.filterPillButtonActive,
+                    isDark && uiStyles.filterPillButtonDark,
+                    isDark && active && uiStyles.filterPillButtonActiveDark,
+                  ]}
+                  onPress={() => setFilterStatus(filter.key)}
+                >
+                  <Text
+                    style={[
+                      uiStyles.filterPillText,
+                      isDark && uiStyles.filterPillTextDark,
+                      active && uiStyles.filterPillTextActive,
+                    ]}
+                  >
+                    {language === 'ur' ? filter.labelUr : filter.labelEn}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
         </View>
 
         {/* Saved schedules list */}

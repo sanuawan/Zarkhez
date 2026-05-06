@@ -126,6 +126,99 @@ export const styles = StyleSheet.create({
     backgroundColor: '#374151',
   },
 
+  builderCard: {
+    backgroundColor: '#ffffff',
+    marginHorizontal: 16,
+    marginBottom: 16,
+    padding: 18,
+    borderRadius: 18,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+  },
+  builderCardDark: {
+    backgroundColor: '#1f2937',
+  },
+  builderTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1F7A63',
+    marginBottom: 14,
+  },
+  builderTitleDark: {
+    color: '#6ee7b7',
+  },
+  builderLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#6b7280',
+    marginBottom: 8,
+  },
+  builderLabelDark: {
+    color: '#cbd5e1',
+  },
+  builderInput: {
+    borderRadius: 14,
+    backgroundColor: '#f8fafc',
+    borderColor: '#eef2f7',
+  },
+
+  segmentedContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#eef7f3',
+    borderRadius: 999,
+    padding: 4,
+    gap: 6,
+  },
+  segmentedContainerDark: {
+    backgroundColor: '#0b1f1a',
+  },
+  segmentedButton: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  segmentedButtonActive: {
+    backgroundColor: '#1F7A63',
+  },
+  segmentedText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#4b5563',
+  },
+  segmentedTextDark: {
+    color: '#cbd5e1',
+  },
+  segmentedTextActive: {
+    color: '#ffffff',
+  },
+
+  timeBannerCardInBuilder: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginTop: 6,
+    elevation: 0,
+    shadowOpacity: 0,
+  },
+
+  calendarCardInBuilder: {
+    backgroundColor: '#ffffff',
+    marginTop: 14,
+    padding: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#eef2f7',
+  },
+  calendarCardInBuilderDark: {
+    backgroundColor: '#111827',
+    borderColor: '#374151',
+  },
+
   timeBannerCard: {
     marginHorizontal: 16,
     marginBottom: 16,
@@ -152,23 +245,23 @@ export const styles = StyleSheet.create({
   },
   timeBannerTitle: {
     fontSize: 14,
-    color: '#065f46',
+    color: '#374151',
     textTransform: 'uppercase',
     letterSpacing: 1,
     fontWeight: '600',
   },
   timeBannerTitleDark: {
-    color: '#d1fae5',
+    color: '#e5e7eb',
   },
   timeRefreshButton: {
     padding: 4,
   },
   timeRefreshIcon: {
     fontSize: 20,
-    color: '#065f46',
+    color: '#4b5563',
   },
   timeRefreshIconDark: {
-    color: '#d1fae5',
+    color: '#d1d5db',
   },
   timeBannerTimes: {
     flexDirection: 'row',
@@ -181,35 +274,35 @@ export const styles = StyleSheet.create({
   },
   timeBannerLabel: {
     fontSize: 12,
-    color: '#047857',
+    color: '#6b7280',
     marginBottom: 4,
   },
   timeBannerLabelDark: {
-    color: '#a7f3d0',
+    color: '#9ca3af',
   },
   timeBannerValue: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#064e3b',
+    color: '#111827',
   },
   timeBannerValueDark: {
-    color: '#ffffff',
+    color: '#f3f4f6',
   },
   timeBannerSeparator: {
     fontSize: 24,
-    color: '#065f46',
+    color: '#6b7280',
     fontWeight: '300',
     paddingHorizontal: 16,
   },
   timeBannerSeparatorDark: {
-    color: '#a7f3d0',
+    color: '#9ca3af',
   },
   timeBannerDuration: {
     fontSize: 14,
-    color: '#064e3b',
+    color: '#4b5563',
     marginTop: 12,
     textAlign: 'center',
-    backgroundColor: 'rgba(6,78,59,0.1)',
+    backgroundColor: '#f3f4f6',
     paddingVertical: 4,
     paddingHorizontal: 12,
     borderRadius: 20,
@@ -217,8 +310,8 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
   },
   timeBannerDurationDark: {
-    color: '#d1fae5',
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    color: '#d1d5db',
+    backgroundColor: '#374151',
   },
 
   card: {
@@ -429,7 +522,7 @@ export const styles = StyleSheet.create({
   saveButton: {
     marginHorizontal: 16,
     marginBottom: 24,
-    borderRadius: 16,
+    borderRadius: 14,
     overflow: 'hidden',
     elevation: 3,
   },
@@ -443,7 +536,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 14,
   },
   saveButtonIcon: {
     fontSize: 18,
@@ -507,21 +600,24 @@ export const styles = StyleSheet.create({
   },
 
   savedScheduleCard: {
-    borderRadius: 16,
-    overflow: 'hidden',
+    borderRadius: 18,
+    overflow: 'visible',
     marginBottom: 12,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    backgroundColor: '#ffffff',
   },
   savedScheduleCardDark: {
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
+    backgroundColor: '#111827',
+    borderColor: '#374151',
   },
   savedScheduleGradient: {
-    padding: 16,
+    padding: 14,
+    borderRadius: 18,
+    backgroundColor: '#ffffff',
+  },
+  savedScheduleGradientDark: {
+    backgroundColor: '#111827',
   },
   topBadge: {
     backgroundColor: '#10b981',
@@ -539,8 +635,27 @@ export const styles = StyleSheet.create({
   savedScheduleHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 8,
+  },
+  savedScheduleHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    flex: 1,
+  },
+  savedScheduleAvatar: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: '#e5f4ef',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  savedScheduleAvatarText: {
+    color: '#2c7a67',
+    fontWeight: '700',
+    fontSize: 14,
   },
   savedScheduleType: {
     flexDirection: 'row',
@@ -548,12 +663,12 @@ export const styles = StyleSheet.create({
     gap: 8,
   },
   savedScheduleTypeIcon: {
-    fontSize: 16,
+    fontSize: 13,
   },
   savedScheduleTypeText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#4b5563',
+    fontWeight: '500',
+    color: '#7da3b4',
   },
   savedScheduleTypeTextDark: {
     color: '#d1d5db',
@@ -562,8 +677,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     borderRadius: 12,
   },
   savedScheduleStatusDot: {
@@ -573,10 +688,10 @@ export const styles = StyleSheet.create({
   },
 
   savedScheduleAssignedTo: {
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 24,
+    fontWeight: '700',
     color: '#1f2937',
-    marginBottom: 8,
+    marginBottom: 2,
   },
   savedScheduleAssignedToDark: {
     color: '#f3f4f6',
@@ -604,12 +719,12 @@ export const styles = StyleSheet.create({
   savedScheduleDateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: 8,
+    gap: 6,
+    marginBottom: 10,
   },
   savedScheduleDateLabel: {
-    fontSize: 12,
-    color: '#6b7280',
+    fontSize: 13,
+    color: '#7da3b4',
   },
   savedScheduleDateLabelDark: {
     color: '#9ca3af',
@@ -678,12 +793,10 @@ export const styles = StyleSheet.create({
 
   savedScheduleFooter: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 4,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
+    marginTop: 2,
+    paddingTop: 0,
   },
   savedScheduleDate: {
     fontSize: 11,
@@ -694,35 +807,93 @@ export const styles = StyleSheet.create({
   },
   savedScheduleActions: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 10,
   },
   savedScheduleEditBtn: {
-    backgroundColor: '#86efac',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
+    backgroundColor: '#e7f3ee',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
   },
   savedScheduleEditBtnDark: {
     backgroundColor: '#047857',
   },
   savedScheduleEditBtnText: {
-    color: '#ffffff',
-    fontSize: 12,
+    color: '#2c7a67',
+    fontSize: 14,
     fontWeight: '600',
   },
   savedScheduleDeleteBtn: {
-    backgroundColor: '#ef4444',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
+    backgroundColor: '#fdecec',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
   },
   savedScheduleDeleteBtnDark: {
     backgroundColor: '#dc2626',
   },
   savedScheduleDeleteBtnText: {
-    color: '#ffffff',
-    fontSize: 12,
+    color: '#ef4444',
+    fontSize: 14,
     fontWeight: '600',
+  },
+
+  savedHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  savedHeaderTitle: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2f3a39',
+  },
+  savedHeaderTitleDark: {
+    color: '#f3f4f6',
+  },
+  savedHeaderCount: {
+    color: '#8ba8b5',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  savedHeaderCountDark: {
+    color: '#9ca3af',
+  },
+  filterPillsRow: {
+    gap: 10,
+    paddingBottom: 2,
+  },
+  filterPillButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: '#f1f5f9',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  filterPillButtonActive: {
+    backgroundColor: '#1f7a63',
+    borderColor: '#1f7a63',
+  },
+  filterPillButtonDark: {
+    backgroundColor: '#1f2937',
+    borderColor: '#374151',
+  },
+  filterPillButtonActiveDark: {
+    backgroundColor: '#0f766e',
+    borderColor: '#0f766e',
+  },
+  filterPillText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#7b9aa8',
+  },
+  filterPillTextDark: {
+    color: '#cbd5e1',
+  },
+  filterPillTextActive: {
+    color: '#ffffff',
   },
 
   loadingContainer: {

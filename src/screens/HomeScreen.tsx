@@ -28,6 +28,8 @@ import Geolocation from '@react-native-community/geolocation';
 import weatherService from '../services/weatherService';
 import { PermissionsAndroid, Platform } from 'react-native';
 
+const HEARTBEAT_TIMEOUT_MS = 3 * 60 * 1000;
+
 const HomeScreen: React.FC = () => {
   const { language, toggleLanguage, t } = useLanguage();
   const insets = useSafeAreaInsets();
@@ -43,6 +45,8 @@ const HomeScreen: React.FC = () => {
   const [currentRate, setCurrentRate] = useState<number>(200);
   const [voltage, setVoltage] = useState<number>(0);
   const [current, setCurrent] = useState<number>(0);
+  const [soilMoisture, setSoilMoisture] = useState<number>(0);
+  const [deviceSafetyStatus, setDeviceSafetyStatus] = useState<'normal' | 'offline' | 'power_outage'>('normal');
 
   // 🔥 Command (UI ne bheja) aur Status (ESP32 ne confirm kiya)
   const [motorCommand, setMotorCommand] = useState<'on' | 'off'>('off');
@@ -50,6 +54,8 @@ const HomeScreen: React.FC = () => {
 
   // 🔥 Timeout ref
   const commandTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const heartbeatTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastSeenRef = useRef<string | null>(null);
   // motorStatus ka latest value timeout ke andar use karne ke liye
   const motorStatusRef = useRef<'on' | 'off'>('off');
 
@@ -60,6 +66,11 @@ const HomeScreen: React.FC = () => {
   // Derived states
   const isTransitioning = motorCommand !== motorStatus;
   const motorOn = motorStatus === 'on';
+  const isOffline = deviceSafetyStatus === 'offline';
+  const isPowerOutage = deviceSafetyStatus === 'power_outage';
+  const displayVoltage = isOffline || isPowerOutage ? 0 : voltage;
+  const displayCurrent = isOffline || isPowerOutage ? 0 : current;
+  const displaySoilMoisture = isOffline ? 0 : soilMoisture;
 
   // motorStatus update hone par ref bhi update karo
   useEffect(() => {
@@ -129,6 +140,7 @@ const HomeScreen: React.FC = () => {
   useEffect(() => {
     return () => {
       if (commandTimeoutRef.current) clearTimeout(commandTimeoutRef.current);
+      if (heartbeatTimeoutRef.current) clearTimeout(heartbeatTimeoutRef.current);
     };
   }, []);
 
@@ -196,14 +208,56 @@ const HomeScreen: React.FC = () => {
       .collection('settings')
       .doc('billing_config')
       .onSnapshot(doc => {
-        if (doc.exists) {
+        if (doc.exists()) {
           setCurrentRate(doc.data()?.currentRate ?? 200);
         }
       });
     return () => unsubscribeConfig();
   }, []);
 
-  // Live Sensor Sync
+  const triggerEmergencyShutdown = async () => {
+    // Dual-layer safety: backend command + frontend UI sync
+    if (commandTimeoutRef.current) {
+      clearTimeout(commandTimeoutRef.current);
+      commandTimeoutRef.current = null;
+    }
+
+    setDeviceSafetyStatus('offline');
+    setMotorCommand('off');
+    setMotorStatus('off');
+    setActiveUser(null);
+    setVoltage(0);
+    setCurrent(0);
+    setSoilMoisture(0);
+
+    try {
+      await firestore()
+        .collection('iot_data')
+        .doc('relay')
+        .set(
+          {
+            command: 'off',
+            status: 'off',
+            activeUser: null,
+          },
+          { merge: true }
+        );
+    } catch (error) {
+      console.log('Emergency shutdown command failed:', error);
+    }
+  };
+
+  const resetHeartbeatTimer = () => {
+    if (heartbeatTimeoutRef.current) {
+      clearTimeout(heartbeatTimeoutRef.current);
+    }
+
+    heartbeatTimeoutRef.current = setTimeout(() => {
+      triggerEmergencyShutdown();
+    }, HEARTBEAT_TIMEOUT_MS);
+  };
+
+  // Live Sensor Sync + Heartbeat watchdog
   useEffect(() => {
     const unsubscribeSensors = firestore()
       .collection('iot_data')
@@ -211,12 +265,40 @@ const HomeScreen: React.FC = () => {
       .onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists()) {
           const data = documentSnapshot.data();
-          setVoltage(data?.voltage ?? 0);
-          setCurrent(data?.current ?? 0);
+          const nextVoltage = Number(data?.voltage ?? 0);
+          const nextCurrent = Number(data?.current ?? 0);
+          const nextSoilMoisture = Number(data?.soil_moisture ?? data?.soilMoisture ?? 0);
+          const nextLastSeen = typeof data?.last_seen === 'string' ? data.last_seen : String(data?.last_seen ?? '');
+
+          setVoltage(Number.isFinite(nextVoltage) ? nextVoltage : 0);
+          setCurrent(Number.isFinite(nextCurrent) ? nextCurrent : 0);
+          setSoilMoisture(Number.isFinite(nextSoilMoisture) ? nextSoilMoisture : 0);
+
+          // Heartbeat reset only when last_seen actually changes
+          const heartbeatChanged = Boolean(nextLastSeen && nextLastSeen !== lastSeenRef.current);
+
+          if (heartbeatChanged) {
+            lastSeenRef.current = nextLastSeen;
+            resetHeartbeatTimer();
+          }
+
+          // Device came back online after timeout
+          if (deviceSafetyStatus === 'offline' && heartbeatChanged) {
+            setDeviceSafetyStatus('normal');
+          }
+
+          // Power outage while device is still online
+          if (nextLastSeen) {
+            if (nextVoltage < 0.5) {
+              setDeviceSafetyStatus('power_outage');
+            } else if (deviceSafetyStatus !== 'offline') {
+              setDeviceSafetyStatus('normal');
+            }
+          }
         }
       });
     return () => unsubscribeSensors();
-  }, []);
+  }, [deviceSafetyStatus]);
 
   // 🔥 Command bhejne ka central function — timeout bhi handle karta hai
   const sendCommand = (cmd: 'on' | 'off', userName?: string) => {
@@ -284,6 +366,12 @@ const HomeScreen: React.FC = () => {
 
   // 🔥 Status text
   const getStatusText = () => {
+    if (isOffline) {
+      return 'Device Offline ';
+    }
+    if (isPowerOutage) {
+      return 'No Light / Power Outage';
+    }
     if (isTransitioning) {
       return motorCommand === 'on' ? 'Turning ON...' : 'Turning OFF...';
     }
@@ -433,7 +521,7 @@ const HomeScreen: React.FC = () => {
             <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.voltage')}</Text>
             {/* 🔥 Inline style hata kar statusValue laga diya taake size 22 ho jaye */}
             <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>
-              {voltage.toFixed(2)}V
+              {displayVoltage.toFixed(2)}V
             </Text>
           </View>
           <View style={[styles.statusCard, isDark && styles.statusCardDark]}>
@@ -443,7 +531,7 @@ const HomeScreen: React.FC = () => {
             <Text style={[styles.statusLabel, isDark && styles.statusLabelDark]}>{t('measurements.current')}</Text>
             {/* 🔥 Yahan bhi dark mode ka tag laga diya */}
             <Text style={[styles.statusValue, isDark && styles.statusValueDark]}>
-              {current.toFixed(2)}A
+              {displayCurrent.toFixed(2)}A
             </Text>
           </View>
         </View>

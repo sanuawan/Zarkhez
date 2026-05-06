@@ -183,6 +183,7 @@ const App: React.FC = () => {
   }, [isAuthenticated]);
 
   // 💧 3. RELAY LISTENER (Motor Status & Billing)
+  // 💧 3. RELAY LISTENER (Motor Status & Billing)
   useEffect(() => {
     if (!isAuthenticated) return;
 
@@ -194,35 +195,67 @@ const App: React.FC = () => {
 
         const data = doc.data();
         const status = data?.status;
-        const activeUser = data?.activeUser || 'Manual User';
+        const mode = data?.mode || 'manual';
 
+        // 🧠 🔥 YAHAN HAI AAPKI STRICT LOGIC 🔥 🧠
+        let sessionUserName = 'System';
+
+        if (mode === 'auto') {
+          // AUTO MODE: Strictly "assignedTo" uthana hai, activeUser ko ignore marna hai
+          if (data?.assignedTo) {
+            sessionUserName = data.assignedTo;
+          } else {
+            // Agar relay mein assignedTo nahi aya, to directly schedules table se parh lo (100% Safe)
+            const runningSchedule = await firestore().collection('schedules').where('status', '==', 'running').limit(1).get();
+            if (!runningSchedule.empty) {
+              sessionUserName = runningSchedule.docs[0].data().assignedTo;
+            } else {
+              sessionUserName = 'Auto Schedule'; // activeUser nahi aayega!
+            }
+          }
+        } else {
+          // MANUAL MODE: Sirf "activeUser" uthana hai
+          sessionUserName = data?.activeUser || 'Manual User';
+        }
+
+        // 🔥 Motor ON
         if (status === 'on' && activeSessionId === null) {
           activeSessionId = Date.now();
-          sessionRef.current = { startTime: activeSessionId, userName: activeUser, mode: data?.mode || 'manual' };
+          sessionRef.current = { startTime: activeSessionId, userName: sessionUserName, mode: mode };
           safetyTriggered = false;
           manualNotifCount = 0;
 
-          await firestore().collection('events').add({
-            type: 'MOTOR_ON',
-            message: `Motor started by ${activeUser}`,
+          // 🚀 FIX: Duplicate roknay ke liye .doc().set() lagaya
+          const eventId = `event_on_${activeSessionId}`;
+          await firestore().collection('events').doc(eventId).set({
+            // Auto mein "SCHEDULE_STARTED" jayega taake app mein 📅 wala icon show ho!
+            type: mode === 'auto' ? 'SCHEDULE_STARTED' : 'MOTOR_ON',
+            message: mode === 'auto' ? `Schedule started for ${sessionUserName}` : `Motor started manually by ${sessionUserName}`,
             timestamp: firestore.FieldValue.serverTimestamp(),
-            userName: activeUser
+            userName: sessionUserName,
+            // Database mein assignedTo ki field bhi strictly daal di auto k liye
+            assignedTo: mode === 'auto' ? sessionUserName : null
           });
         }
 
+        // 🔥 Motor OFF
         if (status === 'off' && activeSessionId !== null) {
           const sessionData = { ...sessionRef.current };
           const duration = (Date.now() - (sessionData.startTime || Date.now())) / (1000 * 60);
 
+          const currentSessionId = activeSessionId;
           activeSessionId = null;
           sessionRef.current = null;
 
           if (!safetyTriggered) {
-            await firestore().collection('events').add({
-              type: 'MOTOR_OFF',
-              message: `Motor turned off. Duration: ${duration.toFixed(2)} mins`,
+            const eventId = `event_off_${currentSessionId}`;
+            await firestore().collection('events').doc(eventId).set({
+              // Auto mein "SCHEDULE_STOP" jayega taake app mein ✅ wala icon show ho
+              type: sessionData.mode === 'auto' ? 'SCHEDULE_STOP' : 'MOTOR_OFF',
+              message: sessionData.mode === 'auto' ? `Schedule completed. Duration: ${duration.toFixed(2)} mins` : `Motor turned off. Duration: ${duration.toFixed(2)} mins`,
               timestamp: firestore.FieldValue.serverTimestamp(),
-              userName: sessionData.userName || 'System'
+              userName: sessionData.userName || 'System',
+              assignedTo: sessionData.mode === 'auto' ? sessionData.userName : null
             });
           }
 
@@ -232,8 +265,12 @@ const App: React.FC = () => {
               const currentRate = rateDoc.data()?.currentRate || 2000;
               const bill = (duration / 60) * currentRate;
 
-              await firestore().collection('billing_history').add({
+              
+              const billId = `bill_${currentSessionId}`;
+              await firestore().collection('billing_history').doc(billId).set({
                 userName: sessionData.userName,
+                assignedTo: sessionData.mode === 'auto' ? sessionData.userName : null,
+                mode: sessionData.mode,
                 duration: duration.toFixed(2),
                 billAmount: bill.toFixed(2),
                 startTime: firestore.Timestamp.fromMillis(sessionData.startTime!),
@@ -245,7 +282,7 @@ const App: React.FC = () => {
               setTimeout(() => {
                 Alert.alert(
                   "💰 BILL GENERATED",
-                  `User: ${sessionData.userName}\nDuration: ${duration.toFixed(2)} mins\nBill: Rs. ${bill.toFixed(2)}`,
+                  `User: ${sessionData.userName || 'System'}\nMode: ${(sessionData.mode || 'manual').toUpperCase()}\nDuration: ${duration.toFixed(2)} mins\nBill: Rs. ${bill.toFixed(2)}`,
                   [{ text: "OK", onPress: () => { safetyTriggered = false; } }]
                 );
               }, 3500);
