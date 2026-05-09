@@ -83,8 +83,15 @@ const BillingScreen = () => {
           grouped[name].totalBill += parseFloat(data.billAmount || 0);
           grouped[name].sessionCount += 1;
         });
-        setUsersData(Object.values(grouped));
+
+        const sortedData = Object.values(grouped).sort((a: any, b: any) =>
+          a.name.localeCompare(b.name)
+        );
+
+        setUsersData(sortedData);
       });
+
+
     return () => unsubHistory();
   }, [filterStatus]);
 
@@ -199,7 +206,7 @@ const BillingScreen = () => {
 
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, isDark && styles.textDark]}>{t('billing.multiUserBilling')}</Text>
-            <Text style={[styles.sectionDate, isDark && styles.textMutedDark]}>March 2026</Text>
+            <Text style={[styles.sectionDate, isDark && styles.textMutedDark]}>May 2026</Text>
           </View>
 
           <View style={[styles.tableHeader, isDark && styles.tableHeaderDark]}>
@@ -210,15 +217,19 @@ const BillingScreen = () => {
           </View>
 
           {usersData.map((user) => (
-            <View key={user.id} style={[styles.userRowContainer, isDark && styles.userRowContainerDark]}>
+            // 🔥 NAYA HISSA: overflow hidden aur badge ki position theek ki hai
+            <View key={user.id} style={[styles.userRowContainer, isDark && styles.userRowContainerDark, { overflow: 'hidden' }]}>
+
               <View style={[
                 styles.statusBadge,
                 user.status === 'paid'
                   ? (isDark ? styles.badgePaidDark : styles.badgePaidLight)
-                  : (isDark ? styles.badgePendingDark : styles.badgePendingLight)
+                  : (isDark ? styles.badgePendingDark : styles.badgePendingLight),
+                { position: 'absolute', top: 0, right: 0, borderTopRightRadius: 10, borderBottomLeftRadius: 10, zIndex: 10 }
               ]}>
                 <Text style={[
                   styles.statusBadgeText,
+                  { fontSize: 10, fontWeight: 'bold', paddingHorizontal: 6, paddingVertical: 2 },
                   user.status === 'paid'
                     ? (isDark ? styles.badgePaidTextDark : styles.badgePaidTextLight)
                     : (isDark ? styles.badgePendingTextDark : styles.badgePendingTextLight)
@@ -226,7 +237,8 @@ const BillingScreen = () => {
                   {user.status ? user.status.toUpperCase() : 'PENDING'}
                 </Text>
               </View>
-              <View style={styles.userRow}>
+
+              <View style={[styles.userRow, { paddingTop: 20 }]}>
                 <View style={[styles.userInfo, { flex: 1.5, flexDirection: 'row', alignItems: 'center' }]}>
                   <View style={[styles.avatar, isDark && styles.avatarDark]}><Text style={[styles.avatarText, isDark && styles.textDark]}>{user.name[0]}</Text></View>
                   <View style={{ flex: 1, marginLeft: 8 }}>

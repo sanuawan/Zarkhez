@@ -1078,13 +1078,27 @@ const ScheduleScreen: React.FC = () => {
             </View>
           </View>
 
-          <View style={styles.savedScheduleDateContainer}>
-            <Text style={[styles.savedScheduleTypeIcon, isDark && styles.savedScheduleDateLabelDark]}>◷</Text>
-            <Text style={[styles.savedScheduleDateLabel, isDark && styles.savedScheduleDateLabelDark]}>
-              {schedule.repeatType === 'custom' && schedule.scheduleDate
-                ? `${formatFirestoreDate(schedule.scheduleDate)} · ${formatFirestoreTime(schedule.startTime)} - ${formatFirestoreTime(schedule.endTime)}`
-                : `${formatFirestoreDate(schedule.createdAt)} · ${formatFirestoreTime(schedule.startTime)} - ${formatFirestoreTime(schedule.endTime)}`}
+          <View style={[styles.savedScheduleDateContainer, { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }]}>
+
+            {/* Left Side: Sirf Date (Black color) */}
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ color: isDark ? '#ffffff' : '#000000', marginRight: 4 }}>📅</Text>
+              <Text style={[styles.savedScheduleDateLabel, { color: isDark ? '#ffffff' : '#000000' }]}>
+                {schedule.repeatType === 'custom' && schedule.scheduleDate
+                  ? formatFirestoreDate(schedule.scheduleDate)
+                  : formatFirestoreDate(schedule.createdAt)}
+              </Text>
+            </View>
+
+            {/* Right Side: Bara, Bold aur Clear Time (Simple, No Card, Black color) */}
+            <Text style={{
+              fontSize: 15,
+              fontWeight: 'bold',
+              color: isDark ? '#ffffff' : '#000000'
+            }}>
+              {formatFirestoreTime(schedule.startTime)} - {formatFirestoreTime(schedule.endTime)}
             </Text>
+
           </View>
 
           {schedule.repeatType === 'weekly' && schedule.daysOfWeek && (
@@ -1117,18 +1131,25 @@ const ScheduleScreen: React.FC = () => {
 
           <View style={styles.savedScheduleFooter}>
             <View style={styles.savedScheduleActions}>
-              <TouchableOpacity
-                style={[styles.savedScheduleEditBtn, isDark && styles.savedScheduleEditBtnDark]}
-                onPress={() => handleEditSchedule(schedule)}
-              >
-                <Text style={styles.savedScheduleEditBtnText}>✎ {language === 'ur' ? 'ترمیم' : 'Edit'}</Text>
-              </TouchableOpacity>
+
+              {/* NAYA EDIT BUTTON: Sirf pending par show hoga */}
+              {schedule.status === 'pending' && (
+                <TouchableOpacity
+                  style={[styles.savedScheduleEditBtn, isDark && styles.savedScheduleEditBtnDark]}
+                  onPress={() => handleEditSchedule(schedule)}
+                >
+                  <Text style={styles.savedScheduleEditBtnText}>✎ {language === 'ur' ? 'ترمیم' : 'Edit'}</Text>
+                </TouchableOpacity>
+              )}
+
+              {/* DELETE BUTTON: Hamesha show hoga */}
               <TouchableOpacity
                 style={[styles.savedScheduleDeleteBtn, isDark && styles.savedScheduleDeleteBtnDark]}
                 onPress={() => handleDeleteSchedule(schedule.id)}
               >
                 <Text style={styles.savedScheduleDeleteBtnText}>🗑 {language === 'ur' ? 'حذف کریں' : 'Delete'}</Text>
               </TouchableOpacity>
+
             </View>
           </View>
         </View>

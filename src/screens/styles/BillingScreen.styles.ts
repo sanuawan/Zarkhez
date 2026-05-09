@@ -158,8 +158,8 @@ export const styles = StyleSheet.create({
     color: '#1F7A63',
   },
   userName: {
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 18,        
+    fontWeight: '700',   
     color: '#1a2e28',
   },
   userHours: {
@@ -272,7 +272,7 @@ export const styles = StyleSheet.create({
     padding: 5,
     elevation: 1,
   },
- tabContainerDark: {
+  tabContainerDark: {
     backgroundColor: '#1c2220', // 🔥 Same charcoal background
     borderWidth: 1,
     borderColor: '#2a3b36',
